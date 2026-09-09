@@ -17,8 +17,8 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
 
-  <!-- Manifiesto Web PWA -->
-  <link rel="manifest" href='data:application/manifest+json;utf-8,%7B%22name%22%3A%22Entrenador%20Orofacial%22%2C%22short_name%22%3A%22Orofacial%22%2C%22description%22%3A%22Entrenamiento%20miofuncional%20orofacial%20guiado%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%23F8FAFC%22%2C%22theme_color%22%3A%22%23FFFFFF%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20512%20512%27%253E%253Cdefs%253E%253ClinearGradient%20id%3D%27g%27%20x1%3D%270%2525%27%20y1%3D%270%2525%27%20x2%3D%27100%2525%27%20y2%3D%27100%2525%27%253E%253Cstop%20offset%3D%270%2525%27%20stop-color%3D%27%25234F46E5%27%2F%253E%253Cstop%20offset%3D%27100%2525%27%20stop-color%3D%27%25230D9488%27%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27128%27%20fill%3D%27url(%2523g)%27%2F%253E%253Cpath%20d%3D%27M140%20310c30%2055%2075%2080%20116%2080s86-25%20116-80%27%20stroke%3D%27%2523ffffff%27%20stroke-width%3D%2736%27%20stroke-linecap%3D%27round%27%20fill%3D%27none%27%2F%253E%253Ccircle%20cx%3D%27256%27%20cy%3D%27205%27%20r%3D%2742%27%20fill%3D%27%252384E5CE%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D'>
+  <!-- Enlace al manifiesto real en servidor para generar WebAPK en Android -->
+  <link rel="manifest" href="manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +103,7 @@
         var(--bg);
     }
 
+    /* HEADER CON BOTÓN REINICIAR AL PULSAR LOGO/TÍTULO */
     header {
       height: 54px;
       flex-shrink: 0;
@@ -120,6 +121,20 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 10px;
+      padding: 3px 6px;
+      margin-left: -6px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .brand:hover {
+      background: var(--surface-subtle);
+    }
+
+    .brand:active {
+      transform: scale(0.97);
     }
 
     .logo {
@@ -243,7 +258,6 @@
       height: 100%;
     }
 
-    /* INFO PANEL (DESKTOP) */
     .info-panel {
       padding: clamp(18px, 3vw, 34px);
       display: flex;
@@ -359,7 +373,6 @@
       margin-bottom: 2px;
     }
 
-    /* TRAINER PANEL */
     .trainer-panel {
       padding: clamp(14px, 2.5vw, 26px);
       display: flex;
@@ -416,7 +429,6 @@
       margin-left: 2px;
     }
 
-    /* CONTENEDOR CENTRAL: DIAL EXPANDIDO */
     .counter-center {
       width: 100%;
       flex: 1;
@@ -481,7 +493,6 @@
       transform: scale(0.97);
     }
 
-    /* DIAL GRANDE Y CONTINUO */
     .dial {
       width: clamp(150px, 36vmin, 185px);
       height: clamp(150px, 36vmin, 185px);
@@ -632,7 +643,6 @@
       background: var(--accent);
     }
 
-    /* COMPLETION VIEW */
     .completion-view {
       display: none;
       padding: 16px 10px;
@@ -686,7 +696,6 @@
       justify-content: center;
     }
 
-    /* PREPARATION OVERLAY */
     .prepare-overlay {
       display: none;
       position: absolute;
@@ -885,7 +894,7 @@
     .sw-status-pill {
       font-size: 0.78rem;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 8px 12px;
       border-radius: var(--radius-sm);
       margin: 4px 0 10px 0;
       display: flex;
@@ -1018,7 +1027,6 @@
       display: none;
     }
 
-    /* RESPONSIVE & PWA ANDROID: AJUSTE ERGONÓMICO CON DIAL GRANDE */
     @media (max-width: 768px) {
       body {
         height: 100dvh;
@@ -1136,7 +1144,6 @@
         height: 44px;
       }
 
-      /* DIAL GRANDE EN MÓVIL */
       .dial {
         width: clamp(140px, 38vmin, 168px);
         height: clamp(140px, 38vmin, 168px);
@@ -1214,7 +1221,8 @@
 <body>
   <div class="app">
     <header>
-      <div class="brand">
+      <!-- BOTÓN REINICIAR / SALIR EN LA CABECERA -->
+      <div class="brand" id="brandBtn" title="Toca para reiniciar o salir de la rutina">
         <div class="logo">AO</div>
         <div class="brand-text">
           <h1>Entrenador Orofacial</h1>
@@ -1279,7 +1287,6 @@
           <div class="rep-indicator" id="rep">Repetición <strong>1/8</strong></div>
         </div>
 
-        <!-- CONTADOR CON DIAL GRANDE Y BOTÓN -->
         <div class="counter-center" id="exerciseView">
           <div class="counter-row">
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
@@ -1391,18 +1398,26 @@
       <!-- ESTADO DEL SERVICE WORKER EN ANDROID -->
       <div class="sw-status-pill" id="swStatusPill">
         <span id="swStatusText">Comprobando Service Worker...</span>
-        <button class="btn" id="downloadSwBtn" style="padding: 4px 10px; font-size: 0.75rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
-          📥 Descargar sw.js
-        </button>
+        <div style="display:flex; gap:4px;">
+          <button class="btn" id="downloadSwBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
+            📥 sw.js
+          </button>
+          <button class="btn" id="downloadManifestBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
+            📥 manifest.json
+          </button>
+        </div>
       </div>
 
       <div style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.35;">
-        💡 <i>Para que Android avise con la pantalla apagada: Ajustes de Android > Aplicaciones > Orofacial > Batería > Sin restricciones.</i>
+        💡 <i>Para que Android cree la app en tu lista del sistema y avise apagado: coloca los archivos <b>sw.js</b> y <b>manifest.json</b> en la misma carpeta del servidor.</i>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-        <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 14px; font-size: 0.82rem;">
-          🔔 Probar aviso en este dispositivo
+      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px;">
+        <button class="btn btn-secondary" id="checkNotifNowBtn" style="padding: 7px 12px; font-size: 0.8rem;" title="Verifica si saltaría la hora límite ahora mismo">
+          🔍 Diagnosticar
+        </button>
+        <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 12px; font-size: 0.8rem;">
+          🔔 Probar aviso
         </button>
       </div>
       
@@ -1536,7 +1551,6 @@
     let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
     let swRegistration = null;
 
-    // MOTOR DE ANIMACIÓN CONTINUA A 60 FPS
     let animFrame = null;
     let phaseStartTimestamp = 0;
     let phaseDurationMs = 0;
@@ -1552,32 +1566,46 @@
     const APP_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E";
 
     /* ========================================================
+       REINICIAR AL PULSAR LOGO O TÍTULO EN CABECERA
+       ======================================================== */
+    $('brandBtn').onclick = () => {
+      if (confirm('¿Deseas reiniciar la rutina y volver al primer ejercicio?')) {
+        stop();
+        if (transitionTimer) clearTimeout(transitionTimer);
+        ei = 0;
+        ri = 0;
+        pi = 0;
+        state = 'idle';
+        paused = false;
+        render();
+        showToast('Rutina reiniciada al inicio');
+      }
+    };
+
+    /* ========================================================
        SERVICE WORKER Y REGISTRO EN SEGUNDO PLANO
        ======================================================== */
     async function initServiceWorker() {
       if (!('serviceWorker' in navigator)) {
-        updateSWUI('missing', 'Este navegador no soporta Service Worker');
+        updateSWUI('missing', 'Navegador sin Service Worker');
         return;
       }
       try {
         swRegistration = await navigator.serviceWorker.register('./sw.js');
         await navigator.serviceWorker.ready;
-        updateSWUI('ready', '🟢 Listo para avisos en Android');
+        updateSWUI('ready', '🟢 Listo para app Android y avisos');
 
-        // Registro de Periodic Background Sync en PWA instalada
         if ('periodicSync' in swRegistration) {
           try {
             await swRegistration.periodicSync.register('daily-orofacial-check', {
-              minInterval: 60 * 60 * 1000 // Comprobación horaria por el SO
+              minInterval: 60 * 60 * 1000
             });
-          } catch(e) {
-            console.log('Periodic sync no permitido aún:', e);
-          }
+          } catch(e) {}
         }
         syncConfigToServiceWorker();
       } catch (err) {
         console.warn('No se pudo registrar sw.js:', err);
-        updateSWUI('missing', '🟡 Falta el archivo sw.js en el servidor');
+        updateSWUI('missing', '🟡 Falta el archivo sw.js en servidor');
       }
     }
 
@@ -1601,13 +1629,19 @@
       if (!pill || !label) return;
       pill.className = `sw-status-pill ${status}`;
       label.textContent = text;
-      $('downloadSwBtn').style.display = (status === 'ready') ? 'none' : 'inline-flex';
     }
 
+    /* DESCARGAR sw.js Y manifest.json PARA QUE ANDROID CREE EL WEBAPK */
     $('downloadSwBtn').onclick = () => {
-      const swContent = `// sw.js - Service Worker para Entrenador Orofacial con soporte en segundo plano
+      const swContent = `// sw.js - Service Worker para Entrenador Orofacial
 self.addEventListener('install', (e) => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
+  );
+});
 
 let reminderConfig = { enabled: false, time: '20:00', lastDate: '', completedToday: false };
 
@@ -1625,7 +1659,10 @@ async function checkBackgroundReminder() {
   if (reminderConfig.lastDate === todayStr) return;
 
   const [tH, tM] = (reminderConfig.time || '20:00').split(':').map(Number);
-  if (now.getHours() > tH || (now.getHours() === tH && now.getMinutes() >= tM)) {
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const targetMin = tH * 60 + tM;
+
+  if (nowMin >= targetMin) {
     reminderConfig.lastDate = todayStr;
     await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
       body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
@@ -1638,15 +1675,11 @@ async function checkBackgroundReminder() {
 }
 
 self.addEventListener('periodicsync', (e) => {
-  if (e.tag === 'daily-orofacial-check') {
-    e.waitUntil(checkBackgroundReminder());
-  }
+  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
 });
 
 self.addEventListener('sync', (e) => {
-  if (e.tag === 'daily-orofacial-check') {
-    e.waitUntil(checkBackgroundReminder());
-  }
+  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
 });
 
 self.addEventListener('notificationclick', (e) => {
@@ -1665,7 +1698,36 @@ self.addEventListener('notificationclick', (e) => {
       a.href = URL.createObjectURL(blob);
       a.download = 'sw.js';
       a.click();
-      showToast('Descargando sw.js. Súbelo a la misma carpeta de tu servidor.');
+      showToast('Descargado sw.js');
+    };
+
+    $('downloadManifestBtn').onclick = () => {
+      const manifestJson = {
+        name: "Entrenador Orofacial",
+        short_name: "Orofacial",
+        description: "Entrenamiento miofuncional orofacial guiado",
+        start_url: "./",
+        scope: "./",
+        id: "orofacial-trainer-pwa",
+        display: "standalone",
+        orientation: "portrait",
+        background_color: "#F8FAFC",
+        theme_color: "#FFFFFF",
+        icons: [
+          {
+            src: APP_ICON,
+            sizes: "192x192 512x512",
+            type: "image/svg+xml",
+            purpose: "any maskable"
+          }
+        ]
+      };
+      const blob = new Blob([JSON.stringify(manifestJson, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'manifest.json';
+      a.click();
+      showToast('Descargado manifest.json');
     };
 
     /* TIPOGRAFÍA */
@@ -1716,12 +1778,12 @@ self.addEventListener('notificationclick', (e) => {
     /* NOTIFICACIONES */
     async function requestNotificationPermission() {
       if (!('Notification' in window)) {
-        showToast('Este navegador no soporta notificaciones.');
+        showToast('Navegador sin soporte de avisos.');
         return false;
       }
       if (Notification.permission === 'granted') return true;
       if (Notification.permission === 'denied') {
-        alert('Las notificaciones están bloqueadas en los ajustes de tu navegador en Android. Actívalas en la configuración.');
+        alert('Notificaciones bloqueadas en los permisos de tu Android.');
         return false;
       }
       const perm = await Notification.requestPermission();
@@ -1756,7 +1818,7 @@ self.addEventListener('notificationclick', (e) => {
               renotify: true,
               vibrate: [200, 100, 200]
             });
-            if (isTest) showToast('Notificación enviada a la barra de estado');
+            if (isTest) showToast('Notificación enviada');
             return;
           }
         }
@@ -1767,28 +1829,55 @@ self.addEventListener('notificationclick', (e) => {
           throw new Error('No se encontró el archivo sw.js activo en tu servidor.');
         }
       } catch (err) {
-        alert('Aviso de Android:\n' + err.message + '\n\nEn Android es necesario que "sw.js" esté en la misma carpeta del servidor.');
+        alert('Aviso de Android:\n' + err.message + '\n\nColoca "sw.js" en la misma carpeta que el archivo HTML en tu servidor.');
       }
     }
 
-    function checkDailyReminder() {
+    /* COMPROBACIÓN ROBUSTA DEL RECORDATORIO DIARIO */
+    function checkDailyReminder(isManualDiagnostic = false) {
       const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
-      if (!enabled) return;
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (!enabled) {
+        if (isManualDiagnostic) alert('Diagnóstico: El recordatorio diario está DESACTIVADO.');
+        return;
+      }
 
-      if (sessionsToday() > 0) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') {
+        if (isManualDiagnostic) alert('Diagnóstico: Permiso de notificaciones no concedido.');
+        return;
+      }
+
+      // Si ya entrenó hoy, no avisar
+      if (sessionsToday() > 0) {
+        if (isManualDiagnostic) alert(`Diagnóstico: Ya has completado ${sessionsToday()} sesión(es) hoy. El aviso solo suena si no has entrenado.`);
+        return;
+      }
 
       const todayStr = day(Date.now());
-      if (localStorage.getItem(NOTIF_LAST_DATE_KEY) === todayStr) return;
+      const lastSent = localStorage.getItem(NOTIF_LAST_DATE_KEY);
+      if (lastSent === todayStr) {
+        if (isManualDiagnostic) alert('Diagnóstico: El aviso ya se envió hoy una vez.');
+        return;
+      }
 
       const notifTime = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
-      const [targetH, targetM] = notifTime.split(':').map(Number);
-      const now = new Date();
+      const parts = notifTime.split(':');
+      const targetH = parseInt(parts[0], 10) || 20;
+      const targetM = parseInt(parts[1], 10) || 0;
 
-      if (now.getHours() > targetH || (now.getHours() === targetH && now.getMinutes() >= targetM)) {
+      const now = new Date();
+      const currentMin = now.getHours() * 60 + now.getMinutes();
+      const targetMin = targetH * 60 + targetM;
+
+      if (currentMin >= targetMin) {
         localStorage.setItem(NOTIF_LAST_DATE_KEY, todayStr);
         sendPushNotification(false);
         syncConfigToServiceWorker();
+        if (isManualDiagnostic) showToast('¡Hora límite alcanzada! Notificación emitida.');
+      } else {
+        if (isManualDiagnostic) {
+          const diff = targetMin - currentMin;
+          alert(`Diagnóstico: Aún no se ha alcanzado la hora límite (${notifTime}). Quedan aprox. ${diff} minutos.`);
+        }
       }
     }
 
@@ -1805,6 +1894,7 @@ self.addEventListener('notificationclick', (e) => {
           const granted = await requestNotificationPermission();
           if (granted) {
             localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
+            localStorage.removeItem(NOTIF_LAST_DATE_KEY); // Reiniciar para pruebas
             $('notifTime').disabled = false;
             showToast(`Recordatorio fijado a las ${$('notifTime').value}`);
             syncConfigToServiceWorker();
@@ -1824,6 +1914,7 @@ self.addEventListener('notificationclick', (e) => {
 
       $('notifTime').onchange = (e) => {
         localStorage.setItem(NOTIF_TIME_KEY, e.target.value);
+        localStorage.removeItem(NOTIF_LAST_DATE_KEY); // Reiniciar fecha para permitir probar horas
         showToast(`Hora límite fijada a las ${e.target.value}`);
         syncConfigToServiceWorker();
         checkDailyReminder();
@@ -1834,15 +1925,19 @@ self.addEventListener('notificationclick', (e) => {
         if (granted) sendPushNotification(true);
       };
 
-      setInterval(checkDailyReminder, 45000);
+      $('checkNotifNowBtn').onclick = () => {
+        checkDailyReminder(true);
+      };
+
+      setInterval(() => checkDailyReminder(false), 30000);
       document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) checkDailyReminder();
+        if (!document.hidden) checkDailyReminder(false);
       });
-      checkDailyReminder();
+      checkDailyReminder(false);
     }
 
     /* ========================================================
-       TEMPORIZADOR FLUIDO CONTINUO (60 FPS) CON RAF
+       TEMPORIZADOR FLUIDO CONTINUO (60 FPS)
        ======================================================== */
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
@@ -1945,7 +2040,6 @@ self.addEventListener('notificationclick', (e) => {
       if (vibration && navigator.vibrate) navigator.vibrate(x);
     }
 
-    /* PREPARACIÓN */
     function start() {
       if (state === 'running' || state === 'countdown') return;
       if (transitionTimer) clearTimeout(transitionTimer);
@@ -1961,7 +2055,6 @@ self.addEventListener('notificationclick', (e) => {
       $('prepHint').textContent = e.h;
       $('prepare').classList.add('show');
 
-      // Animación fluida de cuenta atrás
       phaseDurationMs = countVal * 1000;
       phaseStartTimestamp = performance.now();
       elapsedPaused = 0;
@@ -2019,7 +2112,6 @@ self.addEventListener('notificationclick', (e) => {
       beep(900);
       vib(40);
 
-      // Iniciar bucle continuo a 60 FPS
       phaseDurationMs = p[1] * 1000;
       phaseStartTimestamp = performance.now();
       elapsedPaused = 0;
@@ -2027,7 +2119,6 @@ self.addEventListener('notificationclick', (e) => {
       runExerciseLoop(performance.now());
     }
 
-    /* BUCLE CONTINUO SUAVE A 60 FPS */
     function runExerciseLoop(now) {
       if (state !== 'running' || paused) return;
 
@@ -2037,13 +2128,11 @@ self.addEventListener('notificationclick', (e) => {
 
       $('num').textContent = remainingSec > 0 ? remainingSec : 0;
       
-      // Movimiento continuo milimétrico del dial
       const progressPercent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
       $('dial').style.setProperty('--p', progressPercent.toFixed(2));
       
       progress(frac(totalElapsed / phaseDurationMs));
 
-      // Pitidos sincronizados con el segundo exacto
       if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
         beep(650 + remainingSec * 80);
         lastBeepSec = remainingSec;
@@ -2078,7 +2167,6 @@ self.addEventListener('notificationclick', (e) => {
       begin();
     }
 
-    /* CONTROL PLAY / PAUSA */
     function toggleDial() {
       if (state === 'idle') {
         start();
