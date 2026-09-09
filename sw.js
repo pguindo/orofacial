@@ -1,6 +1,13 @@
-// sw.js - Service Worker para Entrenador Orofacial con soporte en segundo plano
+// sw.js - Service Worker para Entrenador Orofacial
 self.addEventListener('install', (e) => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+
+// EVENTO FETCH OBLIGATORIO PARA QUE ANDROID CREE EL WEBAPK (APP DEL SISTEMA)
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
+  );
+});
 
 let reminderConfig = { enabled: false, time: '20:00', lastDate: '', completedToday: false };
 
@@ -10,7 +17,6 @@ self.addEventListener('message', (e) => {
   }
 });
 
-// Comprobación periódica cuando Android despierta al Service Worker
 async function checkBackgroundReminder() {
   if (!reminderConfig.enabled || reminderConfig.completedToday) return;
 
@@ -19,7 +25,10 @@ async function checkBackgroundReminder() {
   if (reminderConfig.lastDate === todayStr) return;
 
   const [tH, tM] = (reminderConfig.time || '20:00').split(':').map(Number);
-  if (now.getHours() > tH || (now.getHours() === tH && now.getMinutes() >= tM)) {
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const targetMin = tH * 60 + tM;
+
+  if (nowMin >= targetMin) {
     reminderConfig.lastDate = todayStr;
     await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
       body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
