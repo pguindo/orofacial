@@ -77,10 +77,9 @@
       margin: 0;
       padding: 0;
       width: 100vw;
-      min-height: 100%;
-      min-height: 100dvh;
-      overflow-x: hidden;
-      overflow-y: auto;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
       background: var(--bg);
       color: var(--text);
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -93,10 +92,11 @@
 
     .app {
       width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
+      height: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       background: 
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.04) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.04) 0px, transparent 50%),
@@ -114,8 +114,6 @@
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
       z-index: 25;
     }
 
@@ -221,9 +219,10 @@
       transition: width 0.3s ease;
     }
 
-    /* WORKSPACE */
+    /* WORKSPACE (DESKTOP 50/50) */
     .workspace {
       flex: 1;
+      min-height: 0;
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
@@ -232,6 +231,7 @@
       grid-template-columns: 1fr 1fr;
       gap: clamp(12px, 2.5vw, 24px);
       align-items: stretch;
+      overflow: hidden;
     }
 
     .panel {
@@ -242,6 +242,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      height: 100%;
     }
 
     /* DESKTOP INFO PANEL (50%) */
@@ -369,7 +370,8 @@
       align-items: center;
       text-align: center;
       position: relative;
-      min-height: 480px;
+      height: 100%;
+      min-height: 0;
     }
 
     .status-row {
@@ -419,13 +421,14 @@
     /* COUNTER ROW: PREV + DIAL BUTTON + NEXT */
     .counter-center {
       width: 100%;
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       margin: auto 0;
-      padding: 12px 0;
-      min-height: 250px;
+      padding: 8px 0;
     }
 
     .counter-row {
@@ -458,7 +461,7 @@
     }
 
     .nav-circle-btn:disabled {
-      opacity: 0.25;
+      opacity: 0.2;
       cursor: not-allowed;
       pointer-events: none;
       box-shadow: none;
@@ -606,7 +609,7 @@
       align-items: center;
       gap: 10px;
       flex-shrink: 0;
-      margin-top: 6px;
+      margin-top: auto;
     }
 
     .dots-container {
@@ -634,7 +637,7 @@
       background: var(--accent);
     }
 
-    /* PREPARATION OVERLAY (CON INFORMACIÓN COMPLETA DEL EJERCICIO) */
+    /* PREPARATION OVERLAY */
     .prepare-overlay {
       display: none;
       position: absolute;
@@ -742,7 +745,7 @@
       cursor: pointer;
     }
 
-    /* COMPLETION VIEW (FINAL DE RUTINA) */
+    /* COMPLETION VIEW */
     .completion-view {
       display: none;
       padding: 24px 14px;
@@ -984,11 +987,22 @@
     }
 
     /* ========================================================
-       RESPONSIVE & PWA ANDROID VIEW
+       RESPONSIVE & PWA ANDROID: AJUSTE TOTAL DE ALTURA
        ======================================================== */
     @media (max-width: 768px) {
+      body {
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      .app {
+        height: 100dvh;
+        min-height: 100dvh;
+        overflow: hidden;
+      }
+
       header {
-        height: 56px;
+        height: 54px;
         padding: 0 12px;
       }
 
@@ -996,35 +1010,41 @@
         display: none;
       }
 
+      /* El workspace se expande para ocupar todo el alto disponible */
       .workspace {
-        padding: 8px 8px calc(12px + env(safe-area-inset-bottom, 0px)) 8px;
+        padding: 6px 6px calc(8px + env(safe-area-inset-bottom, 0px)) 6px;
         display: flex;
         flex-direction: column;
         flex: 1;
-        min-height: auto;
+        min-height: 0;
+        height: 100%;
+        overflow: hidden;
       }
 
       .info-panel {
         display: none;
       }
 
+      /* La tarjeta ocupa el 100% vertical sin margen inferior fantasma */
       .trainer-panel {
         width: 100%;
-        min-height: auto;
-        border-radius: 20px;
-        padding: 14px 14px 16px 14px;
+        height: 100%;
+        flex: 1;
+        min-height: 0;
+        border-radius: 18px;
+        padding: 12px 14px 14px 14px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow: visible; /* Solución clave para no cortar el contador en PWA */
+        overflow-y: auto;
       }
 
       .mobile-summary {
         display: block;
         text-align: left;
         width: 100%;
-        margin-bottom: 6px;
-        padding-bottom: 6px;
+        margin-bottom: 4px;
+        padding-bottom: 4px;
         border-bottom: 1px solid var(--border);
         flex-shrink: 0;
       }
@@ -1032,7 +1052,7 @@
       .mobile-summary .eyebrow-badge {
         margin-bottom: 2px;
         font-size: 0.72rem;
-        padding: 3px 9px;
+        padding: 2px 8px;
       }
 
       .mobile-summary h2 {
@@ -1051,7 +1071,8 @@
       }
 
       .status-row {
-        margin-bottom: 4px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
       }
 
       .status-badge {
@@ -1067,9 +1088,16 @@
         font-size: 1.2rem;
       }
 
+      /* El contenedor central toma todo el espacio sobrante centrando el dial */
       .counter-center {
-        min-height: 230px;
-        padding: 8px 0;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 0;
+        margin: auto 0;
       }
 
       .counter-row {
@@ -1121,9 +1149,9 @@
         width: 100%;
         background: #F0FDF4;
         border: 1px solid #BBF7D0;
-        padding: 9px 12px;
+        padding: 8px 12px;
         border-radius: var(--radius-sm);
-        margin: 8px 0 4px 0;
+        margin: 6px 0;
         text-align: left;
         font-size: 0.88rem;
         line-height: 1.35;
@@ -1142,6 +1170,11 @@
         font-weight: 800;
         display: inline;
         margin-right: 4px;
+      }
+
+      .trainer-footer {
+        flex-shrink: 0;
+        margin-top: 4px;
       }
     }
   </style>
@@ -1224,9 +1257,7 @@
         <!-- Central Interactive View -->
         <div class="counter-center" id="exerciseView">
           
-          <!-- FILA DEL CONTADOR CON ANTERIOR / DIAL-BOTÓN / SIGUIENTE -->
           <div class="counter-row">
-            
             <!-- Botón ANTERIOR a la izquierda -->
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
@@ -1246,7 +1277,6 @@
             <button class="nav-circle-btn" id="next" title="Ejercicio siguiente" aria-label="Ejercicio siguiente">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             </button>
-
           </div>
 
           <h3 class="action-instruction" id="inst">Toca el círculo para comenzar</h3>
@@ -1277,7 +1307,7 @@
           <div class="dots-container" id="dots"></div>
         </div>
 
-        <!-- PANTALLA DE PREPARACIÓN CON DESCRIPCIÓN DEL EJERCICIO -->
+        <!-- PANTALLA DE PREPARACIÓN CON INFORMACIÓN DEL EJERCICIO -->
         <div class="prepare-overlay" id="prepare">
           <span class="prep-tag">Preparación</span>
           <div class="prep-counter" id="prepCount">5</div>
@@ -1569,7 +1599,6 @@
       $('status').textContent = 'Preparado';
       $('status').style.color = 'var(--text)';
       
-      // Dial en estado inicial (botón comenzar)
       $('num').textContent = '▶';
       $('unit').textContent = 'Iniciar';
       $('inst').textContent = 'Toca el círculo para comenzar';
@@ -1579,7 +1608,6 @@
       dialEl.classList.remove('rest', 'paused');
       dialEl.style.setProperty('--p', 0);
       
-      // Control de botones anterior/siguiente
       $('prev').disabled = (ei === 0);
       $('next').disabled = (ei === E.length - 1);
       
@@ -1636,7 +1664,6 @@
       paused = false;
       
       const e = E[ei];
-      // Cargar información del ejercicio en la pantalla de preparación
       $('prepTitle').textContent = e.t;
       $('prepDesc').textContent = e.d;
       $('prepHint').textContent = e.h;
@@ -1730,7 +1757,7 @@
       begin();
     }
 
-    /* CONTROL TÁCTIL EN EL DIAL (PLAY / PAUSA) */
+    /* CONTROL TÁCTIL EN EL DIAL */
     function toggleDial() {
       if (state === 'idle') {
         start();
@@ -1755,7 +1782,6 @@
           count();
         }
       } else if (state === 'exercise_done') {
-        // Si el usuario toca el círculo mientras espera, pasa de inmediato
         if (transitionTimer) clearTimeout(transitionTimer);
         nav(1);
       }
@@ -1763,7 +1789,7 @@
 
     $('dialBtn').onclick = toggleDial;
 
-    /* FINALIZACIÓN DE EJERCICIO Y TRANSICIÓN AUTOMÁTICA */
+    /* FINALIZACIÓN DE EJERCICIO Y TRANSICIÓN */
     function finish() {
       stop();
       state = 'exercise_done';
@@ -1786,14 +1812,13 @@
         $('detail').textContent = 'Pasando automáticamente al siguiente ejercicio...';
         transitionTimer = setTimeout(() => {
           nav(1);
-        }, 2500); // 2.5 segundos de aviso antes de avanzar
+        }, 2500);
       } else {
-        // Último ejercicio de la rutina
         setTimeout(completeRoutine, 1200);
       }
     }
 
-    /* PANTALLA ESPECIAL FINAL DE RUTINA */
+    /* PANTALLA DE RUTINA COMPLETADA */
     function completeRoutine() {
       if (!saved) {
         save();
