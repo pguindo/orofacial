@@ -105,9 +105,9 @@
 
     /* HEADER */
     header {
-      height: 60px;
+      height: 56px;
       flex-shrink: 0;
-      padding: 0 clamp(12px, 3vw, 36px);
+      padding: 0 clamp(10px, 3vw, 36px);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -124,9 +124,9 @@
     }
 
     .logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       background: linear-gradient(135deg, var(--indigo) 0%, var(--accent) 100%);
       color: #FFFFFF;
       display: grid;
@@ -134,11 +134,11 @@
       font-weight: 800;
       font-size: 0.95rem;
       letter-spacing: -0.02em;
-      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
+      box-shadow: 0 2px 7px rgba(79, 70, 229, 0.25);
     }
 
     .brand-text h1 {
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 800;
       margin: 0;
       letter-spacing: -0.02em;
@@ -148,7 +148,7 @@
 
     .brand-text span {
       display: block;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -160,8 +160,8 @@
     }
 
     .icon-btn {
-      height: 36px;
-      min-width: 36px;
+      height: 35px;
+      min-width: 35px;
       padding: 0 8px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
@@ -194,9 +194,9 @@
       background: var(--indigo);
       color: #fff;
       border: none;
-      font-size: 0.82rem;
-      padding: 0 12px;
-      height: 36px;
+      font-size: 0.8rem;
+      padding: 0 10px;
+      height: 35px;
       border-radius: var(--radius-sm);
       font-weight: 700;
       align-items: center;
@@ -226,10 +226,10 @@
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
-      padding: clamp(12px, 2.5vw, 24px);
+      padding: clamp(10px, 2vw, 24px);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(12px, 2.5vw, 24px);
+      gap: clamp(10px, 2vw, 24px);
       align-items: stretch;
       overflow: hidden;
     }
@@ -247,7 +247,7 @@
 
     /* DESKTOP INFO PANEL (50%) */
     .info-panel {
-      padding: clamp(20px, 3.5vw, 36px);
+      padding: clamp(18px, 3vw, 34px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -259,44 +259,44 @@
       align-items: center;
       background: var(--accent-soft);
       color: var(--accent);
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 999px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .exercise-title {
-      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      font-size: clamp(1.4rem, 2.8vw, 2.2rem);
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--text);
-      margin: 0 0 10px 0;
+      margin: 0 0 8px 0;
     }
 
     .exercise-desc {
-      font-size: 1rem;
-      line-height: 1.55;
+      font-size: 0.95rem;
+      line-height: 1.5;
       color: var(--text-muted);
-      margin: 0 0 18px 0;
+      margin: 0 0 16px 0;
     }
 
     .metrics-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .metric-chip {
       background: var(--surface-subtle);
       border: 1px solid var(--border);
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: var(--radius-sm);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
       color: var(--text);
       display: inline-flex;
@@ -305,7 +305,7 @@
     }
 
     .section-subtitle {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 800;
       color: var(--text-subtle);
       text-transform: uppercase;
@@ -315,19 +315,19 @@
 
     .phases-list {
       display: grid;
-      gap: 8px;
-      margin-bottom: 18px;
+      gap: 6px;
+      margin-bottom: 16px;
     }
 
     .phase-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border-radius: var(--radius-sm);
       background: var(--surface-subtle);
       border-left: 4px solid var(--accent);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     .phase-item b {
@@ -337,19 +337,19 @@
 
     .phase-item span {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     .clinical-tip {
       background: #F0FDF4;
       border: 1px solid #BBF7D0;
-      padding: 14px 18px;
+      padding: 12px 16px;
       border-radius: var(--radius-md);
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      font-size: 0.95rem;
-      line-height: 1.45;
+      gap: 10px;
+      font-size: 0.9rem;
+      line-height: 1.4;
       color: #166534;
       margin-top: auto;
     }
@@ -361,9 +361,9 @@
       margin-bottom: 2px;
     }
 
-    /* RIGHT TRAINER PANEL (50%) */
+    /* TRAINER PANEL */
     .trainer-panel {
-      padding: clamp(18px, 3vw, 32px);
+      padding: clamp(16px, 2.5vw, 28px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -386,12 +386,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 999px;
       background: var(--surface-subtle);
       border: 1px solid var(--border);
       color: var(--text);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -399,20 +399,20 @@
 
     .status-badge::before {
       content: '';
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: currentColor;
     }
 
     .rep-indicator {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text-muted);
     }
 
     .rep-indicator strong {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--text);
       margin-left: 2px;
@@ -428,7 +428,7 @@
       align-items: center;
       justify-content: center;
       margin: auto 0;
-      padding: 8px 0;
+      padding: 4px 0;
     }
 
     .counter-row {
@@ -436,13 +436,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(14px, 4vw, 32px);
+      gap: clamp(12px, 3.5vw, 28px);
     }
 
-    /* CIRCULAR NAVIGATION BUTTONS (ANTERIOR / SIGUIENTE) */
+    /* NAVEGACIÓN CIRCULAR */
     .nav-circle-btn {
-      width: 52px;
-      height: 52px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--surface);
@@ -451,7 +451,7 @@
       display: grid;
       place-items: center;
       box-shadow: var(--shadow-sm);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
       flex-shrink: 0;
     }
 
@@ -461,13 +461,13 @@
     }
 
     .nav-circle-btn:disabled {
-      opacity: 0.2;
+      opacity: 0.18;
       cursor: not-allowed;
       pointer-events: none;
       box-shadow: none;
     }
 
-    /* DIAL BUTTON (INTERACTIVO: COMENZAR / PAUSA) */
+    /* DIAL BUTTON */
     .dial-btn {
       background: transparent;
       border: none;
@@ -486,10 +486,10 @@
     }
 
     .dial {
-      width: min(34vmin, 180px);
-      height: min(34vmin, 180px);
-      min-width: 140px;
-      min-height: 140px;
+      width: min(30vmin, 150px);
+      height: min(30vmin, 150px);
+      min-width: 120px;
+      min-height: 120px;
       border-radius: 50%;
       position: relative;
       background: conic-gradient(var(--accent) calc(var(--p) * 1%), #E2E8F0 0);
@@ -508,7 +508,7 @@
     .dial::before {
       content: "";
       position: absolute;
-      inset: 12px;
+      inset: 10px;
       border-radius: 50%;
       background: var(--surface);
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
@@ -523,7 +523,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8px;
+      padding: 6px;
       pointer-events: none;
     }
 
@@ -545,10 +545,10 @@
     }
 
     .counter-number {
-      font-size: clamp(2.8rem, 8vmin, 4rem);
+      font-size: clamp(2.4rem, 7vmin, 3.4rem);
       font-weight: 800;
       line-height: 1;
-      height: 1.05em;
+      height: 1em;
       letter-spacing: -0.05em;
       color: var(--text);
       font-variant-numeric: tabular-nums;
@@ -560,56 +560,57 @@
     }
 
     .counter-unit {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      height: 24px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      max-width: 130px;
+      max-width: 120px;
       line-height: 1.1;
       margin-top: 2px;
     }
 
     .action-instruction {
-      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
       font-weight: 800;
       color: var(--text);
       line-height: 1.2;
       letter-spacing: -0.02em;
-      margin: 14px auto 4px;
+      margin: 10px auto 3px;
       max-width: 95%;
-      min-height: 1.25em;
+      min-height: 1.2em;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .action-detail {
-      font-size: 0.95rem;
-      line-height: 1.45;
+      font-size: 0.88rem;
+      line-height: 1.35;
       color: var(--text-muted);
       max-width: 92%;
       margin: 0 auto;
-      min-height: 2.5em;
+      min-height: 2.2em;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* FOOTER AREA / DOTS */
+    /* FOOTER / DOTS */
     .trainer-footer {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       flex-shrink: 0;
       margin-top: auto;
+      padding-bottom: 2px;
     }
 
     .dots-container {
@@ -617,24 +618,79 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       background: var(--border);
       transition: all 0.3s ease;
     }
 
     .dot.current {
-      width: 24px;
+      width: 22px;
       background: var(--text);
     }
 
     .dot.done {
       background: var(--accent);
+    }
+
+    /* COMPLETION VIEW (LIMPIA Y SIN SCROLL) */
+    .completion-view {
+      display: none;
+      padding: 16px 10px;
+      text-align: center;
+      margin: auto;
+      width: 100%;
+    }
+
+    .completion-view.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trophy-badge {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #FEF3C7;
+      color: #D97706;
+      font-size: 2rem;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.2);
+    }
+
+    .completion-view h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .completion-view .exercise-desc {
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      max-width: 380px;
+    }
+
+    /* ESTILO CUANDO LA RUTINA FINALIZA: OCULTA ELEMENTOS SOBRANTES */
+    .trainer-panel.finished .mobile-summary,
+    .trainer-panel.finished .status-row,
+    .trainer-panel.finished .mobile-tip-card,
+    .trainer-panel.finished .trainer-footer {
+      display: none !important;
+    }
+
+    .trainer-panel.finished {
+      justify-content: center;
     }
 
     /* PREPARATION OVERLAY */
@@ -648,7 +704,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px 20px;
+      padding: 20px 16px;
       text-align: center;
       overflow-y: auto;
     }
@@ -660,55 +716,55 @@
     .prep-tag {
       background: var(--indigo-soft);
       color: var(--indigo);
-      padding: 5px 14px;
+      padding: 4px 12px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .prep-counter {
-      font-size: clamp(4.5rem, 14vmin, 7rem);
+      font-size: clamp(4rem, 12vmin, 6rem);
       font-weight: 800;
       line-height: 1;
       color: var(--indigo);
-      margin: 4px 0 10px 0;
+      margin: 2px 0 8px 0;
       font-variant-numeric: tabular-nums;
     }
 
     .prep-info-box {
-      max-width: 440px;
+      max-width: 420px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 16px 20px;
+      padding: 14px 18px;
       box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .prep-info-box h3 {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      margin: 0 0 6px 0;
+      margin: 0 0 4px 0;
       color: var(--text);
     }
 
     .prep-info-box p {
       color: var(--text-muted);
-      font-size: 0.92rem;
-      line-height: 1.45;
-      margin: 0 0 10px 0;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      margin: 0 0 8px 0;
     }
 
     .prep-hint {
       background: #F0FDF4;
       border: 1px solid #BBF7D0;
-      padding: 8px 12px;
+      padding: 6px 10px;
       border-radius: var(--radius-sm);
       color: #166534;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -717,12 +773,12 @@
     }
 
     .prep-bar-track {
-      width: min(280px, 85%);
+      width: min(260px, 85%);
       height: 6px;
       background: #E2E8F0;
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .prep-bar-fill {
@@ -734,54 +790,22 @@
     }
 
     .prep-skip-btn {
-      margin-top: 16px;
+      margin-top: 14px;
       background: transparent;
       border: 1px solid var(--border);
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
     }
 
-    /* COMPLETION VIEW */
-    .completion-view {
-      display: none;
-      padding: 24px 14px;
-      text-align: center;
-      margin: auto 0;
-    }
-
-    .completion-view.show {
-      display: block;
-    }
-
-    .trophy-badge {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      background: #FEF3C7;
-      color: #D97706;
-      font-size: 2.2rem;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 16px;
-      box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25);
-    }
-
-    .completion-view h2 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      margin: 0 0 8px 0;
-      color: var(--text);
-    }
-
     .btn {
       border: 1px solid transparent;
       border-radius: var(--radius-md);
-      padding: 13px 22px;
-      font-size: 0.95rem;
+      padding: 12px 20px;
+      font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -795,18 +819,6 @@
       background: var(--text);
       color: #FFFFFF;
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn-quiet {
-      background: transparent;
-      color: var(--text-muted);
-      border-color: var(--border);
     }
 
     /* MODALS */
@@ -831,7 +843,7 @@
       overflow-y: auto;
       background: var(--surface);
       border-radius: var(--radius-lg);
-      padding: clamp(18px, 4vw, 28px);
+      padding: clamp(16px, 4vw, 26px);
       box-shadow: var(--shadow-xl);
       border: 1px solid var(--border);
     }
@@ -840,11 +852,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .modal-head h2 {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       margin: 0;
     }
@@ -853,27 +865,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: var(--surface-subtle);
       border-radius: var(--radius-md);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     .setting-item select {
       background: var(--surface);
       border: 1px solid var(--border);
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: var(--radius-sm);
       font-weight: 600;
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .setting-item input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       accent-color: var(--text);
     }
 
@@ -881,25 +893,25 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin: 16px 0;
+      margin: 14px 0;
     }
 
     .stat-box {
       background: var(--surface-subtle);
-      padding: 12px;
+      padding: 10px;
       border-radius: var(--radius-md);
       text-align: center;
     }
 
     .stat-box strong {
       display: block;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--text);
     }
 
     .stat-box span {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -907,69 +919,69 @@
 
     .history-list {
       display: grid;
-      gap: 7px;
-      max-height: 200px;
+      gap: 6px;
+      max-height: 190px;
       overflow-y: auto;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .history-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 14px;
+      padding: 9px 12px;
       background: var(--surface-subtle);
       border-radius: var(--radius-sm);
     }
 
     .history-row b {
       display: block;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--text);
       text-transform: capitalize;
     }
 
     .history-row small {
       color: var(--text-muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
     .history-badge {
       background: #CCFBF1;
       color: #0F766E;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 4px 9px;
+      padding: 3px 8px;
       border-radius: 999px;
     }
 
     .empty-state {
-      padding: 22px;
+      padding: 20px;
       text-align: center;
       color: var(--text-muted);
       border: 2px dashed var(--border);
       border-radius: var(--radius-md);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .modal-actions {
       display: flex;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: #0F172A;
       color: #FFFFFF;
-      padding: 10px 20px;
+      padding: 8px 18px;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
       z-index: 100;
       opacity: 0;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -987,7 +999,7 @@
     }
 
     /* ========================================================
-       RESPONSIVE & PWA ANDROID: AJUSTE TOTAL DE ALTURA
+       RESPONSIVE & PWA ANDROID: SIN CORTES Y SIN SCROLL
        ======================================================== */
     @media (max-width: 768px) {
       body {
@@ -1002,17 +1014,16 @@
       }
 
       header {
-        height: 54px;
-        padding: 0 12px;
+        height: 50px;
+        padding: 0 10px;
       }
 
       .brand-text span, .icon-btn .btn-text {
         display: none;
       }
 
-      /* El workspace se expande para ocupar todo el alto disponible */
       .workspace {
-        padding: 6px 6px calc(8px + env(safe-area-inset-bottom, 0px)) 6px;
+        padding: 4px 6px calc(6px + env(safe-area-inset-bottom, 0px)) 6px;
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -1025,47 +1036,46 @@
         display: none;
       }
 
-      /* La tarjeta ocupa el 100% vertical sin margen inferior fantasma */
       .trainer-panel {
         width: 100%;
         height: 100%;
         flex: 1;
         min-height: 0;
-        border-radius: 18px;
-        padding: 12px 14px 14px 14px;
+        border-radius: 16px;
+        padding: 10px 12px 10px 12px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow-y: auto;
+        overflow: hidden; /* Evita que la pantalla baile o se corte */
       }
 
       .mobile-summary {
         display: block;
         text-align: left;
         width: 100%;
-        margin-bottom: 4px;
-        padding-bottom: 4px;
+        margin-bottom: 2px;
+        padding-bottom: 3px;
         border-bottom: 1px solid var(--border);
         flex-shrink: 0;
       }
 
       .mobile-summary .eyebrow-badge {
-        margin-bottom: 2px;
-        font-size: 0.72rem;
-        padding: 2px 8px;
+        margin-bottom: 1px;
+        font-size: 0.68rem;
+        padding: 2px 7px;
       }
 
       .mobile-summary h2 {
-        font-size: 1.35rem;
+        font-size: 1.22rem;
         font-weight: 800;
-        margin: 2px 0;
+        margin: 1px 0;
         line-height: 1.15;
         color: var(--text);
       }
 
       .mobile-summary p {
-        font-size: 0.92rem;
-        line-height: 1.35;
+        font-size: 0.84rem;
+        line-height: 1.25;
         color: var(--text-muted);
         margin: 0;
       }
@@ -1076,19 +1086,19 @@
       }
 
       .status-badge {
-        font-size: 0.75rem;
-        padding: 4px 11px;
+        font-size: 0.72rem;
+        padding: 3px 9px;
       }
 
       .rep-indicator {
-        font-size: 0.9rem;
+        font-size: 0.84rem;
       }
 
       .rep-indicator strong {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
 
-      /* El contenedor central toma todo el espacio sobrante centrando el dial */
+      /* DIAL COMPACTO PARA QUE NADA SE CORTE */
       .counter-center {
         flex: 1;
         min-height: 0;
@@ -1096,72 +1106,76 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 4px 0;
+        padding: 2px 0;
         margin: auto 0;
       }
 
       .counter-row {
-        gap: 16px;
+        gap: 14px;
       }
 
       .nav-circle-btn {
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
       }
 
       .dial {
-        width: min(38vmin, 150px);
-        height: min(38vmin, 150px);
-        min-width: 130px;
-        min-height: 130px;
+        width: min(30vmin, 130px);
+        height: min(30vmin, 130px);
+        min-width: 110px;
+        min-height: 110px;
       }
 
       .dial::before {
-        inset: 9px;
+        inset: 8px;
       }
 
       .counter-number {
-        font-size: 2.8rem;
-        height: 48px;
+        font-size: 2.5rem;
+        height: 40px;
       }
 
       .counter-unit {
-        font-size: 0.74rem;
-        max-width: 110px;
-        height: 20px;
+        font-size: 0.7rem;
+        max-width: 100px;
+        height: 18px;
       }
 
       .action-instruction {
-        font-size: 1.35rem;
-        margin: 8px auto 2px;
+        font-size: 1.2rem;
+        margin: 6px auto 2px;
+        line-height: 1.15;
       }
 
       .action-detail {
-        font-size: 0.92rem;
-        line-height: 1.35;
-        min-height: 2.2em;
+        font-size: 0.85rem;
+        line-height: 1.25;
+        min-height: 2em;
       }
 
+      /* CONSEJO CLÍNICO INTEGRADO Y COMPACTO */
       .mobile-tip-card {
         display: flex;
         align-items: flex-start;
-        gap: 10px;
+        gap: 8px;
         width: 100%;
         background: #F0FDF4;
         border: 1px solid #BBF7D0;
-        padding: 8px 12px;
+        padding: 6px 10px;
         border-radius: var(--radius-sm);
-        margin: 6px 0;
+        margin: 4px 0;
         text-align: left;
-        font-size: 0.88rem;
-        line-height: 1.35;
+        font-size: 0.82rem;
+        line-height: 1.3;
         color: #166534;
         flex-shrink: 0;
       }
 
       .mobile-tip-card svg {
         flex-shrink: 0;
-        margin-top: 2px;
+        margin-top: 1px;
+        width: 16px;
+        height: 16px;
         color: #15803D;
       }
 
@@ -1169,12 +1183,13 @@
         color: #15803D;
         font-weight: 800;
         display: inline;
-        margin-right: 4px;
+        margin-right: 3px;
       }
 
       .trainer-footer {
         flex-shrink: 0;
-        margin-top: 4px;
+        margin-top: 2px;
+        padding-bottom: 2px;
       }
     }
   </style>
@@ -1216,11 +1231,11 @@
           
           <div class="metrics-chips">
             <span class="metric-chip" id="ereps">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
               <span>8 Repeticiones</span>
             </span>
             <span class="metric-chip" id="etime">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <span>≈ 1 min 10 s</span>
             </span>
           </div>
@@ -1230,7 +1245,7 @@
         </div>
 
         <div class="clinical-tip">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0; margin-top:2px"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0; margin-top:2px"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
             <strong>Consejo clínico:</strong>
             <span id="hint">Imagina una ventosa amplia con toda la lengua.</span>
@@ -1239,7 +1254,7 @@
       </aside>
 
       <!-- TRAINER PANEL (50% Desktop / 100% Mobile) -->
-      <section class="panel trainer-panel">
+      <section class="panel trainer-panel" id="trainerPanel">
         
         <!-- Mobile Summary -->
         <div class="mobile-summary">
@@ -1256,11 +1271,10 @@
 
         <!-- Central Interactive View -->
         <div class="counter-center" id="exerciseView">
-          
           <div class="counter-row">
             <!-- Botón ANTERIOR a la izquierda -->
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </button>
 
             <!-- CÍRCULO DEL CONTADOR COMO BOTÓN (INICIAR / PAUSAR / REANUDAR) -->
@@ -1275,7 +1289,7 @@
 
             <!-- Botón SIGUIENTE a la derecha -->
             <button class="nav-circle-btn" id="next" title="Ejercicio siguiente" aria-label="Ejercicio siguiente">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
 
@@ -1284,30 +1298,30 @@
         </div>
 
         <!-- Mobile Clinical Advice -->
-        <div class="mobile-tip-card">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="mobile-tip-card" id="mobileTipCard">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
             <strong>Consejo:</strong><span id="mhint">Imagina una ventosa amplia con toda la lengua.</span>
           </div>
         </div>
 
-        <!-- COMPLETION VIEW: FINAL DE RUTINA -->
+        <!-- COMPLETION VIEW: FINAL DE RUTINA (LIMPIA Y SIN SCROLL) -->
         <div class="completion-view" id="complete">
           <div class="trophy-badge">🏆</div>
           <h2>¡Enhorabuena, rutina completada!</h2>
-          <p class="exercise-desc">Has realizado todos los ejercicios orofaciales de la sesión. ¡Buen trabajo fortaleciendo tu tono muscular!</p>
-          <div class="metrics-chips" style="justify-content: center; margin: 16px 0;">
+          <p class="exercise-desc">Has realizado todos los ejercicios orofaciales de hoy. ¡Gran trabajo fortaleciendo tu tono muscular!</p>
+          <div class="metrics-chips" style="justify-content: center; margin: 10px 0;">
             <span class="metric-chip" id="today">1 sesión(es) hoy</span>
           </div>
-          <button class="btn btn-primary" id="restartRoutineBtn" style="margin-top: 10px;">Reiniciar rutina desde el inicio</button>
+          <button class="btn btn-primary" id="restartRoutineBtn" style="margin-top: 8px;">Reiniciar rutina</button>
         </div>
 
         <!-- FOOTER: DOTS -->
-        <div class="trainer-footer">
+        <div class="trainer-footer" id="trainerFooter">
           <div class="dots-container" id="dots"></div>
         </div>
 
-        <!-- PANTALLA DE PREPARACIÓN CON INFORMACIÓN DEL EJERCICIO -->
+        <!-- PANTALLA DE PREPARACIÓN -->
         <div class="prepare-overlay" id="prepare">
           <span class="prep-tag">Preparación</span>
           <div class="prep-counter" id="prepCount">5</div>
@@ -1384,7 +1398,7 @@
         <h2>Historial de Actividad</h2>
         <button class="icon-btn close">✕</button>
       </div>
-      <p class="exercise-desc" style="font-size: 0.95rem; margin-bottom: 12px;">Sesiones almacenadas en este dispositivo.</p>
+      <p class="exercise-desc" style="font-size: 0.9rem; margin-bottom: 12px;">Sesiones almacenadas en este dispositivo.</p>
       
       <div class="stats-grid">
         <div class="stat-box">
@@ -1577,11 +1591,11 @@
       $('edesc').textContent = $('mdesc').textContent = e.d;
       
       $('ereps').innerHTML = `
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         <span>${e.r} ${e.w.toLowerCase()}${e.r > 1 ? 's' : ''}</span>
       `;
       $('etime').innerHTML = `
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span>≈ ${fmt(duration(e) + Number($('countdown').value))}</span>
       `;
       
@@ -1599,6 +1613,7 @@
       $('status').textContent = 'Preparado';
       $('status').style.color = 'var(--text)';
       
+      // Dial en estado inicial
       $('num').textContent = '▶';
       $('unit').textContent = 'Iniciar';
       $('inst').textContent = 'Toca el círculo para comenzar';
@@ -1608,9 +1623,12 @@
       dialEl.classList.remove('rest', 'paused');
       dialEl.style.setProperty('--p', 0);
       
+      // Control de botones anterior/siguiente
       $('prev').disabled = (ei === 0);
       $('next').disabled = (ei === E.length - 1);
       
+      // Restaurar interfaz activa si veníamos de finalización
+      $('trainerPanel').classList.remove('finished');
       $('exerciseView').style.display = 'flex';
       $('complete').classList.remove('show');
       $('prepare').classList.remove('show');
@@ -1726,10 +1744,11 @@
       vib(40);
     }
 
+    /* CONTADOR: SIEMPRE MUESTRA "segundos" */
     function count() {
       const p = current();
       $('num').textContent = left;
-      $('unit').textContent = p[3] ? 'seg. descanso' : 'segundos';
+      $('unit').textContent = 'segundos';
       $('dial').style.setProperty('--p', ((p[1] - left) / p[1]) * 100);
       progress(frac());
     }
@@ -1814,16 +1833,17 @@
           nav(1);
         }, 2500);
       } else {
-        setTimeout(completeRoutine, 1200);
+        setTimeout(completeRoutine, 1000);
       }
     }
 
-    /* PANTALLA DE RUTINA COMPLETADA */
+    /* PANTALLA ESPECIAL FINAL DE RUTINA (LIMPIA Y SIN SCROLL) */
     function completeRoutine() {
       if (!saved) {
         save();
         saved = true;
       }
+      $('trainerPanel').classList.add('finished');
       $('exerciseView').style.display = 'none';
       $('complete').classList.add('show');
       $('bar').style.width = '100%';
