@@ -418,7 +418,7 @@
       margin-left: 2px;
     }
 
-    /* COUNTER ROW: PREV + DIAL BUTTON + NEXT */
+    /* COUNTER ROW */
     .counter-center {
       width: 100%;
       flex: 1;
@@ -439,7 +439,6 @@
       gap: clamp(12px, 3.5vw, 28px);
     }
 
-    /* NAVEGACIÓN CIRCULAR */
     .nav-circle-btn {
       width: 46px;
       height: 46px;
@@ -681,7 +680,6 @@
       max-width: 380px;
     }
 
-    /* ESTILO CUANDO LA RUTINA FINALIZA: OCULTA ELEMENTOS SOBRANTES */
     .trainer-panel.finished .mobile-summary,
     .trainer-panel.finished .status-row,
     .trainer-panel.finished .mobile-tip-card,
@@ -821,6 +819,18 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
     }
 
+    .btn-secondary {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-quiet {
+      background: transparent;
+      color: var(--text-muted);
+      border-color: var(--border);
+    }
+
     /* MODALS */
     .modal {
       display: none;
@@ -873,7 +883,7 @@
       font-size: 0.92rem;
     }
 
-    .setting-item select {
+    .setting-item select, .setting-item input[type="time"] {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 5px 10px;
@@ -887,6 +897,7 @@
       width: 20px;
       height: 20px;
       accent-color: var(--text);
+      cursor: pointer;
     }
 
     .stats-grid {
@@ -1046,7 +1057,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow: hidden; /* Evita que la pantalla baile o se corte */
+        overflow: hidden;
       }
 
       .mobile-summary {
@@ -1098,7 +1109,6 @@
         font-size: 1.1rem;
       }
 
-      /* DIAL COMPACTO PARA QUE NADA SE CORTE */
       .counter-center {
         flex: 1;
         min-height: 0;
@@ -1153,7 +1163,6 @@
         min-height: 2em;
       }
 
-      /* CONSEJO CLÍNICO INTEGRADO Y COMPACTO */
       .mobile-tip-card {
         display: flex;
         align-items: flex-start;
@@ -1272,12 +1281,10 @@
         <!-- Central Interactive View -->
         <div class="counter-center" id="exerciseView">
           <div class="counter-row">
-            <!-- Botón ANTERIOR a la izquierda -->
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
               <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </button>
 
-            <!-- CÍRCULO DEL CONTADOR COMO BOTÓN (INICIAR / PAUSAR / REANUDAR) -->
             <button class="dial-btn" id="dialBtn" title="Toca para comenzar o pausar" aria-label="Control del ejercicio">
               <div class="dial" id="dial">
                 <div class="dial-content">
@@ -1287,7 +1294,6 @@
               </div>
             </button>
 
-            <!-- Botón SIGUIENTE a la derecha -->
             <button class="nav-circle-btn" id="next" title="Ejercicio siguiente" aria-label="Ejercicio siguiente">
               <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -1374,6 +1380,23 @@
           <option>10</option>
         </select>
       </label>
+
+      <!-- RECORDATORIO / NOTIFICACIÓN PUSH DIARIA -->
+      <label class="setting-item">
+        <span>Recordatorio diario</span>
+        <input id="notifCheck" type="checkbox">
+      </label>
+
+      <label class="setting-item" id="notifTimeRow">
+        <span>Hora límite diaria</span>
+        <input type="time" id="notifTime" value="20:00">
+      </label>
+
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+        <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 14px; font-size: 0.82rem;">
+          🔔 Probar aviso en este dispositivo
+        </button>
+      </div>
       
       <label class="setting-item">
         <span>Sonidos guía y pitidos</span>
@@ -1502,8 +1525,14 @@
     const $ = x => document.getElementById(x);
     let ei = 0, ri = 0, pi = 0, left = 0, timer = null, transitionTimer = null;
     let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
+    
     const KEY = 'orofacial_session_history_v1';
     const FONT_KEY = 'orofacial_font_scale_v3';
+    const NOTIF_ENABLED_KEY = 'orofacial_notif_enabled_v1';
+    const NOTIF_TIME_KEY = 'orofacial_notif_time_v1';
+    const NOTIF_LAST_DATE_KEY = 'orofacial_notif_last_date_v1';
+
+    const APP_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E";
 
     /* ESCALADO TIPOGRÁFICO */
     const fontScales = ['1', '1.15', '1.3', '1.45'];
@@ -1545,7 +1574,7 @@
       t.textContent = msg;
       t.classList.add('show');
       clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2000);
     }
 
     $('quickFontBtn').onclick = () => {
@@ -1565,6 +1594,135 @@
       showToast(`Tamaño de letra: ${fontLabels[val]}`);
     };
 
+    /* ========================================================
+       SISTEMA DE NOTIFICACIONES PUSH / LOCALES DIARIAS
+       ======================================================== */
+    async function requestNotificationPermission() {
+      if (!('Notification' in window)) {
+        showToast('Este navegador no soporta notificaciones.');
+        return false;
+      }
+      if (Notification.permission === 'granted') return true;
+      if (Notification.permission === 'denied') {
+        showToast('Permiso bloqueado en los ajustes de tu móvil.');
+        return false;
+      }
+      const perm = await Notification.requestPermission();
+      return perm === 'granted';
+    }
+
+    async function sendPushNotification(isTest = false) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      const title = isTest 
+        ? '¡Aviso de prueba! 🔔' 
+        : '¡Momento de tu entrenamiento orofacial! 🦷✨';
+      const body = isTest
+        ? 'Las notificaciones funcionan correctamente en tu dispositivo.'
+        : 'Has superado tu hora límite diaria sin entrenar. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!';
+
+      try {
+        if ('serviceWorker' in navigator) {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg && reg.showNotification) {
+            reg.showNotification(title, {
+              body: body,
+              icon: APP_ICON,
+              badge: APP_ICON,
+              tag: 'orofacial-daily-reminder',
+              renotify: true
+            });
+            return;
+          }
+        }
+        new Notification(title, {
+          body: body,
+          icon: APP_ICON
+        });
+      } catch (e) {
+        console.error('Error al emitir notificación:', e);
+      }
+    }
+
+    function checkDailyReminder() {
+      const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
+      if (!enabled) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      // Si ya realizó al menos una sesión hoy, NO molestar
+      if (sessionsToday() > 0) return;
+
+      const todayStr = day(Date.now());
+      const lastNotifDate = localStorage.getItem(NOTIF_LAST_DATE_KEY);
+      // Si ya se envió la notificación hoy, no repetir
+      if (lastNotifDate === todayStr) return;
+
+      const notifTime = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
+      const [targetH, targetM] = notifTime.split(':').map(Number);
+
+      const now = new Date();
+      const currentH = now.getHours();
+      const currentM = now.getMinutes();
+
+      // Comprobar si ya se superó la hora límite
+      if (currentH > targetH || (currentH === targetH && currentM >= targetM)) {
+        localStorage.setItem(NOTIF_LAST_DATE_KEY, todayStr);
+        sendPushNotification(false);
+      }
+    }
+
+    function initNotificationSettings() {
+      const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
+      const time = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
+      
+      $('notifCheck').checked = enabled;
+      $('notifTime').value = time;
+      $('notifTime').disabled = !enabled;
+
+      $('notifCheck').onchange = async (e) => {
+        if (e.target.checked) {
+          const granted = await requestNotificationPermission();
+          if (granted) {
+            localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
+            $('notifTime').disabled = false;
+            showToast(`Recordatorio activado a las ${$('notifTime').value}`);
+            checkDailyReminder();
+          } else {
+            e.target.checked = false;
+            localStorage.setItem(NOTIF_ENABLED_KEY, 'false');
+            $('notifTime').disabled = true;
+          }
+        } else {
+          localStorage.setItem(NOTIF_ENABLED_KEY, 'false');
+          $('notifTime').disabled = true;
+          showToast('Recordatorio diario desactivado.');
+        }
+      };
+
+      $('notifTime').onchange = (e) => {
+        localStorage.setItem(NOTIF_TIME_KEY, e.target.value);
+        showToast(`Hora límite fijada a las ${e.target.value}`);
+        checkDailyReminder();
+      };
+
+      $('testNotifBtn').onclick = async () => {
+        const granted = await requestNotificationPermission();
+        if (granted) {
+          sendPushNotification(true);
+        }
+      };
+
+      // Comprobar recordatorio cada minuto y al reabrir la app
+      setInterval(checkDailyReminder, 60000);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) checkDailyReminder();
+      });
+      checkDailyReminder();
+    }
+
+    /* ========================================================
+       LÓGICA DE EJERCICIOS Y TEMPORIZADOR
+       ======================================================== */
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
       let n = 0;
@@ -1623,11 +1781,10 @@
       dialEl.classList.remove('rest', 'paused');
       dialEl.style.setProperty('--p', 0);
       
-      // Control de botones anterior/siguiente
       $('prev').disabled = (ei === 0);
       $('next').disabled = (ei === E.length - 1);
       
-      // Restaurar interfaz activa si veníamos de finalización
+      // Restaurar interfaz activa si veníamos de pantalla final
       $('trainerPanel').classList.remove('finished');
       $('exerciseView').style.display = 'flex';
       $('complete').classList.remove('show');
@@ -1671,7 +1828,6 @@
       if (vibration && navigator.vibrate) navigator.vibrate(x);
     }
 
-    /* INICIAR EJERCICIO Y PREPARACIÓN */
     function start() {
       if (state === 'running' || state === 'countdown') return;
       if (transitionTimer) clearTimeout(transitionTimer);
@@ -1744,7 +1900,6 @@
       vib(40);
     }
 
-    /* CONTADOR: SIEMPRE MUESTRA "segundos" */
     function count() {
       const p = current();
       $('num').textContent = left;
@@ -1776,7 +1931,6 @@
       begin();
     }
 
-    /* CONTROL TÁCTIL EN EL DIAL */
     function toggleDial() {
       if (state === 'idle') {
         start();
@@ -1808,7 +1962,6 @@
 
     $('dialBtn').onclick = toggleDial;
 
-    /* FINALIZACIÓN DE EJERCICIO Y TRANSICIÓN */
     function finish() {
       stop();
       state = 'exercise_done';
@@ -1837,7 +1990,6 @@
       }
     }
 
-    /* PANTALLA ESPECIAL FINAL DE RUTINA (LIMPIA Y SIN SCROLL) */
     function completeRoutine() {
       if (!saved) {
         save();
@@ -1998,6 +2150,7 @@
 
     // Iniciar aplicación
     initFontScale();
+    initNotificationSettings();
     render();
     drawHistory();
   </script>
