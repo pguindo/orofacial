@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#FFFFFF">
-  <title>Entrenador Orofacial</title>
+  <title>Entrenador Orofacial v.0.1</title>
 
   <!-- PWA & Mobile Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -13,11 +13,11 @@
   <meta name="apple-mobile-web-app-title" content="Orofacial">
   <meta name="application-name" content="Orofacial">
 
-  <!-- Iconos PWA integrados (SVG de alta resolución) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
+  <!-- Iconos -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-  <!-- Enlace al manifiesto real en servidor para generar WebAPK en Android -->
+  <!-- Enlace al manifiesto de GitHub Pages -->
   <link rel="manifest" href="manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -103,7 +103,6 @@
         var(--bg);
     }
 
-    /* HEADER CON BOTÓN REINICIAR AL PULSAR LOGO/TÍTULO */
     header {
       height: 54px;
       flex-shrink: 0;
@@ -201,22 +200,6 @@
       color: var(--indigo);
       background: var(--indigo-soft);
       border-color: #C7D2FE;
-    }
-
-    .install-pwa-btn {
-      display: none;
-      background: var(--indigo);
-      color: #fff;
-      border: none;
-      font-size: 0.8rem;
-      padding: 0 10px;
-      height: 35px;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
     }
 
     .track {
@@ -823,6 +806,76 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
     }
 
+    /* BANNER FLOTANTE MODERNO PARA SUGERIR INSTALAR LA APP */
+    .install-banner {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-xl);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      animation: slideUpBanner 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .install-banner.show {
+      display: flex;
+    }
+
+    @keyframes slideUpBanner {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .install-banner-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--accent) 100%);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .install-banner-text {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .install-banner-text strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .install-banner-text p {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+    }
+
+    .install-banner-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* MODALS */
     .modal {
       display: none;
       position: fixed;
@@ -1221,8 +1274,7 @@
 <body>
   <div class="app">
     <header>
-      <!-- BOTÓN REINICIAR / SALIR EN LA CABECERA -->
-      <div class="brand" id="brandBtn" title="Toca para reiniciar o salir de la rutina">
+      <div class="brand" id="brandBtn" title="Toca para reiniciar la rutina">
         <div class="logo">AO</div>
         <div class="brand-text">
           <h1>Entrenador Orofacial</h1>
@@ -1231,7 +1283,6 @@
       </div>
       <div class="actions">
         <button class="icon-btn font-btn" id="quickFontBtn" title="Cambiar tamaño de letra">aA</button>
-        <button class="install-pwa-btn" id="installBtn" title="Instalar aplicación"><span>📲</span> Instalar</button>
         <button class="icon-btn" id="sound" title="Alternar Sonido"><span>🔊</span><span class="btn-text">Sonido</span></button>
         <button class="icon-btn" id="historyBtn" title="Ver Historial"><span>📊</span><span class="btn-text">Historial</span></button>
         <button class="icon-btn" id="settingsBtn" title="Ajustes"><span>⚙️</span><span class="btn-text">Ajustes</span></button>
@@ -1355,6 +1406,23 @@
     </main>
   </div>
 
+  <!-- BANNER FLOTANTE DE INSTALACIÓN PWA -->
+  <div class="install-banner" id="installBanner">
+    <div class="install-banner-logo">AO</div>
+    <div class="install-banner-text">
+      <strong>Instalar aplicación</strong>
+      <p>Instala en tu móvil para recibir avisos diarios y usar a pantalla completa.</p>
+    </div>
+    <div class="install-banner-actions">
+      <button class="btn" id="bannerCloseBtn" style="padding: 6px 8px; font-size: 0.78rem; background: transparent; color: var(--text-muted); border: none;">
+        ✕
+      </button>
+      <button class="btn btn-primary" id="bannerInstallBtn" style="padding: 6px 14px; font-size: 0.8rem;">
+        Instalar
+      </button>
+    </div>
+  </div>
+
   <div class="toast" id="toast">Tamaño de letra: Normal</div>
 
   <!-- SETTINGS MODAL -->
@@ -1384,7 +1452,6 @@
         </select>
       </label>
 
-      <!-- RECORDATORIO DIARIO -->
       <label class="setting-item">
         <span>Recordatorio diario</span>
         <input id="notifCheck" type="checkbox">
@@ -1395,25 +1462,18 @@
         <input type="time" id="notifTime" value="20:00">
       </label>
 
-      <!-- ESTADO DEL SERVICE WORKER EN ANDROID -->
+      <!-- ESTADO DEL SERVICE WORKER EN GITHUB PAGES -->
       <div class="sw-status-pill" id="swStatusPill">
         <span id="swStatusText">Comprobando Service Worker...</span>
         <div style="display:flex; gap:4px;">
-          <button class="btn" id="downloadSwBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
-            📥 sw.js
-          </button>
-          <button class="btn" id="downloadManifestBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
-            📥 manifest.json
+          <button class="btn" id="downloadIconsBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
+            🖼️ Descargar PNGs
           </button>
         </div>
       </div>
 
-      <div style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.35;">
-        💡 <i>Para que Android cree la app en tu lista del sistema y avise apagado: coloca los archivos <b>sw.js</b> y <b>manifest.json</b> en la misma carpeta del servidor.</i>
-      </div>
-
       <div style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px;">
-        <button class="btn btn-secondary" id="checkNotifNowBtn" style="padding: 7px 12px; font-size: 0.8rem;" title="Verifica si saltaría la hora límite ahora mismo">
+        <button class="btn btn-secondary" id="checkNotifNowBtn" style="padding: 7px 12px; font-size: 0.8rem;">
           🔍 Diagnosticar
         </button>
         <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 12px; font-size: 0.8rem;">
@@ -1563,35 +1623,26 @@
     const NOTIF_TIME_KEY = 'orofacial_notif_time_v1';
     const NOTIF_LAST_DATE_KEY = 'orofacial_notif_last_date_v1';
 
-    const APP_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E";
-
-    /* ========================================================
-       REINICIAR AL PULSAR LOGO O TÍTULO EN CABECERA
-       ======================================================== */
+    /* REINICIAR AL PULSAR LOGO O TÍTULO */
     $('brandBtn').onclick = () => {
       if (confirm('¿Deseas reiniciar la rutina y volver al primer ejercicio?')) {
         stop();
         if (transitionTimer) clearTimeout(transitionTimer);
-        ei = 0;
-        ri = 0;
-        pi = 0;
-        state = 'idle';
-        paused = false;
+        ei = 0; ri = 0; pi = 0;
+        state = 'idle'; paused = false;
         render();
         showToast('Rutina reiniciada al inicio');
       }
     };
 
-    /* ========================================================
-       SERVICE WORKER Y REGISTRO EN SEGUNDO PLANO
-       ======================================================== */
+    /* SERVICE WORKER */
     async function initServiceWorker() {
       if (!('serviceWorker' in navigator)) {
         updateSWUI('missing', 'Navegador sin Service Worker');
         return;
       }
       try {
-        swRegistration = await navigator.serviceWorker.register('./sw.js');
+        swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
         await navigator.serviceWorker.ready;
         updateSWUI('ready', '🟢 Listo para app Android y avisos');
 
@@ -1605,7 +1656,7 @@
         syncConfigToServiceWorker();
       } catch (err) {
         console.warn('No se pudo registrar sw.js:', err);
-        updateSWUI('missing', '🟡 Falta el archivo sw.js en servidor');
+        updateSWUI('missing', '🟡 Falta sw.js en GitHub Pages');
       }
     }
 
@@ -1631,103 +1682,59 @@
       label.textContent = text;
     }
 
-    /* DESCARGAR sw.js Y manifest.json PARA QUE ANDROID CREE EL WEBAPK */
-    $('downloadSwBtn').onclick = () => {
-      const swContent = `// sw.js - Service Worker para Entrenador Orofacial
-self.addEventListener('install', (e) => self.skipWaiting());
-self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+    /* GENERADOR DE ICONOS PNG PARA GITHUB PAGES (192x192 y 512x512) */
+    function generateAndDownloadPNG(size, filename) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
-  );
-});
+      // Fondo con gradiente
+      const grad = ctx.createLinearGradient(0, 0, size, size);
+      grad.addColorStop(0, '#4F46E5');
+      grad.addColorStop(1, '#0D9488');
+      ctx.fillStyle = grad;
 
-let reminderConfig = { enabled: false, time: '20:00', lastDate: '', completedToday: false };
+      // Esquinas redondeadas
+      const r = size * 0.22;
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(size - r, 0);
+      ctx.quadraticCurveTo(size, 0, size, r);
+      ctx.lineTo(size, size - r);
+      ctx.quadraticCurveTo(size, size, size - r, size);
+      ctx.lineTo(r, size);
+      ctx.quadraticCurveTo(0, size, 0, size - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.fill();
 
-self.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'SYNC_CONFIG') {
-    reminderConfig = Object.assign(reminderConfig, e.data.config);
-  }
-});
+      // Sonrisa orofacial
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = size * 0.07;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(size * 0.5, size * 0.46, size * 0.28, 0.15 * Math.PI, 0.85 * Math.PI, false);
+      ctx.stroke();
 
-async function checkBackgroundReminder() {
-  if (!reminderConfig.enabled || reminderConfig.completedToday) return;
+      // Círculo paladar
+      ctx.fillStyle = '#84E5CE';
+      ctx.beginPath();
+      ctx.arc(size * 0.5, size * 0.40, size * 0.08, 0, Math.PI * 2);
+      ctx.fill();
 
-  const now = new Date();
-  const todayStr = [now.getFullYear(), String(now.getMonth()+1).padStart(2,'0'), String(now.getDate()).padStart(2,'0')].join('-');
-  if (reminderConfig.lastDate === todayStr) return;
-
-  const [tH, tM] = (reminderConfig.time || '20:00').split(':').map(Number);
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  const targetMin = tH * 60 + tM;
-
-  if (nowMin >= targetMin) {
-    reminderConfig.lastDate = todayStr;
-    await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
-      body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
-      icon: '${APP_ICON}',
-      tag: 'orofacial-daily-reminder',
-      renotify: true,
-      vibrate: [200, 100, 200]
-    });
-  }
-}
-
-self.addEventListener('periodicsync', (e) => {
-  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
-});
-
-self.addEventListener('sync', (e) => {
-  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
-});
-
-self.addEventListener('notificationclick', (e) => {
-  e.notification.close();
-  e.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url && 'focus' in client) return client.focus();
-      }
-      if (clients.openWindow) return clients.openWindow('./');
-    })
-  );
-});`;
-      const blob = new Blob([swContent], { type: 'application/javascript' });
+      // Descarga directa
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'sw.js';
+      a.download = filename;
+      a.href = canvas.toDataURL('image/png');
       a.click();
-      showToast('Descargado sw.js');
-    };
+    }
 
-    $('downloadManifestBtn').onclick = () => {
-      const manifestJson = {
-        name: "Entrenador Orofacial",
-        short_name: "Orofacial",
-        description: "Entrenamiento miofuncional orofacial guiado",
-        start_url: "./",
-        scope: "./",
-        id: "orofacial-trainer-pwa",
-        display: "standalone",
-        orientation: "portrait",
-        background_color: "#F8FAFC",
-        theme_color: "#FFFFFF",
-        icons: [
-          {
-            src: APP_ICON,
-            sizes: "192x192 512x512",
-            type: "image/svg+xml",
-            purpose: "any maskable"
-          }
-        ]
-      };
-      const blob = new Blob([JSON.stringify(manifestJson, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'manifest.json';
-      a.click();
-      showToast('Descargado manifest.json');
+    $('downloadIconsBtn').onclick = () => {
+      generateAndDownloadPNG(192, 'icon-192.png');
+      setTimeout(() => generateAndDownloadPNG(512, 'icon-512.png'), 400);
+      showToast('Descargando icon-192.png e icon-512.png');
     };
 
     /* TIPOGRAFÍA */
@@ -1805,15 +1812,15 @@ self.addEventListener('notificationclick', (e) => {
         if ('serviceWorker' in navigator) {
           let reg = swRegistration || await navigator.serviceWorker.getRegistration();
           if (!reg) {
-            reg = await navigator.serviceWorker.register('./sw.js');
+            reg = await navigator.serviceWorker.register('./sw.js', { scope: './' });
             await navigator.serviceWorker.ready;
             swRegistration = reg;
           }
           if (reg && reg.showNotification) {
             await reg.showNotification(title, {
               body: body,
-              icon: APP_ICON,
-              badge: APP_ICON,
+              icon: 'icon-192.png',
+              badge: 'icon-192.png',
               tag: 'orofacial-daily-reminder',
               renotify: true,
               vibrate: [200, 100, 200]
@@ -1823,17 +1830,16 @@ self.addEventListener('notificationclick', (e) => {
           }
         }
         if (!/Android/i.test(navigator.userAgent)) {
-          new Notification(title, { body: body, icon: APP_ICON });
+          new Notification(title, { body: body, icon: 'icon-192.png' });
           if (isTest) showToast('Notificación emitida');
         } else {
-          throw new Error('No se encontró el archivo sw.js activo en tu servidor.');
+          throw new Error('No se encontró el archivo sw.js activo en GitHub Pages.');
         }
       } catch (err) {
-        alert('Aviso de Android:\n' + err.message + '\n\nColoca "sw.js" en la misma carpeta que el archivo HTML en tu servidor.');
+        alert('Aviso de Android:\n' + err.message + '\n\nAsegúrate de tener sw.js e icon-192.png en la raíz de tu GitHub Pages.');
       }
     }
 
-    /* COMPROBACIÓN ROBUSTA DEL RECORDATORIO DIARIO */
     function checkDailyReminder(isManualDiagnostic = false) {
       const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
       if (!enabled) {
@@ -1846,9 +1852,8 @@ self.addEventListener('notificationclick', (e) => {
         return;
       }
 
-      // Si ya entrenó hoy, no avisar
       if (sessionsToday() > 0) {
-        if (isManualDiagnostic) alert(`Diagnóstico: Ya has completado ${sessionsToday()} sesión(es) hoy. El aviso solo suena si no has entrenado.`);
+        if (isManualDiagnostic) alert(`Diagnóstico: Ya has completado ${sessionsToday()} sesión(es) hoy. El aviso solo salta si no has entrenado.`);
         return;
       }
 
@@ -1894,7 +1899,7 @@ self.addEventListener('notificationclick', (e) => {
           const granted = await requestNotificationPermission();
           if (granted) {
             localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
-            localStorage.removeItem(NOTIF_LAST_DATE_KEY); // Reiniciar para pruebas
+            localStorage.removeItem(NOTIF_LAST_DATE_KEY);
             $('notifTime').disabled = false;
             showToast(`Recordatorio fijado a las ${$('notifTime').value}`);
             syncConfigToServiceWorker();
@@ -1914,7 +1919,7 @@ self.addEventListener('notificationclick', (e) => {
 
       $('notifTime').onchange = (e) => {
         localStorage.setItem(NOTIF_TIME_KEY, e.target.value);
-        localStorage.removeItem(NOTIF_LAST_DATE_KEY); // Reiniciar fecha para permitir probar horas
+        localStorage.removeItem(NOTIF_LAST_DATE_KEY);
         showToast(`Hora límite fijada a las ${e.target.value}`);
         syncConfigToServiceWorker();
         checkDailyReminder();
@@ -1936,9 +1941,7 @@ self.addEventListener('notificationclick', (e) => {
       checkDailyReminder(false);
     }
 
-    /* ========================================================
-       TEMPORIZADOR FLUIDO CONTINUO (60 FPS)
-       ======================================================== */
+    /* TEMPORIZADOR CONTINUO */
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
       let n = 0;
@@ -2333,18 +2336,34 @@ self.addEventListener('notificationclick', (e) => {
     $('soundCheck').onchange = e => sound = e.target.checked;
     $('vibrateCheck').onchange = e => vibration = e.target.checked;
 
+    /* BANNER DE INSTALACIÓN PWA */
     let deferredPrompt;
-    const installBtn = $('installBtn');
+    const installBanner = $('installBanner');
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'inline-flex';
+      // Mostrar banner si no está instalada y no se ha descartado recientemente
+      if (!isPWA() && !sessionStorage.getItem('orofacial_banner_dismissed')) {
+        installBanner.classList.add('show');
+      }
     });
-    installBtn.addEventListener('click', async () => {
+
+    $('bannerInstallBtn').onclick = async () => {
       if (!deferredPrompt) return;
+      installBanner.classList.remove('show');
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') installBtn.style.display = 'none';
+      deferredPrompt = null;
+    };
+
+    $('bannerCloseBtn').onclick = () => {
+      installBanner.classList.remove('show');
+      sessionStorage.setItem('orofacial_banner_dismissed', 'true');
+    };
+
+    window.addEventListener('appinstalled', () => {
+      installBanner.classList.remove('show');
       deferredPrompt = null;
     });
 
