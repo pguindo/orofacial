@@ -1210,4 +1210,653 @@
         </div>
 
         <div class="counter-center">
-          <div class="exercise-active-view" id="ex
+          <div class="exercise-active-view" id="exercise">
+            <div class="dial-container">
+              <div class="dial" id="dial">
+                <div class="dial-content">
+                  <div class="counter-number" id="num">•</div>
+                  <div class="counter-unit" id="unit">listo</div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="action-instruction" id="inst">Pulsa «Comenzar»</h3>
+            <p class="action-detail" id="detail">La preparación aparecerá antes de iniciar el ejercicio.</p>
+          </div>
+
+          <div class="completion-view" id="complete">
+            <div class="trophy-badge">✓</div>
+            <h2>¡Sesión completada!</h2>
+            <p class="exercise-desc">Excelente trabajo completando la rutina orofacial.</p>
+            <div class="metrics-chips" style="justify-content: center;">
+              <span class="metric-chip" id="today">1 sesión(es) hoy</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-tip-card">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div>
+            <strong>Consejo:</strong><span id="mhint">Imagina una ventosa amplia con toda la lengua.</span>
+          </div>
+        </div>
+
+        <div class="controls-wrapper">
+          <div class="controls">
+            <button class="btn btn-quiet" id="prev">← Anterior</button>
+            <button class="btn btn-primary" id="start">Comenzar</button>
+            <button class="btn btn-secondary" id="pause" hidden>Pausar</button>
+            <button class="btn btn-secondary" id="skip" hidden>Saltar</button>
+            <button class="btn btn-secondary" id="next">Siguiente →</button>
+          </div>
+          <div class="dots-container" id="dots"></div>
+        </div>
+
+        <div class="prepare-overlay" id="prepare">
+          <span class="prep-tag">Preparación</span>
+          <div class="prep-counter" id="prepCount">5</div>
+          <h3>Prepárate para empezar</h3>
+          <p>Adopta una postura erguida y relaja hombros y cuello.</p>
+          <div class="prep-bar-track">
+            <div class="prep-bar-fill" id="prepProgress"></div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- TOAST DE NOTIFICACIÓN -->
+  <div class="toast" id="toast">Tamaño de letra: Normal</div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal" id="settings">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Configuración</h2>
+        <button class="icon-btn close">✕</button>
+      </div>
+
+      <label class="setting-item">
+        <span>Tamaño de letra</span>
+        <select id="fontSizeSelect">
+          <option value="1">Estándar (100%)</option>
+          <option value="1.15" selected>Grande (+15%)</option>
+          <option value="1.3">Muy grande (+30%)</option>
+          <option value="1.45">Gigante (+45%)</option>
+        </select>
+      </label>
+
+      <label class="setting-item">
+        <span>Tiempo de preparación inicial</span>
+        <select id="countdown">
+          <option>3</option>
+          <option selected>5</option>
+          <option>10</option>
+        </select>
+      </label>
+      
+      <label class="setting-item">
+        <span>Sonidos guía y pitidos</span>
+        <input id="soundCheck" type="checkbox" checked>
+      </label>
+      
+      <label class="setting-item">
+        <span>Respuesta táctil (vibración)</span>
+        <input id="vibrateCheck" type="checkbox" checked>
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary close" style="width: 100%;">Guardar y cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL -->
+  <div class="modal" id="historyModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Historial de Actividad</h2>
+        <button class="icon-btn close">✕</button>
+      </div>
+      <p class="exercise-desc" style="font-size: 0.95rem; margin-bottom: 12px;">Sesiones almacenadas localmente en este dispositivo.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <strong id="total">0</strong>
+          <span>Sesiones</span>
+        </div>
+        <div class="stat-box">
+          <strong id="days">0</strong>
+          <span>Días activos</span>
+        </div>
+        <div class="stat-box">
+          <strong id="week">0</strong>
+          <span>Últimos 7 días</span>
+        </div>
+      </div>
+
+      <div class="section-subtitle">Sesiones registradas</div>
+      <div class="history-list" id="history"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="export" style="flex: 1;">Exportar JSON</button>
+        <button class="btn btn-quiet" id="clear" style="color: var(--red);">Borrar historial</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const E = [
+      {
+        t: 'Sellado al paladar',
+        d: 'Pega toda la lengua al cielo de la boca y mantén la mandíbula relajada.',
+        r: 8,
+        w: 'Repetición',
+        h: 'Imagina una ventosa amplia con toda la lengua.',
+        a: '#0D9488',
+        p: [['Mantén', 5, 'Lengua completamente pegada al paladar', 0], ['Descansa', 3, 'Relaja la lengua y respira', 1]]
+      },
+      {
+        t: 'Barrido hacia atrás',
+        d: 'Desliza la lengua desde detrás de los incisivos hacia atrás sin despegarla.',
+        r: 10,
+        w: 'Repetición',
+        h: 'Haz el movimiento despacio y mantén contacto con el paladar.',
+        a: '#4F46E5',
+        p: [['Desliza', 3, 'Desde los incisivos hacia el fondo', 0], ['Vuelve y descansa', 2, 'Regresa sin tensión', 1]]
+      },
+      {
+        t: 'Succión y clic',
+        d: 'Haz ventosa con toda la lengua y suelta produciendo un clic claro.',
+        r: 10,
+        w: 'Repetición',
+        h: 'No muevas bruscamente la mandíbula ni compenses con el cuello.',
+        a: '#E11D48',
+        p: [['Haz ventosa', 3, 'Succiona la lengua contra el paladar', 0], ['Suelta con clic', 2, 'Suelta y relaja', 1]]
+      },
+      {
+        t: 'Vocales con energía',
+        d: 'Pronuncia A, E, I, O, U de manera marcada y abierta, sin gritar.',
+        r: 2,
+        w: 'Ronda',
+        h: 'Busca precisión y amplitud articular, no volumen alto.',
+        a: '#D97706',
+        p: [
+          ['A', 2, 'Articula ampliamente', 0],
+          ['E', 2, 'Articula ampliamente', 0],
+          ['I', 2, 'Articula ampliamente', 0],
+          ['O', 2, 'Articula ampliamente', 0],
+          ['U', 2, 'Articula ampliamente', 0],
+          ['Descansa', 3, 'Respira y afloja antes de repetir', 1]
+        ]
+      },
+      {
+        t: 'Mejillas contra resistencia',
+        d: 'Empuja cada mejilla con la lengua mientras un dedo resiste suavemente desde fuera.',
+        r: 5,
+        w: 'Serie',
+        h: 'La resistencia del dedo debe ser ligera y controlada.',
+        a: '#0284C7',
+        p: [
+          ['Mejilla izquierda', 5, 'Empuja con la lengua y resiste suavemente', 0],
+          ['Cambia de lado', 2, 'Relaja y cambia posición', 0],
+          ['Mejilla derecha', 5, 'Empuja con la lengua y resiste suavemente', 0],
+          ['Descansa', 3, 'Relaja ambas mejillas', 1]
+        ]
+      },
+      {
+        t: 'Trago controlado',
+        d: 'Coloca la punta de la lengua en el paladar y traga sin tensar labios ni barbilla.',
+        r: 5,
+        w: 'Repetición',
+        h: 'Utiliza un pequeño sorbo de agua si sientes la boca seca.',
+        a: '#EA580C',
+        p: [
+          ['Lengua arriba', 3, 'Apoya la lengua bien ancha en el paladar', 0],
+          ['Traga', 2, 'Deglute sin contraer los labios o la barbilla', 0],
+          ['Descansa', 3, 'Respira y relaja', 1]
+        ]
+      }
+    ];
+
+    const $ = x => document.getElementById(x);
+    let ei = 0, ri = 0, pi = 0, left = 0, timer = null, state = 'idle', paused = false, sound = true, vibration = true, saved = false;
+    const KEY = 'orofacial_session_history_v1';
+    const FONT_KEY = 'orofacial_font_scale_v2';
+
+    /* DETECCIÓN DE MODO PWA (STANDALONE) Y ESCALADO */
+    function isPWA() {
+      return window.matchMedia('(display-mode: standalone)').matches || 
+             window.navigator.standalone || 
+             document.referrer.includes('android-app://');
+    }
+
+    const fontScales = ['1', '1.15', '1.3', '1.45'];
+    const fontLabels = {
+      '1': 'Estándar',
+      '1.15': 'Grande (+15%)',
+      '1.3': 'Muy grande (+30%)',
+      '1.45': 'Gigante (+45%)'
+    };
+
+    function initFontScale() {
+      const savedScale = localStorage.getItem(FONT_KEY);
+      if (savedScale) {
+        applyFontScale(savedScale);
+      } else {
+        // Si se ejecuta en modo PWA instalada, Chromium suprime el font boosting.
+        // Compensamos automáticamente con 1.15 o 1.30 para coincidir con Android.
+        const defaultScale = isPWA() ? '1.25' : '1.15';
+        applyFontScale(defaultScale);
+      }
+    }
+
+    function applyFontScale(scale) {
+      document.documentElement.style.setProperty('--font-scale', scale);
+      if ($('fontSizeSelect')) $('fontSizeSelect').value = scale;
+    }
+
+    function showToast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    // Botón rápido "aA" en cabecera: cicla entre los 4 tamaños
+    $('quickFontBtn').onclick = () => {
+      const currentScale = localStorage.getItem(FONT_KEY) || (isPWA() ? '1.25' : '1.15');
+      let idx = fontScales.indexOf(currentScale);
+      idx = (idx + 1) % fontScales.length;
+      const nextScale = fontScales[idx];
+      localStorage.setItem(FONT_KEY, nextScale);
+      applyFontScale(nextScale);
+      showToast(`Tamaño de letra: ${fontLabels[nextScale]}`);
+    };
+
+    $('fontSizeSelect').onchange = (e) => {
+      const val = e.target.value;
+      localStorage.setItem(FONT_KEY, val);
+      applyFontScale(val);
+      showToast(`Tamaño de letra: ${fontLabels[val]}`);
+    };
+
+    const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
+    const duration = e => {
+      let n = 0;
+      for (let r = 0; r < e.r; r++) {
+        n += phases(e, r).reduce((s, x) => s + x[1], 0);
+      }
+      return n;
+    };
+    const fmt = s => (s < 60 ? s + ' s' : Math.floor(s / 60) + ' min ' + (s % 60 ? (s % 60) + ' s' : ''));
+
+    function render() {
+      stop();
+      state = 'idle';
+      ri = pi = 0;
+      const e = E[ei];
+
+      document.documentElement.style.setProperty('--accent', e.a);
+      document.documentElement.style.setProperty('--accent-soft', e.a + '1A');
+
+      $('eno').textContent = $('meno').textContent = `EJERCICIO ${ei + 1} DE ${E.length}`;
+      $('etitle').textContent = $('mtitle').textContent = e.t;
+      $('edesc').textContent = $('mdesc').textContent = e.d;
+      
+      $('ereps').innerHTML = `
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        <span>${e.r} ${e.w.toLowerCase()}${e.r > 1 ? 's' : ''}</span>
+      `;
+      $('etime').innerHTML = `
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>≈ ${fmt(duration(e) + Number($('countdown').value))}</span>
+      `;
+      
+      $('plist').innerHTML = e.p.map(x => `
+        <div class="phase-item" style="border-left-color: ${x[3] ? 'var(--amber)' : e.a}">
+          <b>${x[0]}</b>
+          <span>${x[1]} s ${x[3] ? '· descanso' : ''}</span>
+        </div>
+      `).join('');
+
+      $('hint').textContent = e.h;
+      if ($('mhint')) $('mhint').textContent = e.h;
+
+      $('rep').innerHTML = `${e.w} <strong>1/${e.r}</strong>`;
+      $('status').textContent = 'Preparado';
+      $('status').style.color = 'var(--text)';
+      $('num').textContent = '•';
+      $('unit').textContent = 'listo';
+      $('inst').textContent = 'Pulsa «Comenzar»';
+      $('detail').textContent = 'Aparecerá una cuenta atrás antes del ejercicio.';
+      $('dial').classList.remove('rest');
+      $('dial').style.setProperty('--p', 0);
+      $('start').hidden = false;
+      $('start').textContent = 'Comenzar';
+      $('pause').hidden = $('skip').hidden = true;
+      $('prev').disabled = ei === 0;
+      $('next').disabled = false;
+      $('exercise').style.display = 'flex';
+      $('complete').classList.remove('show');
+      $('prepare').classList.remove('show');
+      
+      dots();
+      progress(0);
+    }
+
+    function dots() {
+      $('dots').innerHTML = E.map((_, i) => `<span class="dot ${i < ei ? 'done' : ''} ${i === ei ? 'current' : ''}"></span>`).join('');
+    }
+
+    function progress(x) {
+      $('bar').style.width = Math.min(100, ((ei + x) / E.length) * 100) + '%';
+    }
+
+    function stop() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    function beep(f = 700) {
+      if (!sound) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const c = new AudioContextClass();
+        const o = c.createOscillator();
+        const g = c.createGain();
+        o.frequency.value = f;
+        g.gain.value = 0.04;
+        o.connect(g);
+        g.connect(c.destination);
+        o.start();
+        g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.12);
+        o.stop(c.currentTime + 0.13);
+      } catch (e) {}
+    }
+
+    function vib(x) {
+      if (vibration && navigator.vibrate) navigator.vibrate(x);
+    }
+
+    function start() {
+      if (state === 'running' || state === 'countdown') return;
+      ri = pi = 0;
+      left = Number($('countdown').value);
+      state = 'countdown';
+      paused = false;
+      $('start').hidden = true;
+      $('pause').hidden = $('skip').hidden = false;
+      $('prepare').classList.add('show');
+      prep();
+      timer = setInterval(tick, 1000);
+    }
+
+    function prep() {
+      const n = Number($('countdown').value);
+      $('prepCount').textContent = left;
+      $('prepProgress').style.width = ((n - left) / n) * 100 + '%';
+    }
+
+    function tick() {
+      if (paused) return;
+      if (--left <= 0) {
+        if (state === 'countdown') {
+          $('prepare').classList.remove('show');
+          begin();
+        } else {
+          advance();
+        }
+      } else {
+        if (state === 'countdown') {
+          prep();
+        } else {
+          count();
+        }
+        if (left <= 3) beep(650 + left * 80);
+      }
+    }
+
+    function current() {
+      return phases(E[ei], ri)[pi];
+    }
+
+    function begin() {
+      state = 'running';
+      const e = E[ei];
+      const p = current();
+      left = p[1];
+      
+      const isRest = Boolean(p[3]);
+      $('status').textContent = isRest ? 'Descanso' : 'En ejercicio';
+      $('status').style.color = isRest ? 'var(--amber)' : e.a;
+      $('dial').classList.toggle('rest', isRest);
+      $('rep').innerHTML = `${e.w} <strong>${ri + 1}/${e.r}</strong>`;
+      $('inst').textContent = p[0];
+      $('detail').textContent = p[2];
+      
+      count();
+      beep(900);
+      vib(40);
+    }
+
+    function count() {
+      const p = current();
+      $('num').textContent = left;
+      $('unit').textContent = p[3] ? 'seg. descanso' : 'seg. restantes';
+      $('dial').style.setProperty('--p', ((p[1] - left) / p[1]) * 100);
+      progress(frac());
+    }
+
+    function frac() {
+      const e = E[ei];
+      let done = 0;
+      const total = duration(e);
+      for (let r = 0; r < ri; r++) {
+        done += phases(e, r).reduce((s, x) => s + x[1], 0);
+      }
+      const p = phases(e, ri);
+      done += p.slice(0, pi).reduce((s, x) => s + x[1], 0);
+      if (p[pi]) done += p[pi][1] - left;
+      return done / total;
+    }
+
+    function advance() {
+      const e = E[ei];
+      const p = phases(e, ri);
+      if (++pi >= p.length) {
+        pi = 0;
+        if (++ri >= e.r) return finish();
+      }
+      begin();
+    }
+
+    function finish() {
+      stop();
+      state = 'complete';
+      $('status').textContent = 'Completado';
+      $('status').style.color = 'var(--emerald)';
+      $('num').textContent = '✓';
+      $('unit').textContent = 'terminado';
+      $('inst').textContent = '¡Ejercicio completado!';
+      $('detail').textContent = ei < E.length - 1 ? 'Tómate un respiro y pasa al siguiente.' : 'Has terminado toda la rutina.';
+      $('dial').classList.remove('rest');
+      $('dial').style.setProperty('--p', 100);
+      $('pause').hidden = $('skip').hidden = true;
+      $('start').hidden = false;
+      $('start').textContent = 'Repetir ejercicio';
+      progress(1);
+      beep(1050);
+      if (ei === E.length - 1) setTimeout(complete, 400);
+    }
+
+    function complete() {
+      if (!saved) {
+        save();
+        saved = true;
+      }
+      $('exercise').style.display = 'none';
+      $('complete').classList.add('show');
+      $('start').hidden = true;
+      $('next').disabled = true;
+      $('bar').style.width = '100%';
+      $('today').textContent = `${sessionsToday()} sesión(es) completada(s) hoy`;
+    }
+
+    function nav(x) {
+      ei = Math.max(0, Math.min(E.length - 1, ei + x));
+      render();
+    }
+
+    /* HISTORY */
+    function history() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function setHistory(h) {
+      localStorage.setItem(KEY, JSON.stringify(h));
+    }
+
+    function day(x) {
+      const d = new Date(x);
+      return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+    }
+
+    function save() {
+      const h = history();
+      h.push({ completedAt: new Date().toISOString(), exercises: E.length });
+      setHistory(h);
+      drawHistory();
+    }
+
+    function sessionsToday() {
+      const d = day(Date.now());
+      return history().filter(x => day(x.completedAt) === d).length;
+    }
+
+    function drawHistory() {
+      const h = history().sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+      const g = {};
+      h.forEach(x => (g[day(x.completedAt)] ??= []).push(x));
+
+      $('total').textContent = h.length;
+      $('days').textContent = Object.keys(g).length;
+
+      const c = new Date();
+      c.setHours(0, 0, 0, 0);
+      c.setDate(c.getDate() - 6);
+      $('week').textContent = h.filter(x => new Date(x.completedAt) >= c).length;
+
+      const entries = Object.entries(g).sort((a, b) => b[0].localeCompare(a[0]));
+      $('history').innerHTML = entries.length
+        ? entries.map(([d, v]) => `
+            <div class="history-row">
+              <div>
+                <b>${new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'short' }).format(new Date(d + 'T12:00'))}</b>
+                <small>${v.map(x => new Intl.DateTimeFormat('es-ES', { hour: '2-digit', minute: '2-digit' }).format(new Date(x.completedAt))).join(' · ')}</small>
+              </div>
+              <span class="history-badge">${v.length} ${v.length === 1 ? 'sesión' : 'sesiones'}</span>
+            </div>
+          `).join('')
+        : '<div class="empty-state">Aún no hay sesiones registradas en este equipo.</div>';
+    }
+
+    /* LISTENERS */
+    $('start').onclick = start;
+    
+    $('pause').onclick = () => {
+      paused = !paused;
+      $('pause').textContent = paused ? 'Reanudar' : 'Pausar';
+    };
+
+    $('skip').onclick = () => {
+      if (state === 'countdown') {
+        $('prepare').classList.remove('show');
+        begin();
+      } else {
+        advance();
+      }
+    };
+
+    $('prev').onclick = () => nav(-1);
+    $('next').onclick = () => nav(1);
+
+    $('sound').onclick = () => {
+      sound = !sound;
+      $('soundCheck').checked = sound;
+      $('sound').querySelector('span').textContent = sound ? '🔊' : '🔇';
+    };
+
+    $('historyBtn').onclick = () => {
+      $('historyModal').classList.add('open');
+      drawHistory();
+    };
+
+    $('settingsBtn').onclick = () => $('settings').classList.add('open');
+
+    document.querySelectorAll('.close').forEach(x => {
+      x.onclick = () => document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
+    });
+
+    $('clear').onclick = () => {
+      if (confirm('¿Seguro que deseas borrar el historial completo de entrenamientos?')) {
+        setHistory([]);
+        drawHistory();
+      }
+    };
+
+    $('export').onclick = () => {
+      const b = new Blob([JSON.stringify(history(), null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(b);
+      a.download = 'historial_entrenamiento_orofacial.json';
+      a.click();
+    };
+
+    $('soundCheck').onchange = e => {
+      sound = e.target.checked;
+      $('sound').querySelector('span').textContent = sound ? '🔊' : '🔇';
+    };
+    
+    $('vibrateCheck').onchange = e => {
+      vibration = e.target.checked;
+    };
+
+    /* PWA INSTALLATION PROMPT */
+    let deferredPrompt;
+    const installBtn = $('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'inline-flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+      deferredPrompt = null;
+    });
+
+    // Initialize
+    initFontScale();
+    render();
+    drawHistory();
+  </script>
+</body>
+</html>
