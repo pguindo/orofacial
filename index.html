@@ -103,7 +103,6 @@
         var(--bg);
     }
 
-    /* HEADER */
     header {
       height: 56px;
       flex-shrink: 0;
@@ -219,7 +218,6 @@
       transition: width 0.3s ease;
     }
 
-    /* WORKSPACE (DESKTOP 50/50) */
     .workspace {
       flex: 1;
       min-height: 0;
@@ -245,7 +243,6 @@
       height: 100%;
     }
 
-    /* DESKTOP INFO PANEL (50%) */
     .info-panel {
       padding: clamp(18px, 3vw, 34px);
       display: flex;
@@ -361,7 +358,6 @@
       margin-bottom: 2px;
     }
 
-    /* TRAINER PANEL */
     .trainer-panel {
       padding: clamp(16px, 2.5vw, 28px);
       display: flex;
@@ -418,7 +414,6 @@
       margin-left: 2px;
     }
 
-    /* COUNTER ROW */
     .counter-center {
       width: 100%;
       flex: 1;
@@ -466,7 +461,6 @@
       box-shadow: none;
     }
 
-    /* DIAL BUTTON */
     .dial-btn {
       background: transparent;
       border: none;
@@ -600,7 +594,6 @@
       justify-content: center;
     }
 
-    /* FOOTER / DOTS */
     .trainer-footer {
       width: 100%;
       display: flex;
@@ -637,7 +630,6 @@
       background: var(--accent);
     }
 
-    /* COMPLETION VIEW (LIMPIA Y SIN SCROLL) */
     .completion-view {
       display: none;
       padding: 16px 10px;
@@ -691,7 +683,6 @@
       justify-content: center;
     }
 
-    /* PREPARATION OVERLAY */
     .prepare-overlay {
       display: none;
       position: absolute;
@@ -819,19 +810,6 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
     }
 
-    .btn-secondary {
-      background: var(--surface);
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn-quiet {
-      background: transparent;
-      color: var(--text-muted);
-      border-color: var(--border);
-    }
-
-    /* MODALS */
     .modal {
       display: none;
       position: fixed;
@@ -898,6 +876,33 @@
       height: 20px;
       accent-color: var(--text);
       cursor: pointer;
+    }
+
+    .sw-status-pill {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      margin: 4px 0 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1E40AF;
+    }
+
+    .sw-status-pill.ready {
+      background: #F0FDF4;
+      border-color: #BBF7D0;
+      color: #166534;
+    }
+
+    .sw-status-pill.missing {
+      background: #FEF3C7;
+      border-color: #FDE68A;
+      color: #92400E;
     }
 
     .stats-grid {
@@ -1009,9 +1014,6 @@
       display: none;
     }
 
-    /* ========================================================
-       RESPONSIVE & PWA ANDROID: SIN CORTES Y SIN SCROLL
-       ======================================================== */
     @media (max-width: 768px) {
       body {
         height: 100dvh;
@@ -1205,7 +1207,6 @@
 </head>
 <body>
   <div class="app">
-    <!-- TOP HEADER -->
     <header>
       <div class="brand">
         <div class="logo">AO</div>
@@ -1223,14 +1224,11 @@
       </div>
     </header>
 
-    <!-- PROGRESS TRACK -->
     <div class="track">
       <div class="bar" id="bar"></div>
     </div>
 
-    <!-- MAIN WORKSPACE -->
     <main class="workspace">
-      
       <!-- DESKTOP INFO PANEL (50%) -->
       <aside class="panel info-panel">
         <div>
@@ -1264,21 +1262,17 @@
 
       <!-- TRAINER PANEL (50% Desktop / 100% Mobile) -->
       <section class="panel trainer-panel" id="trainerPanel">
-        
-        <!-- Mobile Summary -->
         <div class="mobile-summary">
           <span class="eyebrow-badge" id="meno">Ejercicio 1 de 6</span>
           <h2 id="mtitle">Sellado al paladar</h2>
           <p id="mdesc">Pega toda la lengua al cielo de la boca y mantén la mandíbula relajada.</p>
         </div>
 
-        <!-- Status Bar -->
         <div class="status-row">
           <span class="status-badge" id="status">Preparado</span>
           <div class="rep-indicator" id="rep">Repetición <strong>1/8</strong></div>
         </div>
 
-        <!-- Central Interactive View -->
         <div class="counter-center" id="exerciseView">
           <div class="counter-row">
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
@@ -1303,7 +1297,6 @@
           <p class="action-detail" id="detail">Pulsa el centro para iniciar la preparación guiada.</p>
         </div>
 
-        <!-- Mobile Clinical Advice -->
         <div class="mobile-tip-card" id="mobileTipCard">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
@@ -1311,7 +1304,6 @@
           </div>
         </div>
 
-        <!-- COMPLETION VIEW: FINAL DE RUTINA (LIMPIA Y SIN SCROLL) -->
         <div class="completion-view" id="complete">
           <div class="trophy-badge">🏆</div>
           <h2>¡Enhorabuena, rutina completada!</h2>
@@ -1322,12 +1314,10 @@
           <button class="btn btn-primary" id="restartRoutineBtn" style="margin-top: 8px;">Reiniciar rutina</button>
         </div>
 
-        <!-- FOOTER: DOTS -->
         <div class="trainer-footer" id="trainerFooter">
           <div class="dots-container" id="dots"></div>
         </div>
 
-        <!-- PANTALLA DE PREPARACIÓN -->
         <div class="prepare-overlay" id="prepare">
           <span class="prep-tag">Preparación</span>
           <div class="prep-counter" id="prepCount">5</div>
@@ -1347,7 +1337,6 @@
           
           <button class="prep-skip-btn" id="skipPrep">Saltar preparación →</button>
         </div>
-
       </section>
     </main>
   </div>
@@ -1381,7 +1370,7 @@
         </select>
       </label>
 
-      <!-- RECORDATORIO / NOTIFICACIÓN PUSH DIARIA -->
+      <!-- RECORDATORIO DIARIO -->
       <label class="setting-item">
         <span>Recordatorio diario</span>
         <input id="notifCheck" type="checkbox">
@@ -1391,6 +1380,14 @@
         <span>Hora límite diaria</span>
         <input type="time" id="notifTime" value="20:00">
       </label>
+
+      <!-- ESTADO DEL SERVICE WORKER EN ANDROID -->
+      <div class="sw-status-pill" id="swStatusPill">
+        <span id="swStatusText">Comprobando Service Worker...</span>
+        <button class="btn" id="downloadSwBtn" style="padding: 4px 10px; font-size: 0.75rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
+          📥 Descargar sw.js
+        </button>
+      </div>
 
       <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
         <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 14px; font-size: 0.82rem;">
@@ -1525,6 +1522,7 @@
     const $ = x => document.getElementById(x);
     let ei = 0, ri = 0, pi = 0, left = 0, timer = null, transitionTimer = null;
     let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
+    let swRegistration = null;
     
     const KEY = 'orofacial_session_history_v1';
     const FONT_KEY = 'orofacial_font_scale_v3';
@@ -1533,6 +1531,55 @@
     const NOTIF_LAST_DATE_KEY = 'orofacial_notif_last_date_v1';
 
     const APP_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E";
+
+    /* REGISTRO DEL SERVICE WORKER */
+    async function initServiceWorker() {
+      if (!('serviceWorker' in navigator)) {
+        updateSWUI('missing', 'Este navegador no soporta Service Worker');
+        return;
+      }
+      try {
+        swRegistration = await navigator.serviceWorker.register('./sw.js');
+        await navigator.serviceWorker.ready;
+        updateSWUI('ready', '🟢 Listo para avisos en Android');
+      } catch (err) {
+        console.warn('No se pudo registrar sw.js:', err);
+        updateSWUI('missing', '🟡 Falta el archivo sw.js en el servidor');
+      }
+    }
+
+    function updateSWUI(status, text) {
+      const pill = $('swStatusPill');
+      const label = $('swStatusText');
+      if (!pill || !label) return;
+      pill.className = `sw-status-pill ${status}`;
+      label.textContent = text;
+      $('downloadSwBtn').style.display = (status === 'ready') ? 'none' : 'inline-flex';
+    }
+
+    // Botón para generar y descargar sw.js automáticamente
+    $('downloadSwBtn').onclick = () => {
+      const swContent = `// sw.js - Service Worker para Entrenador Orofacial
+self.addEventListener('install', (e) => self.skipWaiting());
+self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url && 'focus' in client) return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('./');
+    })
+  );
+});`;
+      const blob = new Blob([swContent], { type: 'application/javascript' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sw.js';
+      a.click();
+      showToast('Descargando sw.js. Súbelo a la misma carpeta de tu servidor.');
+    };
 
     /* ESCALADO TIPOGRÁFICO */
     const fontScales = ['1', '1.15', '1.3', '1.45'];
@@ -1574,7 +1621,7 @@
       t.textContent = msg;
       t.classList.add('show');
       clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.classList.remove('show'), 2000);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
     }
 
     $('quickFontBtn').onclick = () => {
@@ -1595,7 +1642,7 @@
     };
 
     /* ========================================================
-       SISTEMA DE NOTIFICACIONES PUSH / LOCALES DIARIAS
+       SISTEMA DE NOTIFICACIONES PUSH PARA ANDROID (VIA SW)
        ======================================================== */
     async function requestNotificationPermission() {
       if (!('Notification' in window)) {
@@ -1604,7 +1651,7 @@
       }
       if (Notification.permission === 'granted') return true;
       if (Notification.permission === 'denied') {
-        showToast('Permiso bloqueado en los ajustes de tu móvil.');
+        alert('Las notificaciones están bloqueadas en los ajustes de tu navegador en Android. Actívalas en la configuración de la app.');
         return false;
       }
       const perm = await Notification.requestPermission();
@@ -1612,35 +1659,57 @@
     }
 
     async function sendPushNotification(isTest = false) {
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (!('Notification' in window)) {
+        alert('Este dispositivo no soporta notificaciones.');
+        return;
+      }
 
       const title = isTest 
         ? '¡Aviso de prueba! 🔔' 
         : '¡Momento de tu entrenamiento orofacial! 🦷✨';
       const body = isTest
-        ? 'Las notificaciones funcionan correctamente en tu dispositivo.'
+        ? 'Las notificaciones funcionan correctamente en tu Android.'
         : 'Has superado tu hora límite diaria sin entrenar. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!';
 
       try {
+        // En Android OBLIGATORIAMENTE se usa ServiceWorkerRegistration.showNotification
         if ('serviceWorker' in navigator) {
-          const reg = await navigator.serviceWorker.getRegistration();
+          let reg = swRegistration || await navigator.serviceWorker.getRegistration();
+          
+          if (!reg) {
+            try {
+              reg = await navigator.serviceWorker.register('./sw.js');
+              await navigator.serviceWorker.ready;
+              swRegistration = reg;
+            } catch (err) {
+              console.warn('Error registrando sw.js en el momento:', err);
+            }
+          }
+
           if (reg && reg.showNotification) {
-            reg.showNotification(title, {
+            await reg.showNotification(title, {
               body: body,
               icon: APP_ICON,
               badge: APP_ICON,
               tag: 'orofacial-daily-reminder',
-              renotify: true
+              renotify: true,
+              vibrate: [200, 100, 200]
             });
+            if (isTest) showToast('Notificación enviada a la barra de estado');
             return;
           }
         }
-        new Notification(title, {
-          body: body,
-          icon: APP_ICON
-        });
-      } catch (e) {
-        alert('Error al emitir notificación:' + e);
+
+        // Si es escritorio y no Android, se permite el constructor estándar
+        if (!/Android/i.test(navigator.userAgent)) {
+          new Notification(title, { body: body, icon: APP_ICON });
+          if (isTest) showToast('Notificación de escritorio emitida');
+        } else {
+          throw new Error('No se encontró el archivo sw.js activo en tu servidor.');
+        }
+
+      } catch (err) {
+        alert('Aviso de Android:\n' + err.message + '\n\nEn Android es necesario que el archivo "sw.js" esté en la misma carpeta que el archivo HTML en tu servidor web.');
       }
     }
 
@@ -1649,12 +1718,10 @@
       if (!enabled) return;
       if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
-      // Si ya realizó al menos una sesión hoy, NO molestar
       if (sessionsToday() > 0) return;
 
       const todayStr = day(Date.now());
       const lastNotifDate = localStorage.getItem(NOTIF_LAST_DATE_KEY);
-      // Si ya se envió la notificación hoy, no repetir
       if (lastNotifDate === todayStr) return;
 
       const notifTime = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
@@ -1664,7 +1731,6 @@
       const currentH = now.getHours();
       const currentM = now.getMinutes();
 
-      // Comprobar si ya se superó la hora límite
       if (currentH > targetH || (currentH === targetH && currentM >= targetM)) {
         localStorage.setItem(NOTIF_LAST_DATE_KEY, todayStr);
         sendPushNotification(false);
@@ -1685,7 +1751,7 @@
           if (granted) {
             localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
             $('notifTime').disabled = false;
-            showToast(`Recordatorio activado a las ${$('notifTime').value}`);
+            showToast(`Recordatorio fijado a las ${$('notifTime').value}`);
             checkDailyReminder();
           } else {
             e.target.checked = false;
@@ -1712,7 +1778,6 @@
         }
       };
 
-      // Comprobar recordatorio cada minuto y al reabrir la app
       setInterval(checkDailyReminder, 60000);
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) checkDailyReminder();
@@ -1721,7 +1786,7 @@
     }
 
     /* ========================================================
-       LÓGICA DE EJERCICIOS Y TEMPORIZADOR
+       TEMPORIZADOR Y FLUJO DE EJERCICIOS
        ======================================================== */
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
@@ -1771,7 +1836,6 @@
       $('status').textContent = 'Preparado';
       $('status').style.color = 'var(--text)';
       
-      // Dial en estado inicial
       $('num').textContent = '▶';
       $('unit').textContent = 'Iniciar';
       $('inst').textContent = 'Toca el círculo para comenzar';
@@ -1784,7 +1848,6 @@
       $('prev').disabled = (ei === 0);
       $('next').disabled = (ei === E.length - 1);
       
-      // Restaurar interfaz activa si veníamos de pantalla final
       $('trainerPanel').classList.remove('finished');
       $('exerciseView').style.display = 'flex';
       $('complete').classList.remove('show');
@@ -2148,8 +2211,9 @@
       deferredPrompt = null;
     });
 
-    // Iniciar aplicación
+    // Iniciar aplicación y Service Worker
     initFontScale();
+    initServiceWorker();
     initNotificationSettings();
     render();
     drawHistory();
