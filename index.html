@@ -104,7 +104,7 @@
     }
 
     header {
-      height: 56px;
+      height: 54px;
       flex-shrink: 0;
       padding: 0 clamp(10px, 3vw, 36px);
       display: flex;
@@ -215,7 +215,7 @@
       height: 100%;
       width: 0;
       background: linear-gradient(90deg, var(--indigo), var(--accent));
-      transition: width 0.3s ease;
+      transition: width 0.1s linear;
     }
 
     .workspace {
@@ -224,7 +224,7 @@
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
-      padding: clamp(10px, 2vw, 24px);
+      padding: clamp(8px, 1.8vw, 24px);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: clamp(10px, 2vw, 24px);
@@ -243,6 +243,7 @@
       height: 100%;
     }
 
+    /* INFO PANEL (DESKTOP) */
     .info-panel {
       padding: clamp(18px, 3vw, 34px);
       display: flex;
@@ -358,8 +359,9 @@
       margin-bottom: 2px;
     }
 
+    /* TRAINER PANEL */
     .trainer-panel {
-      padding: clamp(16px, 2.5vw, 28px);
+      padding: clamp(14px, 2.5vw, 26px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -414,6 +416,7 @@
       margin-left: 2px;
     }
 
+    /* CONTENEDOR CENTRAL: DIAL EXPANDIDO */
     .counter-center {
       width: 100%;
       flex: 1;
@@ -431,12 +434,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(12px, 3.5vw, 28px);
+      gap: clamp(14px, 4vw, 32px);
     }
 
     .nav-circle-btn {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--surface);
@@ -475,14 +478,13 @@
     }
 
     .dial-btn:active {
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
 
+    /* DIAL GRANDE Y CONTINUO */
     .dial {
-      width: min(30vmin, 150px);
-      height: min(30vmin, 150px);
-      min-width: 120px;
-      min-height: 120px;
+      width: clamp(150px, 36vmin, 185px);
+      height: clamp(150px, 36vmin, 185px);
       border-radius: 50%;
       position: relative;
       background: conic-gradient(var(--accent) calc(var(--p) * 1%), #E2E8F0 0);
@@ -490,8 +492,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s linear, box-shadow 0.2s ease;
       flex-shrink: 0;
+      will-change: background;
     }
 
     .dial-btn:hover .dial {
@@ -501,7 +503,7 @@
     .dial::before {
       content: "";
       position: absolute;
-      inset: 10px;
+      inset: 11px;
       border-radius: 50%;
       background: var(--surface);
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
@@ -538,7 +540,7 @@
     }
 
     .counter-number {
-      font-size: clamp(2.4rem, 7vmin, 3.4rem);
+      font-size: clamp(2.8rem, 8.5vmin, 4.2rem);
       font-weight: 800;
       line-height: 1;
       height: 1em;
@@ -553,7 +555,7 @@
     }
 
     .counter-unit {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -588,7 +590,7 @@
       color: var(--text-muted);
       max-width: 92%;
       margin: 0 auto;
-      min-height: 2.2em;
+      min-height: 2.1em;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -630,6 +632,7 @@
       background: var(--accent);
     }
 
+    /* COMPLETION VIEW */
     .completion-view {
       display: none;
       padding: 16px 10px;
@@ -683,6 +686,7 @@
       justify-content: center;
     }
 
+    /* PREPARATION OVERLAY */
     .prepare-overlay {
       display: none;
       position: absolute;
@@ -775,7 +779,7 @@
       width: 0%;
       background: var(--indigo);
       border-radius: 999px;
-      transition: width 0.2s linear;
+      transition: width 0.1s linear;
     }
 
     .prep-skip-btn {
@@ -1014,6 +1018,7 @@
       display: none;
     }
 
+    /* RESPONSIVE & PWA ANDROID: AJUSTE ERGONÓMICO CON DIAL GRANDE */
     @media (max-width: 768px) {
       body {
         height: 100dvh;
@@ -1055,7 +1060,7 @@
         flex: 1;
         min-height: 0;
         border-radius: 16px;
-        padding: 10px 12px 10px 12px;
+        padding: 8px 10px 10px 10px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -1067,19 +1072,19 @@
         text-align: left;
         width: 100%;
         margin-bottom: 2px;
-        padding-bottom: 3px;
+        padding-bottom: 2px;
         border-bottom: 1px solid var(--border);
         flex-shrink: 0;
       }
 
       .mobile-summary .eyebrow-badge {
         margin-bottom: 1px;
-        font-size: 0.68rem;
-        padding: 2px 7px;
+        font-size: 0.65rem;
+        padding: 2px 6px;
       }
 
       .mobile-summary h2 {
-        font-size: 1.22rem;
+        font-size: 1.15rem;
         font-weight: 800;
         margin: 1px 0;
         line-height: 1.15;
@@ -1087,8 +1092,8 @@
       }
 
       .mobile-summary p {
-        font-size: 0.84rem;
-        line-height: 1.25;
+        font-size: 0.8rem;
+        line-height: 1.2;
         color: var(--text-muted);
         margin: 0;
       }
@@ -1099,16 +1104,16 @@
       }
 
       .status-badge {
-        font-size: 0.72rem;
-        padding: 3px 9px;
+        font-size: 0.7rem;
+        padding: 3px 8px;
       }
 
       .rep-indicator {
-        font-size: 0.84rem;
+        font-size: 0.82rem;
       }
 
       .rep-indicator strong {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
       }
 
       .counter-center {
@@ -1123,7 +1128,7 @@
       }
 
       .counter-row {
-        gap: 14px;
+        gap: 12px;
       }
 
       .nav-circle-btn {
@@ -1131,38 +1136,39 @@
         height: 44px;
       }
 
+      /* DIAL GRANDE EN MÓVIL */
       .dial {
-        width: min(30vmin, 130px);
-        height: min(30vmin, 130px);
-        min-width: 110px;
-        min-height: 110px;
+        width: clamp(140px, 38vmin, 168px);
+        height: clamp(140px, 38vmin, 168px);
+        min-width: 135px;
+        min-height: 135px;
       }
 
       .dial::before {
-        inset: 8px;
+        inset: 9px;
       }
 
       .counter-number {
-        font-size: 2.5rem;
-        height: 40px;
+        font-size: 2.7rem;
+        height: 44px;
       }
 
       .counter-unit {
         font-size: 0.7rem;
-        max-width: 100px;
+        max-width: 105px;
         height: 18px;
       }
 
       .action-instruction {
-        font-size: 1.2rem;
-        margin: 6px auto 2px;
+        font-size: 1.15rem;
+        margin: 4px auto 2px;
         line-height: 1.15;
       }
 
       .action-detail {
-        font-size: 0.85rem;
-        line-height: 1.25;
-        min-height: 2em;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        min-height: 1.8em;
       }
 
       .mobile-tip-card {
@@ -1172,12 +1178,12 @@
         width: 100%;
         background: #F0FDF4;
         border: 1px solid #BBF7D0;
-        padding: 6px 10px;
+        padding: 6px 9px;
         border-radius: var(--radius-sm);
-        margin: 4px 0;
+        margin: 3px 0;
         text-align: left;
-        font-size: 0.82rem;
-        line-height: 1.3;
+        font-size: 0.8rem;
+        line-height: 1.25;
         color: #166534;
         flex-shrink: 0;
       }
@@ -1185,8 +1191,8 @@
       .mobile-tip-card svg {
         flex-shrink: 0;
         margin-top: 1px;
-        width: 16px;
-        height: 16px;
+        width: 15px;
+        height: 15px;
         color: #15803D;
       }
 
@@ -1199,8 +1205,8 @@
 
       .trainer-footer {
         flex-shrink: 0;
-        margin-top: 2px;
-        padding-bottom: 2px;
+        margin-top: 1px;
+        padding-bottom: 1px;
       }
     }
   </style>
@@ -1229,7 +1235,7 @@
     </div>
 
     <main class="workspace">
-      <!-- DESKTOP INFO PANEL (50%) -->
+      <!-- PANEL INFORMATIVO (DESKTOP) -->
       <aside class="panel info-panel">
         <div>
           <span class="eyebrow-badge" id="eno">Ejercicio 1 de 6</span>
@@ -1260,7 +1266,7 @@
         </div>
       </aside>
 
-      <!-- TRAINER PANEL (50% Desktop / 100% Mobile) -->
+      <!-- PANEL ENTRENADOR -->
       <section class="panel trainer-panel" id="trainerPanel">
         <div class="mobile-summary">
           <span class="eyebrow-badge" id="meno">Ejercicio 1 de 6</span>
@@ -1273,6 +1279,7 @@
           <div class="rep-indicator" id="rep">Repetición <strong>1/8</strong></div>
         </div>
 
+        <!-- CONTADOR CON DIAL GRANDE Y BOTÓN -->
         <div class="counter-center" id="exerciseView">
           <div class="counter-row">
             <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
@@ -1298,7 +1305,7 @@
         </div>
 
         <div class="mobile-tip-card" id="mobileTipCard">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
             <strong>Consejo:</strong><span id="mhint">Imagina una ventosa amplia con toda la lengua.</span>
           </div>
@@ -1307,7 +1314,7 @@
         <div class="completion-view" id="complete">
           <div class="trophy-badge">🏆</div>
           <h2>¡Enhorabuena, rutina completada!</h2>
-          <p class="exercise-desc">Has realizado todos los ejercicios orofaciales de hoy. ¡Gran trabajo fortaleciendo tu tono muscular!</p>
+          <p class="exercise-desc">Has realizado todos los ejercicios orofaciales de hoy. ¡Gran trabajo fortaleciendo tu musculatura!</p>
           <div class="metrics-chips" style="justify-content: center; margin: 10px 0;">
             <span class="metric-chip" id="today">1 sesión(es) hoy</span>
           </div>
@@ -1387,6 +1394,10 @@
         <button class="btn" id="downloadSwBtn" style="padding: 4px 10px; font-size: 0.75rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
           📥 Descargar sw.js
         </button>
+      </div>
+
+      <div style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.35;">
+        💡 <i>Para que Android avise con la pantalla apagada: Ajustes de Android > Aplicaciones > Orofacial > Batería > Sin restricciones.</i>
       </div>
 
       <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
@@ -1520,9 +1531,17 @@
     ];
 
     const $ = x => document.getElementById(x);
-    let ei = 0, ri = 0, pi = 0, left = 0, timer = null, transitionTimer = null;
+    let ei = 0, ri = 0, pi = 0;
+    let transitionTimer = null;
     let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
     let swRegistration = null;
+
+    // MOTOR DE ANIMACIÓN CONTINUA A 60 FPS
+    let animFrame = null;
+    let phaseStartTimestamp = 0;
+    let phaseDurationMs = 0;
+    let elapsedPaused = 0;
+    let lastBeepSec = -1;
     
     const KEY = 'orofacial_session_history_v1';
     const FONT_KEY = 'orofacial_font_scale_v3';
@@ -1532,7 +1551,9 @@
 
     const APP_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E";
 
-    /* REGISTRO DEL SERVICE WORKER */
+    /* ========================================================
+       SERVICE WORKER Y REGISTRO EN SEGUNDO PLANO
+       ======================================================== */
     async function initServiceWorker() {
       if (!('serviceWorker' in navigator)) {
         updateSWUI('missing', 'Este navegador no soporta Service Worker');
@@ -1542,10 +1563,36 @@
         swRegistration = await navigator.serviceWorker.register('./sw.js');
         await navigator.serviceWorker.ready;
         updateSWUI('ready', '🟢 Listo para avisos en Android');
+
+        // Registro de Periodic Background Sync en PWA instalada
+        if ('periodicSync' in swRegistration) {
+          try {
+            await swRegistration.periodicSync.register('daily-orofacial-check', {
+              minInterval: 60 * 60 * 1000 // Comprobación horaria por el SO
+            });
+          } catch(e) {
+            console.log('Periodic sync no permitido aún:', e);
+          }
+        }
+        syncConfigToServiceWorker();
       } catch (err) {
         console.warn('No se pudo registrar sw.js:', err);
         updateSWUI('missing', '🟡 Falta el archivo sw.js en el servidor');
       }
+    }
+
+    function syncConfigToServiceWorker() {
+      if (!navigator.serviceWorker || !navigator.serviceWorker.controller) return;
+      const config = {
+        enabled: localStorage.getItem(NOTIF_ENABLED_KEY) === 'true',
+        time: localStorage.getItem(NOTIF_TIME_KEY) || '20:00',
+        lastDate: localStorage.getItem(NOTIF_LAST_DATE_KEY) || '',
+        completedToday: sessionsToday() > 0
+      };
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SYNC_CONFIG',
+        config: config
+      });
     }
 
     function updateSWUI(status, text) {
@@ -1557,11 +1604,51 @@
       $('downloadSwBtn').style.display = (status === 'ready') ? 'none' : 'inline-flex';
     }
 
-    // Botón para generar y descargar sw.js automáticamente
     $('downloadSwBtn').onclick = () => {
-      const swContent = `// sw.js - Service Worker para Entrenador Orofacial
+      const swContent = `// sw.js - Service Worker para Entrenador Orofacial con soporte en segundo plano
 self.addEventListener('install', (e) => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+
+let reminderConfig = { enabled: false, time: '20:00', lastDate: '', completedToday: false };
+
+self.addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'SYNC_CONFIG') {
+    reminderConfig = Object.assign(reminderConfig, e.data.config);
+  }
+});
+
+async function checkBackgroundReminder() {
+  if (!reminderConfig.enabled || reminderConfig.completedToday) return;
+
+  const now = new Date();
+  const todayStr = [now.getFullYear(), String(now.getMonth()+1).padStart(2,'0'), String(now.getDate()).padStart(2,'0')].join('-');
+  if (reminderConfig.lastDate === todayStr) return;
+
+  const [tH, tM] = (reminderConfig.time || '20:00').split(':').map(Number);
+  if (now.getHours() > tH || (now.getHours() === tH && now.getMinutes() >= tM)) {
+    reminderConfig.lastDate = todayStr;
+    await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
+      body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
+      icon: '${APP_ICON}',
+      tag: 'orofacial-daily-reminder',
+      renotify: true,
+      vibrate: [200, 100, 200]
+    });
+  }
+}
+
+self.addEventListener('periodicsync', (e) => {
+  if (e.tag === 'daily-orofacial-check') {
+    e.waitUntil(checkBackgroundReminder());
+  }
+});
+
+self.addEventListener('sync', (e) => {
+  if (e.tag === 'daily-orofacial-check') {
+    e.waitUntil(checkBackgroundReminder());
+  }
+});
+
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
   e.waitUntil(
@@ -1581,33 +1668,19 @@ self.addEventListener('notificationclick', (e) => {
       showToast('Descargando sw.js. Súbelo a la misma carpeta de tu servidor.');
     };
 
-    /* ESCALADO TIPOGRÁFICO */
+    /* TIPOGRAFÍA */
     const fontScales = ['1', '1.15', '1.3', '1.45'];
-    const fontLabels = {
-      '1': 'Estándar',
-      '1.15': 'Grande (+15%)',
-      '1.3': 'Muy grande (+30%)',
-      '1.45': 'Gigante (+45%)'
-    };
+    const fontLabels = { '1': 'Estándar', '1.15': 'Grande (+15%)', '1.3': 'Muy grande (+30%)', '1.45': 'Gigante (+45%)' };
 
     function isPWA() {
       try {
-        return window.matchMedia('(display-mode: standalone)').matches || 
-               window.navigator.standalone || 
-               (document.referrer && document.referrer.includes('android-app://'));
-      } catch(e) {
-        return false;
-      }
+        return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || (document.referrer && document.referrer.includes('android-app://'));
+      } catch(e) { return false; }
     }
 
     function initFontScale() {
       const savedScale = localStorage.getItem(FONT_KEY);
-      if (savedScale) {
-        applyFontScale(savedScale);
-      } else {
-        const defaultScale = isPWA() ? '1.25' : '1.15';
-        applyFontScale(defaultScale);
-      }
+      applyFontScale(savedScale || (isPWA() ? '1.25' : '1.15'));
     }
 
     function applyFontScale(scale) {
@@ -1626,8 +1699,7 @@ self.addEventListener('notificationclick', (e) => {
 
     $('quickFontBtn').onclick = () => {
       const currentScale = localStorage.getItem(FONT_KEY) || (isPWA() ? '1.25' : '1.15');
-      let idx = fontScales.indexOf(currentScale);
-      idx = (idx + 1) % fontScales.length;
+      let idx = (fontScales.indexOf(currentScale) + 1) % fontScales.length;
       const nextScale = fontScales[idx];
       localStorage.setItem(FONT_KEY, nextScale);
       applyFontScale(nextScale);
@@ -1641,9 +1713,7 @@ self.addEventListener('notificationclick', (e) => {
       showToast(`Tamaño de letra: ${fontLabels[val]}`);
     };
 
-    /* ========================================================
-       SISTEMA DE NOTIFICACIONES PUSH PARA ANDROID (VIA SW)
-       ======================================================== */
+    /* NOTIFICACIONES */
     async function requestNotificationPermission() {
       if (!('Notification' in window)) {
         showToast('Este navegador no soporta notificaciones.');
@@ -1651,7 +1721,7 @@ self.addEventListener('notificationclick', (e) => {
       }
       if (Notification.permission === 'granted') return true;
       if (Notification.permission === 'denied') {
-        alert('Las notificaciones están bloqueadas en los ajustes de tu navegador en Android. Actívalas en la configuración de la app.');
+        alert('Las notificaciones están bloqueadas en los ajustes de tu navegador en Android. Actívalas en la configuración.');
         return false;
       }
       const perm = await Notification.requestPermission();
@@ -1664,28 +1734,19 @@ self.addEventListener('notificationclick', (e) => {
         return;
       }
 
-      const title = isTest 
-        ? '¡Aviso de prueba! 🔔' 
-        : '¡Momento de tu entrenamiento orofacial! 🦷✨';
+      const title = isTest ? '¡Aviso de prueba! 🔔' : '¡Momento de tu entrenamiento orofacial! 🦷✨';
       const body = isTest
         ? 'Las notificaciones funcionan correctamente en tu Android.'
-        : 'Has superado tu hora límite diaria sin entrenar. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!';
+        : 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!';
 
       try {
-        // En Android OBLIGATORIAMENTE se usa ServiceWorkerRegistration.showNotification
         if ('serviceWorker' in navigator) {
           let reg = swRegistration || await navigator.serviceWorker.getRegistration();
-          
           if (!reg) {
-            try {
-              reg = await navigator.serviceWorker.register('./sw.js');
-              await navigator.serviceWorker.ready;
-              swRegistration = reg;
-            } catch (err) {
-              console.warn('Error registrando sw.js en el momento:', err);
-            }
+            reg = await navigator.serviceWorker.register('./sw.js');
+            await navigator.serviceWorker.ready;
+            swRegistration = reg;
           }
-
           if (reg && reg.showNotification) {
             await reg.showNotification(title, {
               body: body,
@@ -1699,17 +1760,14 @@ self.addEventListener('notificationclick', (e) => {
             return;
           }
         }
-
-        // Si es escritorio y no Android, se permite el constructor estándar
         if (!/Android/i.test(navigator.userAgent)) {
           new Notification(title, { body: body, icon: APP_ICON });
-          if (isTest) showToast('Notificación de escritorio emitida');
+          if (isTest) showToast('Notificación emitida');
         } else {
           throw new Error('No se encontró el archivo sw.js activo en tu servidor.');
         }
-
       } catch (err) {
-        alert('Aviso de Android:\n' + err.message + '\n\nEn Android es necesario que el archivo "sw.js" esté en la misma carpeta que el archivo HTML en tu servidor web.');
+        alert('Aviso de Android:\n' + err.message + '\n\nEn Android es necesario que "sw.js" esté en la misma carpeta del servidor.');
       }
     }
 
@@ -1721,19 +1779,16 @@ self.addEventListener('notificationclick', (e) => {
       if (sessionsToday() > 0) return;
 
       const todayStr = day(Date.now());
-      const lastNotifDate = localStorage.getItem(NOTIF_LAST_DATE_KEY);
-      if (lastNotifDate === todayStr) return;
+      if (localStorage.getItem(NOTIF_LAST_DATE_KEY) === todayStr) return;
 
       const notifTime = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
       const [targetH, targetM] = notifTime.split(':').map(Number);
-
       const now = new Date();
-      const currentH = now.getHours();
-      const currentM = now.getMinutes();
 
-      if (currentH > targetH || (currentH === targetH && currentM >= targetM)) {
+      if (now.getHours() > targetH || (now.getHours() === targetH && now.getMinutes() >= targetM)) {
         localStorage.setItem(NOTIF_LAST_DATE_KEY, todayStr);
         sendPushNotification(false);
+        syncConfigToServiceWorker();
       }
     }
 
@@ -1752,6 +1807,7 @@ self.addEventListener('notificationclick', (e) => {
             localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
             $('notifTime').disabled = false;
             showToast(`Recordatorio fijado a las ${$('notifTime').value}`);
+            syncConfigToServiceWorker();
             checkDailyReminder();
           } else {
             e.target.checked = false;
@@ -1761,6 +1817,7 @@ self.addEventListener('notificationclick', (e) => {
         } else {
           localStorage.setItem(NOTIF_ENABLED_KEY, 'false');
           $('notifTime').disabled = true;
+          syncConfigToServiceWorker();
           showToast('Recordatorio diario desactivado.');
         }
       };
@@ -1768,17 +1825,16 @@ self.addEventListener('notificationclick', (e) => {
       $('notifTime').onchange = (e) => {
         localStorage.setItem(NOTIF_TIME_KEY, e.target.value);
         showToast(`Hora límite fijada a las ${e.target.value}`);
+        syncConfigToServiceWorker();
         checkDailyReminder();
       };
 
       $('testNotifBtn').onclick = async () => {
         const granted = await requestNotificationPermission();
-        if (granted) {
-          sendPushNotification(true);
-        }
+        if (granted) sendPushNotification(true);
       };
 
-      setInterval(checkDailyReminder, 60000);
+      setInterval(checkDailyReminder, 45000);
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) checkDailyReminder();
       });
@@ -1786,14 +1842,12 @@ self.addEventListener('notificationclick', (e) => {
     }
 
     /* ========================================================
-       TEMPORIZADOR Y FLUJO DE EJERCICIOS
+       TEMPORIZADOR FLUIDO CONTINUO (60 FPS) CON RAF
        ======================================================== */
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
       let n = 0;
-      for (let r = 0; r < e.r; r++) {
-        n += phases(e, r).reduce((s, x) => s + x[1], 0);
-      }
+      for (let r = 0; r < e.r; r++) n += phases(e, r).reduce((s, x) => s + x[1], 0);
       return n;
     };
     const fmt = s => (s < 60 ? s + ' s' : Math.floor(s / 60) + ' min ' + (s % 60 ? (s % 60) + ' s' : ''));
@@ -1866,8 +1920,8 @@ self.addEventListener('notificationclick', (e) => {
     }
 
     function stop() {
-      if (timer) clearInterval(timer);
-      timer = null;
+      if (animFrame) cancelAnimationFrame(animFrame);
+      animFrame = null;
     }
 
     function beep(f = 700) {
@@ -1891,12 +1945,13 @@ self.addEventListener('notificationclick', (e) => {
       if (vibration && navigator.vibrate) navigator.vibrate(x);
     }
 
+    /* PREPARACIÓN */
     function start() {
       if (state === 'running' || state === 'countdown') return;
       if (transitionTimer) clearTimeout(transitionTimer);
       
       ri = pi = 0;
-      left = Number($('countdown').value);
+      const countVal = Number($('countdown').value);
       state = 'countdown';
       paused = false;
       
@@ -1904,34 +1959,37 @@ self.addEventListener('notificationclick', (e) => {
       $('prepTitle').textContent = e.t;
       $('prepDesc').textContent = e.d;
       $('prepHint').textContent = e.h;
-      
       $('prepare').classList.add('show');
-      prep();
-      timer = setInterval(tick, 1000);
+
+      // Animación fluida de cuenta atrás
+      phaseDurationMs = countVal * 1000;
+      phaseStartTimestamp = performance.now();
+      elapsedPaused = 0;
+      lastBeepSec = -1;
+      runPrepLoop(performance.now());
     }
 
-    function prep() {
-      const n = Number($('countdown').value);
-      $('prepCount').textContent = left;
-      $('prepProgress').style.width = ((n - left) / n) * 100 + '%';
-    }
+    function runPrepLoop(now) {
+      if (state !== 'countdown' || paused) return;
 
-    function tick() {
-      if (paused) return;
-      if (--left <= 0) {
-        if (state === 'countdown') {
-          $('prepare').classList.remove('show');
-          begin();
-        } else {
-          advance();
-        }
+      const totalElapsed = (now - phaseStartTimestamp) + elapsedPaused;
+      const remainingMs = Math.max(0, phaseDurationMs - totalElapsed);
+      const remainingSec = Math.ceil(remainingMs / 1000);
+
+      $('prepCount').textContent = remainingSec > 0 ? remainingSec : 1;
+      const percent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
+      $('prepProgress').style.width = percent.toFixed(2) + '%';
+
+      if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
+        beep(650 + remainingSec * 80);
+        lastBeepSec = remainingSec;
+      }
+
+      if (totalElapsed >= phaseDurationMs) {
+        $('prepare').classList.remove('show');
+        begin();
       } else {
-        if (state === 'countdown') {
-          prep();
-        } else {
-          count();
-        }
-        if (left <= 3) beep(650 + left * 80);
+        animFrame = requestAnimationFrame(runPrepLoop);
       }
     }
 
@@ -1944,7 +2002,6 @@ self.addEventListener('notificationclick', (e) => {
       paused = false;
       const e = E[ei];
       const p = current();
-      left = p[1];
       
       const isRest = Boolean(p[3]);
       $('status').textContent = isRest ? 'Descanso' : 'En ejercicio';
@@ -1957,34 +2014,61 @@ self.addEventListener('notificationclick', (e) => {
       $('rep').innerHTML = `${e.w} <strong>${ri + 1}/${e.r}</strong>`;
       $('inst').textContent = p[0];
       $('detail').textContent = p[2];
-      
-      count();
+      $('unit').textContent = 'segundos';
+
       beep(900);
       vib(40);
+
+      // Iniciar bucle continuo a 60 FPS
+      phaseDurationMs = p[1] * 1000;
+      phaseStartTimestamp = performance.now();
+      elapsedPaused = 0;
+      lastBeepSec = -1;
+      runExerciseLoop(performance.now());
     }
 
-    function count() {
-      const p = current();
-      $('num').textContent = left;
-      $('unit').textContent = 'segundos';
-      $('dial').style.setProperty('--p', ((p[1] - left) / p[1]) * 100);
-      progress(frac());
+    /* BUCLE CONTINUO SUAVE A 60 FPS */
+    function runExerciseLoop(now) {
+      if (state !== 'running' || paused) return;
+
+      const totalElapsed = (now - phaseStartTimestamp) + elapsedPaused;
+      const remainingMs = Math.max(0, phaseDurationMs - totalElapsed);
+      const remainingSec = Math.ceil(remainingMs / 1000);
+
+      $('num').textContent = remainingSec > 0 ? remainingSec : 0;
+      
+      // Movimiento continuo milimétrico del dial
+      const progressPercent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
+      $('dial').style.setProperty('--p', progressPercent.toFixed(2));
+      
+      progress(frac(totalElapsed / phaseDurationMs));
+
+      // Pitidos sincronizados con el segundo exacto
+      if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
+        beep(650 + remainingSec * 80);
+        lastBeepSec = remainingSec;
+      }
+
+      if (totalElapsed >= phaseDurationMs) {
+        advance();
+      } else {
+        animFrame = requestAnimationFrame(runExerciseLoop);
+      }
     }
 
-    function frac() {
+    function frac(phaseRatio = 0) {
       const e = E[ei];
       let done = 0;
       const total = duration(e);
-      for (let r = 0; r < ri; r++) {
-        done += phases(e, r).reduce((s, x) => s + x[1], 0);
-      }
+      for (let r = 0; r < ri; r++) done += phases(e, r).reduce((s, x) => s + x[1], 0);
       const p = phases(e, ri);
       done += p.slice(0, pi).reduce((s, x) => s + x[1], 0);
-      if (p[pi]) done += p[pi][1] - left;
+      if (p[pi]) done += p[pi][1] * Math.min(1, phaseRatio);
       return done / total;
     }
 
     function advance() {
+      stop();
       const e = E[ei];
       const p = phases(e, ri);
       if (++pi >= p.length) {
@@ -1994,6 +2078,7 @@ self.addEventListener('notificationclick', (e) => {
       begin();
     }
 
+    /* CONTROL PLAY / PAUSA */
     function toggleDial() {
       if (state === 'idle') {
         start();
@@ -2001,6 +2086,8 @@ self.addEventListener('notificationclick', (e) => {
         paused = !paused;
         const dialEl = $('dial');
         if (paused) {
+          stop();
+          elapsedPaused += performance.now() - phaseStartTimestamp;
           dialEl.classList.add('paused');
           $('num').textContent = '❚❚';
           $('unit').textContent = 'Reanudar';
@@ -2015,8 +2102,13 @@ self.addEventListener('notificationclick', (e) => {
           $('status').style.color = p[3] ? 'var(--amber)' : E[ei].a;
           $('inst').textContent = p[0];
           $('detail').textContent = p[2];
-          count();
+          $('unit').textContent = 'segundos';
+          phaseStartTimestamp = performance.now();
+          animFrame = requestAnimationFrame(runExerciseLoop);
         }
+      } else if (state === 'countdown') {
+        $('prepare').classList.remove('show');
+        begin();
       } else if (state === 'exercise_done') {
         if (transitionTimer) clearTimeout(transitionTimer);
         nav(1);
@@ -2045,9 +2137,7 @@ self.addEventListener('notificationclick', (e) => {
 
       if (ei < E.length - 1) {
         $('detail').textContent = 'Pasando automáticamente al siguiente ejercicio...';
-        transitionTimer = setTimeout(() => {
-          nav(1);
-        }, 2500);
+        transitionTimer = setTimeout(() => nav(1), 2500);
       } else {
         setTimeout(completeRoutine, 1000);
       }
@@ -2065,6 +2155,7 @@ self.addEventListener('notificationclick', (e) => {
       $('today').textContent = `${sessionsToday()} sesión(es) completada(s) hoy`;
       $('prev').disabled = true;
       $('next').disabled = true;
+      syncConfigToServiceWorker();
     }
 
     function nav(x) {
@@ -2077,6 +2168,7 @@ self.addEventListener('notificationclick', (e) => {
     $('next').onclick = () => nav(1);
 
     $('skipPrep').onclick = () => {
+      stop();
       $('prepare').classList.remove('show');
       begin();
     };
@@ -2089,29 +2181,19 @@ self.addEventListener('notificationclick', (e) => {
 
     /* HISTORIAL */
     function history() {
-      try {
-        return JSON.parse(localStorage.getItem(KEY) || '[]');
-      } catch {
-        return [];
-      }
+      try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; }
     }
-
-    function setHistory(h) {
-      localStorage.setItem(KEY, JSON.stringify(h));
-    }
-
+    function setHistory(h) { localStorage.setItem(KEY, JSON.stringify(h)); }
     function day(x) {
       const d = new Date(x);
       return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
     }
-
     function save() {
       const h = history();
       h.push({ completedAt: new Date().toISOString(), exercises: E.length });
       setHistory(h);
       drawHistory();
     }
-
     function sessionsToday() {
       const d = day(Date.now());
       return history().filter(x => day(x.completedAt) === d).length;
@@ -2144,31 +2226,15 @@ self.addEventListener('notificationclick', (e) => {
         : '<div class="empty-state">Aún no hay sesiones registradas en este equipo.</div>';
     }
 
-    /* LISTENERS DE CONFIGURACIÓN */
     $('sound').onclick = () => {
       sound = !sound;
       $('soundCheck').checked = sound;
       $('sound').querySelector('span').textContent = sound ? '🔊' : '🔇';
     };
-
-    $('historyBtn').onclick = () => {
-      $('historyModal').classList.add('open');
-      drawHistory();
-    };
-
+    $('historyBtn').onclick = () => { $('historyModal').classList.add('open'); drawHistory(); };
     $('settingsBtn').onclick = () => $('settings').classList.add('open');
-
-    document.querySelectorAll('.close').forEach(x => {
-      x.onclick = () => document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
-    });
-
-    $('clear').onclick = () => {
-      if (confirm('¿Seguro que deseas borrar el historial completo de entrenamientos?')) {
-        setHistory([]);
-        drawHistory();
-      }
-    };
-
+    document.querySelectorAll('.close').forEach(x => x.onclick = () => document.querySelectorAll('.modal').forEach(m => m.classList.remove('open')));
+    $('clear').onclick = () => { if (confirm('¿Borrar historial?')) { setHistory([]); drawHistory(); syncConfigToServiceWorker(); } };
     $('export').onclick = () => {
       const b = new Blob([JSON.stringify(history(), null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
@@ -2176,42 +2242,25 @@ self.addEventListener('notificationclick', (e) => {
       a.download = 'historial_entrenamiento_orofacial.json';
       a.click();
     };
+    $('soundCheck').onchange = e => sound = e.target.checked;
+    $('vibrateCheck').onchange = e => vibration = e.target.checked;
 
-    $('soundCheck').onchange = e => {
-      sound = e.target.checked;
-      $('sound').querySelector('span').textContent = sound ? '🔊' : '🔇';
-    };
-    
-    $('vibrateCheck').onchange = e => {
-      vibration = e.target.checked;
-    };
-
-    /* PWA INSTALLATION PROMPT */
     let deferredPrompt;
     const installBtn = $('installBtn');
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       installBtn.style.display = 'inline-flex';
     });
-
     installBtn.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        installBtn.style.display = 'none';
-      }
+      if (outcome === 'accepted') installBtn.style.display = 'none';
       deferredPrompt = null;
     });
 
-    window.addEventListener('appinstalled', () => {
-      installBtn.style.display = 'none';
-      deferredPrompt = null;
-    });
-
-    // Iniciar aplicación y Service Worker
+    // INICIALIZACIÓN
     initFontScale();
     initServiceWorker();
     initNotificationSettings();
