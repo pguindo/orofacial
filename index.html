@@ -12,13 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Orofacial">
   <meta name="application-name" content="Orofacial">
-  <meta name="format-detection" content="telephone=no">
 
   <!-- Iconos PWA integrados (SVG de alta resolución) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g)'/%3E%3Cpath d='M140 310c30 55 75 80 116 80s86-25 116-80' stroke='%23ffffff' stroke-width='36' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='256' cy='205' r='42' fill='%2384E5CE'/%3E%3C/svg%3E">
 
-  <!-- Manifiesto Web para instalación Standalone -->
+  <!-- Manifiesto Web PWA -->
   <link rel="manifest" href='data:application/manifest+json;utf-8,%7B%22name%22%3A%22Entrenador%20Orofacial%22%2C%22short_name%22%3A%22Orofacial%22%2C%22description%22%3A%22Entrenamiento%20miofuncional%20orofacial%20guiado%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%23F8FAFC%22%2C%22theme_color%22%3A%22%23FFFFFF%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20512%20512%27%253E%253Cdefs%253E%253ClinearGradient%20id%3D%27g%27%20x1%3D%270%2525%27%20y1%3D%270%2525%27%20x2%3D%27100%2525%27%20y2%3D%27100%2525%27%253E%253Cstop%20offset%3D%270%2525%27%20stop-color%3D%27%25234F46E5%27%2F%253E%253Cstop%20offset%3D%27100%2525%27%20stop-color%3D%27%25230D9488%27%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27128%27%20fill%3D%27url(%2523g)%27%2F%253E%253Cpath%20d%3D%27M140%20310c30%2055%2075%2080%20116%2080s86-25%20116-80%27%20stroke%3D%27%2523ffffff%27%20stroke-width%3D%2736%27%20stroke-linecap%3D%27round%27%20fill%3D%27none%27%2F%253E%253Ccircle%20cx%3D%27256%27%20cy%3D%27205%27%20r%3D%2742%27%20fill%3D%27%252384E5CE%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D'>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +26,7 @@
   
   <style>
     :root {
-      --font-scale: 1.15; /* Base optimizada */
+      --font-scale: 1.15;
       
       --bg: #F8FAFC;
       --surface: #FFFFFF;
@@ -51,17 +50,18 @@
       --p: 0;
       --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
       --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 25px -4px rgba(15, 23, 42, 0.1);
       --shadow-xl: 0 20px 40px -6px rgba(15, 23, 42, 0.14);
       --radius-lg: 24px;
       --radius-md: 16px;
       --radius-sm: 12px;
     }
 
-    /* Escalado dinámico en cascada */
     html {
       font-size: calc(16px * var(--font-scale, 1.15));
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
+      height: 100%;
     }
 
     [hidden] {
@@ -73,13 +73,14 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       width: 100vw;
-      height: 100%;
-      height: 100dvh;
-      overflow: hidden;
+      min-height: 100%;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
       background: var(--bg);
       color: var(--text);
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -92,8 +93,8 @@
 
     .app {
       width: 100%;
-      height: 100%;
-      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       background: 
@@ -104,7 +105,7 @@
 
     /* HEADER */
     header {
-      height: 62px;
+      height: 60px;
       flex-shrink: 0;
       padding: 0 clamp(12px, 3vw, 36px);
       display: flex;
@@ -113,7 +114,9 @@
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      z-index: 20;
+      position: sticky;
+      top: 0;
+      z-index: 25;
     }
 
     .brand {
@@ -123,21 +126,21 @@
     }
 
     .logo {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 11px;
       background: linear-gradient(135deg, var(--indigo) 0%, var(--accent) 100%);
       color: #FFFFFF;
       display: grid;
       place-items: center;
       font-weight: 800;
-      font-size: 1rem;
+      font-size: 0.95rem;
       letter-spacing: -0.02em;
       box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
     }
 
     .brand-text h1 {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       margin: 0;
       letter-spacing: -0.02em;
@@ -147,7 +150,7 @@
 
     .brand-text span {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -159,9 +162,9 @@
     }
 
     .icon-btn {
-      height: 38px;
-      min-width: 38px;
-      padding: 0 10px;
+      height: 36px;
+      min-width: 36px;
+      padding: 0 8px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: var(--surface);
@@ -171,7 +174,7 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       transition: all 0.2s ease;
     }
@@ -181,7 +184,6 @@
       color: var(--text);
     }
 
-    /* PWA Quick Font Button */
     .font-btn {
       font-weight: 800;
       color: var(--indigo);
@@ -196,7 +198,7 @@
       border: none;
       font-size: 0.82rem;
       padding: 0 12px;
-      height: 38px;
+      height: 36px;
       border-radius: var(--radius-sm);
       font-weight: 700;
       align-items: center;
@@ -205,7 +207,6 @@
       box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
     }
 
-    /* PROGRESS TRACK */
     .track {
       width: 100%;
       height: 4px;
@@ -223,14 +224,14 @@
     /* WORKSPACE */
     .workspace {
       flex: 1;
-      min-height: 0;
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
-      padding: clamp(12px, 2.5vw, 28px);
+      padding: clamp(12px, 2.5vw, 24px);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: clamp(12px, 2.5vw, 24px);
+      align-items: stretch;
     }
 
     .panel {
@@ -239,10 +240,11 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
       overflow: hidden;
-      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* DESKTOP INFO (50%) */
+    /* DESKTOP INFO PANEL (50%) */
     .info-panel {
       padding: clamp(20px, 3.5vw, 36px);
       display: flex;
@@ -256,7 +258,7 @@
       align-items: center;
       background: var(--accent-soft);
       color: var(--accent);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -266,7 +268,7 @@
     }
 
     .exercise-title {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.03em;
@@ -358,7 +360,7 @@
       margin-bottom: 2px;
     }
 
-    /* TRAINER PANEL */
+    /* RIGHT TRAINER PANEL (50%) */
     .trainer-panel {
       padding: clamp(18px, 3vw, 32px);
       display: flex;
@@ -367,8 +369,7 @@
       align-items: center;
       text-align: center;
       position: relative;
-      overflow-y: auto;
-      height: 100%;
+      min-height: 480px;
     }
 
     .status-row {
@@ -388,7 +389,7 @@
       background: var(--surface-subtle);
       border: 1px solid var(--border);
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -415,47 +416,90 @@
       margin-left: 2px;
     }
 
-    /* COUNTER & DIAL */
+    /* COUNTER ROW: PREV + DIAL BUTTON + NEXT */
     .counter-center {
       width: 100%;
-      flex: 1;
-      min-height: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       margin: auto 0;
-      padding: 6px 0;
+      padding: 12px 0;
+      min-height: 250px;
     }
 
-    .exercise-active-view {
+    .counter-row {
       width: 100%;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: clamp(14px, 4vw, 32px);
     }
 
-    .dial-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* CIRCULAR NAVIGATION BUTTONS (ANTERIOR / SIGUIENTE) */
+    .nav-circle-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
+    }
+
+    .nav-circle-btn:active {
+      transform: scale(0.92);
+      background: var(--surface-subtle);
+    }
+
+    .nav-circle-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      pointer-events: none;
+      box-shadow: none;
+    }
+
+    /* DIAL BUTTON (INTERACTIVO: COMENZAR / PAUSA) */
+    .dial-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      border-radius: 50%;
+      outline: none;
+      position: relative;
+      transition: transform 0.15s ease;
+      display: inline-block;
+    }
+
+    .dial-btn:active {
+      transform: scale(0.96);
     }
 
     .dial {
-      width: min(28vmin, 180px);
-      height: min(28vmin, 180px);
+      width: min(34vmin, 180px);
+      height: min(34vmin, 180px);
+      min-width: 140px;
+      min-height: 140px;
       border-radius: 50%;
       position: relative;
       background: conic-gradient(var(--accent) calc(var(--p) * 1%), #E2E8F0 0);
-      box-shadow: 0 6px 20px -4px rgba(15, 23, 42, 0.08);
+      box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s linear;
+      transition: background 0.2s linear, box-shadow 0.2s ease;
       flex-shrink: 0;
+    }
+
+    .dial-btn:hover .dial {
+      box-shadow: var(--shadow-lg);
     }
 
     .dial::before {
@@ -488,8 +532,17 @@
       color: var(--amber);
     }
 
+    .dial.paused {
+      background: conic-gradient(var(--indigo) calc(var(--p) * 1%), #E2E8F0 0);
+      opacity: 0.85;
+    }
+
+    .dial.paused .counter-number {
+      color: var(--indigo);
+    }
+
     .counter-number {
-      font-size: clamp(3rem, 9vmin, 4.2rem);
+      font-size: clamp(2.8rem, 8vmin, 4rem);
       font-weight: 800;
       line-height: 1;
       height: 1.05em;
@@ -504,8 +557,8 @@
     }
 
     .counter-unit {
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.76rem;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -514,18 +567,18 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      max-width: 140px;
+      max-width: 130px;
       line-height: 1.1;
       margin-top: 2px;
     }
 
     .action-instruction {
-      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
       font-weight: 800;
       color: var(--text);
       line-height: 1.2;
       letter-spacing: -0.02em;
-      margin: 10px auto 4px;
+      margin: 14px auto 4px;
       max-width: 95%;
       min-height: 1.25em;
       display: flex;
@@ -534,7 +587,7 @@
     }
 
     .action-detail {
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.45;
       color: var(--text-muted);
       max-width: 92%;
@@ -545,83 +598,15 @@
       justify-content: center;
     }
 
-    .mobile-tip-card {
-      display: none;
-    }
-
-    /* CONTROLS */
-    .controls-wrapper {
+    /* FOOTER AREA / DOTS */
+    .trainer-footer {
       width: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 10px;
       flex-shrink: 0;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 1px solid transparent;
-      border-radius: var(--radius-md);
-      padding: 13px 20px;
-      font-size: 0.98rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background: var(--text);
-      color: #FFFFFF;
-      min-width: 160px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
-    }
-
-    .btn-primary:hover {
-      background: #334155;
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-subtle);
-      border-color: var(--border-focus);
-    }
-
-    .btn-quiet {
-      background: transparent;
-      color: var(--text-muted);
-      border-color: var(--border);
-    }
-
-    .btn-quiet:hover {
-      background: var(--surface-subtle);
-      color: var(--text);
-    }
-
-    .btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      transform: none !important;
+      margin-top: 6px;
     }
 
     .dots-container {
@@ -629,8 +614,7 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      flex-shrink: 0;
-      padding-top: 2px;
+      padding: 4px 0;
     }
 
     .dot {
@@ -650,19 +634,20 @@
       background: var(--accent);
     }
 
-    /* PREPARATION OVERLAY */
+    /* PREPARATION OVERLAY (CON INFORMACIÓN COMPLETA DEL EJERCICIO) */
     .prepare-overlay {
       display: none;
       position: absolute;
       inset: 0;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
+      z-index: 15;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(14px);
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 24px 20px;
       text-align: center;
+      overflow-y: auto;
     }
 
     .prepare-overlay.show {
@@ -672,44 +657,69 @@
     .prep-tag {
       background: var(--indigo-soft);
       color: var(--indigo);
-      padding: 5px 12px;
+      padding: 5px 14px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .prep-counter {
-      font-size: clamp(5.5rem, 16vmin, 8.5rem);
+      font-size: clamp(4.5rem, 14vmin, 7rem);
       font-weight: 800;
       line-height: 1;
       color: var(--indigo);
-      margin: 6px 0;
+      margin: 4px 0 10px 0;
       font-variant-numeric: tabular-nums;
     }
 
-    .prepare-overlay h3 {
-      font-size: 1.4rem;
+    .prep-info-box {
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+
+    .prep-info-box h3 {
+      font-size: 1.25rem;
       font-weight: 800;
       margin: 0 0 6px 0;
       color: var(--text);
     }
 
-    .prepare-overlay p {
+    .prep-info-box p {
       color: var(--text-muted);
-      font-size: 1rem;
-      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      margin: 0 0 10px 0;
+    }
+
+    .prep-hint {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      color: #166534;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-align: left;
     }
 
     .prep-bar-track {
-      width: min(260px, 80%);
+      width: min(280px, 85%);
       height: 6px;
       background: #E2E8F0;
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 18px;
+      margin-top: 10px;
     }
 
     .prep-bar-fill {
@@ -720,10 +730,24 @@
       transition: width 0.2s linear;
     }
 
-    /* COMPLETION VIEW */
+    .prep-skip-btn {
+      margin-top: 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    /* COMPLETION VIEW (FINAL DE RUTINA) */
     .completion-view {
       display: none;
-      padding: 20px 10px;
+      padding: 24px 14px;
+      text-align: center;
+      margin: auto 0;
     }
 
     .completion-view.show {
@@ -731,22 +755,55 @@
     }
 
     .trophy-badge {
-      width: 68px;
-      height: 68px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: #FEF3C7;
       color: #D97706;
-      font-size: 2rem;
+      font-size: 2.2rem;
       display: grid;
       place-items: center;
-      margin: 0 auto 12px;
-      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.2);
+      margin: 0 auto 16px;
+      box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25);
     }
 
     .completion-view h2 {
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 800;
-      margin: 0 0 6px 0;
+      margin: 0 0 8px 0;
+      color: var(--text);
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 13px 22px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-quiet {
+      background: transparent;
+      color: var(--text-muted);
+      border-color: var(--border);
     }
 
     /* MODALS */
@@ -798,7 +855,7 @@
       border-radius: var(--radius-md);
       margin-bottom: 10px;
       font-weight: 600;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
     }
 
     .setting-item select {
@@ -808,7 +865,7 @@
       border-radius: var(--radius-sm);
       font-weight: 600;
       color: var(--text);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
     .setting-item input[type="checkbox"] {
@@ -898,7 +955,6 @@
       margin-top: 16px;
     }
 
-    /* TOAST FEEDBACK NOTIFICATION */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -923,12 +979,12 @@
       opacity: 1;
     }
 
-    .mobile-summary {
+    .mobile-summary, .mobile-tip-card {
       display: none;
     }
 
     /* ========================================================
-       MOBILE / PIXEL 7 ADAPTIVE VIEW
+       RESPONSIVE & PWA ANDROID VIEW
        ======================================================== */
     @media (max-width: 768px) {
       header {
@@ -936,27 +992,16 @@
         padding: 0 12px;
       }
 
-      .brand-text span {
+      .brand-text span, .icon-btn .btn-text {
         display: none;
-      }
-
-      .icon-btn .btn-text {
-        display: none;
-      }
-
-      .icon-btn {
-        height: 36px;
-        min-width: 36px;
-        padding: 0 8px;
       }
 
       .workspace {
-        padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)) 6px;
+        padding: 8px 8px calc(12px + env(safe-area-inset-bottom, 0px)) 8px;
         display: flex;
         flex-direction: column;
         flex: 1;
-        min-height: 0;
-        height: calc(100% - 60px);
+        min-height: auto;
       }
 
       .info-panel {
@@ -965,15 +1010,13 @@
 
       .trainer-panel {
         width: 100%;
-        height: 100%;
-        flex: 1;
-        min-height: 0;
+        min-height: auto;
         border-radius: 20px;
-        padding: 12px 14px 14px 14px;
+        padding: 14px 14px 16px 14px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow-y: auto;
+        overflow: visible; /* Solución clave para no cortar el contador en PWA */
       }
 
       .mobile-summary {
@@ -987,13 +1030,13 @@
       }
 
       .mobile-summary .eyebrow-badge {
-        margin-bottom: 3px;
+        margin-bottom: 2px;
         font-size: 0.72rem;
         padding: 3px 9px;
       }
 
       .mobile-summary h2 {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
         font-weight: 800;
         margin: 2px 0;
         line-height: 1.15;
@@ -1001,7 +1044,7 @@
       }
 
       .mobile-summary p {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         line-height: 1.35;
         color: var(--text-muted);
         margin: 0;
@@ -1025,17 +1068,24 @@
       }
 
       .counter-center {
-        flex: 1;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 4px 0;
+        min-height: 230px;
+        padding: 8px 0;
+      }
+
+      .counter-row {
+        gap: 16px;
+      }
+
+      .nav-circle-btn {
+        width: 48px;
+        height: 48px;
       }
 
       .dial {
-        width: min(34vmin, 144px);
-        height: min(34vmin, 144px);
+        width: min(38vmin, 150px);
+        height: min(38vmin, 150px);
+        min-width: 130px;
+        min-height: 130px;
       }
 
       .dial::before {
@@ -1043,26 +1093,25 @@
       }
 
       .counter-number {
-        font-size: 3rem;
+        font-size: 2.8rem;
         height: 48px;
       }
 
       .counter-unit {
-        font-size: 0.78rem;
-        max-width: 115px;
-        height: 22px;
+        font-size: 0.74rem;
+        max-width: 110px;
+        height: 20px;
       }
 
       .action-instruction {
-        font-size: 1.4rem;
-        margin: 6px auto 2px;
-        min-height: 1.25em;
+        font-size: 1.35rem;
+        margin: 8px auto 2px;
       }
 
       .action-detail {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         line-height: 1.35;
-        min-height: 2.5em;
+        min-height: 2.2em;
       }
 
       .mobile-tip-card {
@@ -1074,9 +1123,9 @@
         border: 1px solid #BBF7D0;
         padding: 9px 12px;
         border-radius: var(--radius-sm);
-        margin: 8px 0;
+        margin: 8px 0 4px 0;
         text-align: left;
-        font-size: 0.92rem;
+        font-size: 0.88rem;
         line-height: 1.35;
         color: #166534;
         flex-shrink: 0;
@@ -1084,7 +1133,7 @@
 
       .mobile-tip-card svg {
         flex-shrink: 0;
-        margin-top: 1px;
+        margin-top: 2px;
         color: #15803D;
       }
 
@@ -1093,31 +1142,6 @@
         font-weight: 800;
         display: inline;
         margin-right: 4px;
-      }
-
-      .controls-wrapper {
-        margin-top: 2px;
-        gap: 6px;
-        flex-shrink: 0;
-      }
-
-      .controls {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-      }
-
-      .btn-primary {
-        grid-column: 1 / -1;
-        width: 100%;
-        padding: 13px;
-        font-size: 1.05rem;
-      }
-
-      .btn {
-        padding: 11px 8px;
-        font-size: 0.95rem;
-        border-radius: var(--radius-sm);
       }
     }
   </style>
@@ -1134,29 +1158,15 @@
         </div>
       </div>
       <div class="actions">
-        <!-- BOTÓN RÁPIDO PARA CAMBIAR TAMAÑO DE LETRA -->
-        <button class="icon-btn font-btn" id="quickFontBtn" title="Cambiar tamaño de letra">
-          aA
-        </button>
-        <button class="install-pwa-btn" id="installBtn" title="Instalar en pantalla de inicio">
-          <span>📲</span> Instalar
-        </button>
-        <button class="icon-btn" id="sound" title="Alternar Sonido">
-          <span>🔊</span>
-          <span class="btn-text">Sonido</span>
-        </button>
-        <button class="icon-btn" id="historyBtn" title="Ver Historial">
-          <span>📊</span>
-          <span class="btn-text">Historial</span>
-        </button>
-        <button class="icon-btn" id="settingsBtn" title="Ajustes">
-          <span>⚙️</span>
-          <span class="btn-text">Ajustes</span>
-        </button>
+        <button class="icon-btn font-btn" id="quickFontBtn" title="Cambiar tamaño de letra">aA</button>
+        <button class="install-pwa-btn" id="installBtn" title="Instalar aplicación"><span>📲</span> Instalar</button>
+        <button class="icon-btn" id="sound" title="Alternar Sonido"><span>🔊</span><span class="btn-text">Sonido</span></button>
+        <button class="icon-btn" id="historyBtn" title="Ver Historial"><span>📊</span><span class="btn-text">Historial</span></button>
+        <button class="icon-btn" id="settingsBtn" title="Ajustes"><span>⚙️</span><span class="btn-text">Ajustes</span></button>
       </div>
     </header>
 
-    <!-- PROGRESS BAR -->
+    <!-- PROGRESS TRACK -->
     <div class="track">
       <div class="bar" id="bar"></div>
     </div>
@@ -1198,42 +1208,52 @@
       <!-- TRAINER PANEL (50% Desktop / 100% Mobile) -->
       <section class="panel trainer-panel">
         
+        <!-- Mobile Summary -->
         <div class="mobile-summary">
           <span class="eyebrow-badge" id="meno">Ejercicio 1 de 6</span>
           <h2 id="mtitle">Sellado al paladar</h2>
           <p id="mdesc">Pega toda la lengua al cielo de la boca y mantén la mandíbula relajada.</p>
         </div>
 
+        <!-- Status Bar -->
         <div class="status-row">
           <span class="status-badge" id="status">Preparado</span>
           <div class="rep-indicator" id="rep">Repetición <strong>1/8</strong></div>
         </div>
 
-        <div class="counter-center">
-          <div class="exercise-active-view" id="exercise">
-            <div class="dial-container">
+        <!-- Central Interactive View -->
+        <div class="counter-center" id="exerciseView">
+          
+          <!-- FILA DEL CONTADOR CON ANTERIOR / DIAL-BOTÓN / SIGUIENTE -->
+          <div class="counter-row">
+            
+            <!-- Botón ANTERIOR a la izquierda -->
+            <button class="nav-circle-btn" id="prev" title="Ejercicio anterior" aria-label="Ejercicio anterior">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            </button>
+
+            <!-- CÍRCULO DEL CONTADOR COMO BOTÓN (INICIAR / PAUSAR / REANUDAR) -->
+            <button class="dial-btn" id="dialBtn" title="Toca para comenzar o pausar" aria-label="Control del ejercicio">
               <div class="dial" id="dial">
                 <div class="dial-content">
-                  <div class="counter-number" id="num">•</div>
-                  <div class="counter-unit" id="unit">listo</div>
+                  <div class="counter-number" id="num">▶</div>
+                  <div class="counter-unit" id="unit">Iniciar</div>
                 </div>
               </div>
-            </div>
+            </button>
 
-            <h3 class="action-instruction" id="inst">Pulsa «Comenzar»</h3>
-            <p class="action-detail" id="detail">La preparación aparecerá antes de iniciar el ejercicio.</p>
+            <!-- Botón SIGUIENTE a la derecha -->
+            <button class="nav-circle-btn" id="next" title="Ejercicio siguiente" aria-label="Ejercicio siguiente">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+
           </div>
 
-          <div class="completion-view" id="complete">
-            <div class="trophy-badge">✓</div>
-            <h2>¡Sesión completada!</h2>
-            <p class="exercise-desc">Excelente trabajo completando la rutina orofacial.</p>
-            <div class="metrics-chips" style="justify-content: center;">
-              <span class="metric-chip" id="today">1 sesión(es) hoy</span>
-            </div>
-          </div>
+          <h3 class="action-instruction" id="inst">Toca el círculo para comenzar</h3>
+          <p class="action-detail" id="detail">Pulsa el centro para iniciar la preparación guiada.</p>
         </div>
 
+        <!-- Mobile Clinical Advice -->
         <div class="mobile-tip-card">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
@@ -1241,32 +1261,47 @@
           </div>
         </div>
 
-        <div class="controls-wrapper">
-          <div class="controls">
-            <button class="btn btn-quiet" id="prev">← Anterior</button>
-            <button class="btn btn-primary" id="start">Comenzar</button>
-            <button class="btn btn-secondary" id="pause" hidden>Pausar</button>
-            <button class="btn btn-secondary" id="skip" hidden>Saltar</button>
-            <button class="btn btn-secondary" id="next">Siguiente →</button>
+        <!-- COMPLETION VIEW: FINAL DE RUTINA -->
+        <div class="completion-view" id="complete">
+          <div class="trophy-badge">🏆</div>
+          <h2>¡Enhorabuena, rutina completada!</h2>
+          <p class="exercise-desc">Has realizado todos los ejercicios orofaciales de la sesión. ¡Buen trabajo fortaleciendo tu tono muscular!</p>
+          <div class="metrics-chips" style="justify-content: center; margin: 16px 0;">
+            <span class="metric-chip" id="today">1 sesión(es) hoy</span>
           </div>
+          <button class="btn btn-primary" id="restartRoutineBtn" style="margin-top: 10px;">Reiniciar rutina desde el inicio</button>
+        </div>
+
+        <!-- FOOTER: DOTS -->
+        <div class="trainer-footer">
           <div class="dots-container" id="dots"></div>
         </div>
 
+        <!-- PANTALLA DE PREPARACIÓN CON DESCRIPCIÓN DEL EJERCICIO -->
         <div class="prepare-overlay" id="prepare">
           <span class="prep-tag">Preparación</span>
           <div class="prep-counter" id="prepCount">5</div>
-          <h3>Prepárate para empezar</h3>
-          <p>Adopta una postura erguida y relaja hombros y cuello.</p>
+          
+          <div class="prep-info-box">
+            <h3 id="prepTitle">Sellado al paladar</h3>
+            <p id="prepDesc">Pega toda la lengua al cielo de la boca y mantén la mandíbula relajada.</p>
+            <div class="prep-hint">
+              <span>💡</span>
+              <span id="prepHint">Imagina una ventosa amplia con toda la lengua.</span>
+            </div>
+          </div>
+
           <div class="prep-bar-track">
             <div class="prep-bar-fill" id="prepProgress"></div>
           </div>
+          
+          <button class="prep-skip-btn" id="skipPrep">Saltar preparación →</button>
         </div>
 
       </section>
     </main>
   </div>
 
-  <!-- TOAST DE NOTIFICACIÓN -->
   <div class="toast" id="toast">Tamaño de letra: Normal</div>
 
   <!-- SETTINGS MODAL -->
@@ -1288,7 +1323,7 @@
       </label>
 
       <label class="setting-item">
-        <span>Tiempo de preparación inicial</span>
+        <span>Cuenta atrás de preparación</span>
         <select id="countdown">
           <option>3</option>
           <option selected>5</option>
@@ -1319,7 +1354,7 @@
         <h2>Historial de Actividad</h2>
         <button class="icon-btn close">✕</button>
       </div>
-      <p class="exercise-desc" style="font-size: 0.95rem; margin-bottom: 12px;">Sesiones almacenadas localmente en este dispositivo.</p>
+      <p class="exercise-desc" style="font-size: 0.95rem; margin-bottom: 12px;">Sesiones almacenadas en este dispositivo.</p>
       
       <div class="stats-grid">
         <div class="stat-box">
@@ -1421,17 +1456,12 @@
     ];
 
     const $ = x => document.getElementById(x);
-    let ei = 0, ri = 0, pi = 0, left = 0, timer = null, state = 'idle', paused = false, sound = true, vibration = true, saved = false;
+    let ei = 0, ri = 0, pi = 0, left = 0, timer = null, transitionTimer = null;
+    let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
     const KEY = 'orofacial_session_history_v1';
-    const FONT_KEY = 'orofacial_font_scale_v2';
+    const FONT_KEY = 'orofacial_font_scale_v3';
 
-    /* DETECCIÓN DE MODO PWA (STANDALONE) Y ESCALADO */
-    function isPWA() {
-      return window.matchMedia('(display-mode: standalone)').matches || 
-             window.navigator.standalone || 
-             document.referrer.includes('android-app://');
-    }
-
+    /* ESCALADO TIPOGRÁFICO */
     const fontScales = ['1', '1.15', '1.3', '1.45'];
     const fontLabels = {
       '1': 'Estándar',
@@ -1440,13 +1470,21 @@
       '1.45': 'Gigante (+45%)'
     };
 
+    function isPWA() {
+      try {
+        return window.matchMedia('(display-mode: standalone)').matches || 
+               window.navigator.standalone || 
+               (document.referrer && document.referrer.includes('android-app://'));
+      } catch(e) {
+        return false;
+      }
+    }
+
     function initFontScale() {
       const savedScale = localStorage.getItem(FONT_KEY);
       if (savedScale) {
         applyFontScale(savedScale);
       } else {
-        // Si se ejecuta en modo PWA instalada, Chromium suprime el font boosting.
-        // Compensamos automáticamente con 1.15 o 1.30 para coincidir con Android.
         const defaultScale = isPWA() ? '1.25' : '1.15';
         applyFontScale(defaultScale);
       }
@@ -1459,13 +1497,13 @@
 
     function showToast(msg) {
       const t = $('toast');
+      if (!t) return;
       t.textContent = msg;
       t.classList.add('show');
       clearTimeout(t._timer);
       t._timer = setTimeout(() => t.classList.remove('show'), 1800);
     }
 
-    // Botón rápido "aA" en cabecera: cicla entre los 4 tamaños
     $('quickFontBtn').onclick = () => {
       const currentScale = localStorage.getItem(FONT_KEY) || (isPWA() ? '1.25' : '1.15');
       let idx = fontScales.indexOf(currentScale);
@@ -1495,7 +1533,9 @@
 
     function render() {
       stop();
+      if (transitionTimer) clearTimeout(transitionTimer);
       state = 'idle';
+      paused = false;
       ri = pi = 0;
       const e = E[ei];
 
@@ -1528,18 +1568,22 @@
       $('rep').innerHTML = `${e.w} <strong>1/${e.r}</strong>`;
       $('status').textContent = 'Preparado';
       $('status').style.color = 'var(--text)';
-      $('num').textContent = '•';
-      $('unit').textContent = 'listo';
-      $('inst').textContent = 'Pulsa «Comenzar»';
-      $('detail').textContent = 'Aparecerá una cuenta atrás antes del ejercicio.';
-      $('dial').classList.remove('rest');
-      $('dial').style.setProperty('--p', 0);
-      $('start').hidden = false;
-      $('start').textContent = 'Comenzar';
-      $('pause').hidden = $('skip').hidden = true;
-      $('prev').disabled = ei === 0;
-      $('next').disabled = false;
-      $('exercise').style.display = 'flex';
+      
+      // Dial en estado inicial (botón comenzar)
+      $('num').textContent = '▶';
+      $('unit').textContent = 'Iniciar';
+      $('inst').textContent = 'Toca el círculo para comenzar';
+      $('detail').textContent = 'Pulsa el centro para iniciar la preparación guiada.';
+      
+      const dialEl = $('dial');
+      dialEl.classList.remove('rest', 'paused');
+      dialEl.style.setProperty('--p', 0);
+      
+      // Control de botones anterior/siguiente
+      $('prev').disabled = (ei === 0);
+      $('next').disabled = (ei === E.length - 1);
+      
+      $('exerciseView').style.display = 'flex';
       $('complete').classList.remove('show');
       $('prepare').classList.remove('show');
       
@@ -1581,14 +1625,22 @@
       if (vibration && navigator.vibrate) navigator.vibrate(x);
     }
 
+    /* INICIAR EJERCICIO Y PREPARACIÓN */
     function start() {
       if (state === 'running' || state === 'countdown') return;
+      if (transitionTimer) clearTimeout(transitionTimer);
+      
       ri = pi = 0;
       left = Number($('countdown').value);
       state = 'countdown';
       paused = false;
-      $('start').hidden = true;
-      $('pause').hidden = $('skip').hidden = false;
+      
+      const e = E[ei];
+      // Cargar información del ejercicio en la pantalla de preparación
+      $('prepTitle').textContent = e.t;
+      $('prepDesc').textContent = e.d;
+      $('prepHint').textContent = e.h;
+      
       $('prepare').classList.add('show');
       prep();
       timer = setInterval(tick, 1000);
@@ -1625,6 +1677,7 @@
 
     function begin() {
       state = 'running';
+      paused = false;
       const e = E[ei];
       const p = current();
       left = p[1];
@@ -1632,7 +1685,11 @@
       const isRest = Boolean(p[3]);
       $('status').textContent = isRest ? 'Descanso' : 'En ejercicio';
       $('status').style.color = isRest ? 'var(--amber)' : e.a;
-      $('dial').classList.toggle('rest', isRest);
+      
+      const dialEl = $('dial');
+      dialEl.classList.toggle('rest', isRest);
+      dialEl.classList.remove('paused');
+      
       $('rep').innerHTML = `${e.w} <strong>${ri + 1}/${e.r}</strong>`;
       $('inst').textContent = p[0];
       $('detail').textContent = p[2];
@@ -1645,7 +1702,7 @@
     function count() {
       const p = current();
       $('num').textContent = left;
-      $('unit').textContent = p[3] ? 'seg. descanso' : 'seg. restantes';
+      $('unit').textContent = p[3] ? 'seg. descanso' : 'segundos';
       $('dial').style.setProperty('--p', ((p[1] - left) / p[1]) * 100);
       progress(frac());
     }
@@ -1673,44 +1730,104 @@
       begin();
     }
 
+    /* CONTROL TÁCTIL EN EL DIAL (PLAY / PAUSA) */
+    function toggleDial() {
+      if (state === 'idle') {
+        start();
+      } else if (state === 'running') {
+        paused = !paused;
+        const dialEl = $('dial');
+        if (paused) {
+          dialEl.classList.add('paused');
+          $('num').textContent = '❚❚';
+          $('unit').textContent = 'Reanudar';
+          $('inst').textContent = 'Ejercicio en pausa';
+          $('detail').textContent = 'Toca el círculo para continuar.';
+          $('status').textContent = 'Pausado';
+          $('status').style.color = 'var(--indigo)';
+        } else {
+          dialEl.classList.remove('paused');
+          const p = current();
+          $('status').textContent = p[3] ? 'Descanso' : 'En ejercicio';
+          $('status').style.color = p[3] ? 'var(--amber)' : E[ei].a;
+          $('inst').textContent = p[0];
+          $('detail').textContent = p[2];
+          count();
+        }
+      } else if (state === 'exercise_done') {
+        // Si el usuario toca el círculo mientras espera, pasa de inmediato
+        if (transitionTimer) clearTimeout(transitionTimer);
+        nav(1);
+      }
+    }
+
+    $('dialBtn').onclick = toggleDial;
+
+    /* FINALIZACIÓN DE EJERCICIO Y TRANSICIÓN AUTOMÁTICA */
     function finish() {
       stop();
-      state = 'complete';
+      state = 'exercise_done';
+      
+      const dialEl = $('dial');
+      dialEl.classList.remove('rest', 'paused');
+      dialEl.style.setProperty('--p', 100);
+      
       $('status').textContent = 'Completado';
       $('status').style.color = 'var(--emerald)';
       $('num').textContent = '✓';
-      $('unit').textContent = 'terminado';
+      $('unit').textContent = 'Terminado';
       $('inst').textContent = '¡Ejercicio completado!';
-      $('detail').textContent = ei < E.length - 1 ? 'Tómate un respiro y pasa al siguiente.' : 'Has terminado toda la rutina.';
-      $('dial').classList.remove('rest');
-      $('dial').style.setProperty('--p', 100);
-      $('pause').hidden = $('skip').hidden = true;
-      $('start').hidden = false;
-      $('start').textContent = 'Repetir ejercicio';
+      
       progress(1);
       beep(1050);
-      if (ei === E.length - 1) setTimeout(complete, 400);
+      vib([60, 80, 100]);
+
+      if (ei < E.length - 1) {
+        $('detail').textContent = 'Pasando automáticamente al siguiente ejercicio...';
+        transitionTimer = setTimeout(() => {
+          nav(1);
+        }, 2500); // 2.5 segundos de aviso antes de avanzar
+      } else {
+        // Último ejercicio de la rutina
+        setTimeout(completeRoutine, 1200);
+      }
     }
 
-    function complete() {
+    /* PANTALLA ESPECIAL FINAL DE RUTINA */
+    function completeRoutine() {
       if (!saved) {
         save();
         saved = true;
       }
-      $('exercise').style.display = 'none';
+      $('exerciseView').style.display = 'none';
       $('complete').classList.add('show');
-      $('start').hidden = true;
-      $('next').disabled = true;
       $('bar').style.width = '100%';
       $('today').textContent = `${sessionsToday()} sesión(es) completada(s) hoy`;
+      $('prev').disabled = true;
+      $('next').disabled = true;
     }
 
     function nav(x) {
+      if (transitionTimer) clearTimeout(transitionTimer);
       ei = Math.max(0, Math.min(E.length - 1, ei + x));
       render();
     }
 
-    /* HISTORY */
+    $('prev').onclick = () => nav(-1);
+    $('next').onclick = () => nav(1);
+
+    $('skipPrep').onclick = () => {
+      $('prepare').classList.remove('show');
+      begin();
+    };
+
+    $('restartRoutineBtn').onclick = () => {
+      saved = false;
+      ei = 0;
+      render();
+    };
+
+    /* HISTORIAL */
     function history() {
       try {
         return JSON.parse(localStorage.getItem(KEY) || '[]');
@@ -1767,26 +1884,7 @@
         : '<div class="empty-state">Aún no hay sesiones registradas en este equipo.</div>';
     }
 
-    /* LISTENERS */
-    $('start').onclick = start;
-    
-    $('pause').onclick = () => {
-      paused = !paused;
-      $('pause').textContent = paused ? 'Reanudar' : 'Pausar';
-    };
-
-    $('skip').onclick = () => {
-      if (state === 'countdown') {
-        $('prepare').classList.remove('show');
-        begin();
-      } else {
-        advance();
-      }
-    };
-
-    $('prev').onclick = () => nav(-1);
-    $('next').onclick = () => nav(1);
-
+    /* LISTENERS DE CONFIGURACIÓN */
     $('sound').onclick = () => {
       sound = !sound;
       $('soundCheck').checked = sound;
@@ -1853,7 +1951,7 @@
       deferredPrompt = null;
     });
 
-    // Initialize
+    // Iniciar aplicación
     initFontScale();
     render();
     drawHistory();
