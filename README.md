@@ -1,2 +1,2 @@
 # orofacial
-Entranador orofacial
+Entrenador orofacial
