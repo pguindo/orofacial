@@ -1,8 +1,8 @@
-// sw.js - Service Worker para Entrenador Orofacial
+// sw.js - Service Worker para Entrenador Orofacial en GitHub Pages
 self.addEventListener('install', (e) => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 
-// EVENTO FETCH OBLIGATORIO PARA QUE ANDROID CREE EL WEBAPK (APP DEL SISTEMA)
+// Evento fetch obligatorio para que Chrome en Android cree el WebAPK nativo
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request).catch(() => caches.match(event.request))
@@ -32,7 +32,8 @@ async function checkBackgroundReminder() {
     reminderConfig.lastDate = todayStr;
     await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
       body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
-      icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="128" fill="%234F46E5"/%3E%3Ccircle cx="256" cy="205" r="42" fill="%2384E5CE"/%3E%3C/svg%3E',
+      icon: 'icon-192.png',
+      badge: 'icon-192.png',
       tag: 'orofacial-daily-reminder',
       renotify: true,
       vibrate: [200, 100, 200]
@@ -41,15 +42,11 @@ async function checkBackgroundReminder() {
 }
 
 self.addEventListener('periodicsync', (e) => {
-  if (e.tag === 'daily-orofacial-check') {
-    e.waitUntil(checkBackgroundReminder());
-  }
+  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
 });
 
 self.addEventListener('sync', (e) => {
-  if (e.tag === 'daily-orofacial-check') {
-    e.waitUntil(checkBackgroundReminder());
-  }
+  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
 });
 
 self.addEventListener('notificationclick', (e) => {
@@ -59,7 +56,7 @@ self.addEventListener('notificationclick', (e) => {
       for (const client of clientList) {
         if (client.url && 'focus' in client) return client.focus();
       }
-      if (clients.openWindow) return clients.openWindow('./');
+      if (clients.openWindow) return clients.openWindow('./index.html');
     })
   );
 });
