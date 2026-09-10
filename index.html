@@ -1942,6 +1942,41 @@
     }
 
     /* TEMPORIZADOR CONTINUO */
+    // Mantener la pantalla encendida durante la ejecución del ejercicio (PWA en móviles)
+    let wakeLock = null;
+    const wakeLockSupported = 'wakeLock' in navigator;
+
+    async function requestWakeLock() {
+      if (!wakeLockSupported || wakeLock) return;
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+          wakeLock = null;
+        });
+      } catch (err) {
+        wakeLock = null;
+      }
+    }
+
+    async function releaseWakeLock() {
+      try {
+        if (wakeLock) {
+          await wakeLock.release();
+          wakeLock = null;
+        }
+      } catch (err) {
+        wakeLock = null;
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && state === 'running' && !paused) {
+        requestWakeLock();
+      } else {
+        releaseWakeLock();
+      }
+    });
+
     const phases = (e, r) => (r === e.r - 1 ? e.p.filter(x => !x[3]) : e.p);
     const duration = e => {
       let n = 0;
@@ -1957,6 +1992,8 @@
     }
 
     function render() {
+      // En el estado inicial no necesitamos mantener la pantalla encendida
+      releaseWakeLock();
       stop();
       if (transitionTimer) clearTimeout(transitionTimer);
       state = 'idle';
@@ -2107,6 +2144,8 @@
     function begin() {
       state = 'running';
       paused = false;
+      // Durante la ejecución activa, mantener la pantalla encendida
+      requestWakeLock();
       const e = E[ei];
       const p = current();
       
@@ -2203,6 +2242,8 @@
 
           // Pausa se considera estado tipo idle: mostrar navegación
           setNavVisible(true);
+          // En pausa permitimos que la pantalla pueda bloquearse
+          releaseWakeLock();
         } else {
           dialEl.classList.remove('paused');
           const p = current();
@@ -2214,8 +2255,10 @@
           phaseStartTimestamp = performance.now();
           animFrame = requestAnimationFrame(runExerciseLoop);
 
-           // Volvemos a ejecución activa: ocultar navegación
-           setNavVisible(false);
+          // Volvemos a ejecución activa: ocultar navegación
+          setNavVisible(false);
+          // Volvemos a ejecución activa: mantener la pantalla encendida
+          requestWakeLock();
         }
       } else if (state === 'countdown') {
         $('prepare').classList.remove('show');
@@ -2234,6 +2277,8 @@
 
       // Al completar el ejercicio no hay controles de iniciar/pausar, ocultar navegación
       setNavVisible(false);
+      // Al completar el ejercicio dejamos que la pantalla pueda bloquearse
+      releaseWakeLock();
       
       const dialEl = $('dial');
       dialEl.classList.remove('rest', 'paused');
@@ -2262,6 +2307,8 @@
         save();
         saved = true;
       }
+      // Rutina completada: no mantener pantalla encendida
+      releaseWakeLock();
       $('trainerPanel').classList.add('finished');
       $('exerciseView').style.display = 'none';
       $('complete').classList.add('show');
