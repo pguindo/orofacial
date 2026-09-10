@@ -516,8 +516,39 @@
       pointer-events: none;
     }
 
+    .rest-bar {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      /* Menos padding horizontal para que la barra sea más ancha dentro del área */
+      padding: 8px 6px;
+    }
+
+    .rest-bar::before {
+      content: "";
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: #CBD5E1; /* gris suave: total del descanso */
+    }
+
+    .rest-bar-fill {
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--amber);
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
     .dial.rest {
-      background: conic-gradient(var(--amber) calc(var(--p) * 1%), #E2E8F0 0);
+      /* En descanso no mostramos el fondo circular, solo la barra horizontal */
+      background: none;
+      box-shadow: none;
     }
 
     .dial.rest .counter-number {
@@ -1347,9 +1378,12 @@
 
             <button class="dial-btn" id="dialBtn" title="Toca para comenzar o pausar" aria-label="Control del ejercicio">
               <div class="dial" id="dial">
-                <div class="dial-content">
+                <div class="dial-content" id="dialContent">
                   <div class="counter-number" id="num">▶</div>
                   <div class="counter-unit" id="unit">Iniciar</div>
+                </div>
+                <div class="rest-bar" id="restBar">
+                  <div class="rest-bar-fill" id="restBarFill"></div>
                 </div>
               </div>
             </button>
@@ -2155,19 +2189,34 @@
       $('status').style.color = isRest ? 'var(--amber)' : e.a;
       
       const dialEl = $('dial');
+      const dialContentEl = $('dialContent');
+      const restBarEl = $('restBar');
       dialEl.classList.toggle('rest', isRest);
       dialEl.classList.remove('paused');
       
       $('rep').innerHTML = `${e.w} <strong>${ri + 1}/${e.r}</strong>`;
       $('inst').textContent = p[0];
       $('detail').textContent = p[2];
-      $('unit').textContent = 'segundos';
+
+      if (isRest) {
+        // En descanso, ocultar el contenido del dial y mostrar solo la barra horizontal
+        dialContentEl.style.display = 'none';
+        restBarEl.style.display = 'flex';
+        $('unit').textContent = '';
+      } else {
+        dialContentEl.style.display = 'flex';
+        restBarEl.style.display = 'none';
+        $('unit').textContent = 'segundos';
+      }
 
       // En ejecución hay capacidad de pausar, mantenemos navegación oculta
       setNavVisible(false);
 
-      beep(900);
-      vib(40);
+      // No emitir sonidos al iniciar una fase de descanso
+      if (!isRest) {
+        beep(900);
+        vib(40);
+      }
 
       phaseDurationMs = p[1] * 1000;
       phaseStartTimestamp = performance.now();
@@ -2183,17 +2232,26 @@
       const remainingMs = Math.max(0, phaseDurationMs - totalElapsed);
       const remainingSec = Math.ceil(remainingMs / 1000);
 
-      $('num').textContent = remainingSec > 0 ? remainingSec : 0;
-      
-      const progressPercent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
-      $('dial').style.setProperty('--p', progressPercent.toFixed(2));
-      
-      progress(frac(totalElapsed / phaseDurationMs));
+      const e = E[ei];
+      const p = current();
+      const isRest = Boolean(p[3]);
 
-      if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
-        beep(650 + remainingSec * 80);
-        lastBeepSec = remainingSec;
+      if (isRest) {
+        // En descanso, actualizar solo la barra horizontal sin sonidos
+        const progressPercent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
+        $('restBarFill').style.transform = `scaleX(${(progressPercent / 100).toFixed(4)})`;
+      } else {
+        $('num').textContent = remainingSec > 0 ? remainingSec : 0;
+        const progressPercent = Math.min(100, (totalElapsed / phaseDurationMs) * 100);
+        $('dial').style.setProperty('--p', progressPercent.toFixed(2));
+
+        if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
+          beep(650 + remainingSec * 80);
+          lastBeepSec = remainingSec;
+        }
       }
+
+      progress(frac(totalElapsed / phaseDurationMs));
 
       if (totalElapsed >= phaseDurationMs) {
         advance();
