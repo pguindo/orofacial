@@ -2331,12 +2331,22 @@
       } else if (state === 'running') {
         paused = !paused;
         const dialEl = $('dial');
+        const dialContentEl = $('dialContent');
+        const restBarEl = $('restBar');
         if (paused) {
           stop();
           elapsedPaused += performance.now() - phaseStartTimestamp;
           dialEl.classList.add('paused');
-          $('num').textContent = '❚❚';
-          $('unit').textContent = '';
+          const p = current();
+          const isRest = Boolean(p[3]);
+          if (isRest) {
+            // En pausa durante descanso, mantenemos solo la barra sin mostrar círculo
+            dialContentEl.style.display = 'none';
+            restBarEl.style.display = 'flex';
+          } else {
+            $('num').textContent = '❚❚';
+            $('unit').textContent = '';
+          }
           $('inst').textContent = 'Ejercicio en pausa';
           $('detail').textContent = 'Toca el círculo para continuar.';
           $('status').textContent = 'Pausado';
@@ -2353,7 +2363,17 @@
           $('status').style.color = p[3] ? 'var(--amber)' : E[ei].a;
           $('inst').textContent = p[0];
           $('detail').textContent = p[2];
-          $('unit').textContent = 'segundos';
+          const isRest = Boolean(p[3]);
+          if (isRest) {
+            // Reanudamos descanso: aseguramos que solo se vea la barra
+            dialContentEl.style.display = 'none';
+            restBarEl.style.display = 'flex';
+            $('unit').textContent = '';
+          } else {
+            dialContentEl.style.display = 'flex';
+            restBarEl.style.display = 'none';
+            $('unit').textContent = 'segundos';
+          }
           phaseStartTimestamp = performance.now();
           animFrame = requestAnimationFrame(runExerciseLoop);
 
