@@ -1950,6 +1950,12 @@
     };
     const fmt = s => (s < 60 ? s + ' s' : Math.floor(s / 60) + ' min ' + (s % 60 ? (s % 60) + ' s' : ''));
 
+    function setNavVisible(visible) {
+      // Controla visibilidad de los botones de navegación "atrás" y "adelante"
+      $('prev').style.display = visible ? '' : 'none';
+      $('next').style.display = visible ? '' : 'none';
+    }
+
     function render() {
       stop();
       if (transitionTimer) clearTimeout(transitionTimer);
@@ -1996,7 +2002,9 @@
       const dialEl = $('dial');
       dialEl.classList.remove('rest', 'paused');
       dialEl.style.setProperty('--p', 0);
-      
+
+      // Navegación solo visible en estado inicial (idle)
+      setNavVisible(true);
       $('prev').disabled = (ei === 0);
       $('next').disabled = (ei === E.length - 1);
       
@@ -2051,6 +2059,9 @@
       const countVal = Number($('countdown').value);
       state = 'countdown';
       paused = false;
+
+      // Ocultar navegación durante la preparación (no hay controles de iniciar/pausar visibles)
+      setNavVisible(false);
       
       const e = E[ei];
       $('prepTitle').textContent = e.t;
@@ -2111,6 +2122,9 @@
       $('inst').textContent = p[0];
       $('detail').textContent = p[2];
       $('unit').textContent = 'segundos';
+
+      // En ejecución hay capacidad de pausar, mantenemos navegación oculta
+      setNavVisible(false);
 
       beep(900);
       vib(40);
@@ -2186,6 +2200,9 @@
           $('detail').textContent = 'Toca el círculo para continuar.';
           $('status').textContent = 'Pausado';
           $('status').style.color = 'var(--indigo)';
+
+          // Pausa se considera estado tipo idle: mostrar navegación
+          setNavVisible(true);
         } else {
           dialEl.classList.remove('paused');
           const p = current();
@@ -2196,6 +2213,9 @@
           $('unit').textContent = 'segundos';
           phaseStartTimestamp = performance.now();
           animFrame = requestAnimationFrame(runExerciseLoop);
+
+           // Volvemos a ejecución activa: ocultar navegación
+           setNavVisible(false);
         }
       } else if (state === 'countdown') {
         $('prepare').classList.remove('show');
@@ -2211,6 +2231,9 @@
     function finish() {
       stop();
       state = 'exercise_done';
+
+      // Al completar el ejercicio no hay controles de iniciar/pausar, ocultar navegación
+      setNavVisible(false);
       
       const dialEl = $('dial');
       dialEl.classList.remove('rest', 'paused');
