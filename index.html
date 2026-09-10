@@ -540,22 +540,21 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
-      /* Menos padding horizontal para que la barra sea más ancha dentro del área */
-      padding: 8px 6px;
+      padding: 0 14px; /* la barra ocupa ancho interior del círculo */
     }
 
     .rest-bar::before {
       content: "";
       width: 100%;
-      height: 4px;
+      height: 6px;
       border-radius: 999px;
-      background: #CBD5E1; /* gris suave: total del descanso */
+      background: #E2E8F0; /* gris suave: total del descanso */
     }
 
     .rest-bar-fill {
       position: absolute;
       width: 100%;
-      height: 4px;
+      height: 6px;
       border-radius: 999px;
       background: var(--amber);
       transform-origin: left;
@@ -563,7 +562,13 @@
     }
 
     .dial.rest {
-      /* En descanso no mostramos el fondo circular, solo la barra horizontal */
+      /* En descanso no mostramos el fondo circular externo */
+      background: none;
+      box-shadow: none;
+    }
+
+    .dial.rest::before {
+      /* Ocultar fondo y sombra interiores en descanso para que solo se vea la barra */
       background: none;
       box-shadow: none;
     }
