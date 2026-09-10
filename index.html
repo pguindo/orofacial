@@ -2128,20 +2128,28 @@
       animFrame = null;
     }
 
-    function beep(f = 700) {
-      if (!sound) return;
+    // Sonidos tipo "app" usando clips locales
+    let soundEnabled = true;
+    const soundBank = {};
+
+    function initSounds() {
+      soundEnabled = sound;
+      if (!soundEnabled) return;
+      soundBank.start = new Audio('sounds/start.mp3');
+      soundBank.countdown3 = new Audio('sounds/countdown-3.mp3');
+      soundBank.countdown2 = new Audio('sounds/countdown-2.mp3');
+      soundBank.countdown1 = new Audio('sounds/countdown-1.mp3');
+      soundBank.exerciseComplete = new Audio('sounds/exercise-complete.mp3');
+      soundBank.routineComplete = new Audio('sounds/routine-complete.mp3');
+    }
+
+    function playSound(name) {
+      if (!soundEnabled) return;
+      const clip = soundBank[name];
+      if (!clip) return;
       try {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        const c = new AudioContextClass();
-        const o = c.createOscillator();
-        const g = c.createGain();
-        o.frequency.value = f;
-        g.gain.value = 0.04;
-        o.connect(g);
-        g.connect(c.destination);
-        o.start();
-        g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.12);
-        o.stop(c.currentTime + 0.13);
+        clip.currentTime = 0;
+        clip.play();
       } catch (e) {}
     }
 
@@ -2186,7 +2194,9 @@
       $('prepProgress').style.width = percent.toFixed(2) + '%';
 
       if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
-        beep(650 + remainingSec * 80);
+        if (remainingSec === 3) playSound('countdown3');
+        else if (remainingSec === 2) playSound('countdown2');
+        else if (remainingSec === 1) playSound('countdown1');
         lastBeepSec = remainingSec;
       }
 
@@ -2240,7 +2250,7 @@
 
       // No emitir sonidos al iniciar una fase de descanso
       if (!isRest) {
-        beep(900);
+        playSound('start');
         vib(40);
       }
 
@@ -2272,7 +2282,9 @@
         $('dial').style.setProperty('--p', progressPercent.toFixed(2));
 
         if (remainingSec <= 3 && remainingSec > 0 && remainingSec !== lastBeepSec) {
-          beep(650 + remainingSec * 80);
+          if (remainingSec === 3) playSound('countdown3');
+          else if (remainingSec === 2) playSound('countdown2');
+          else if (remainingSec === 1) playSound('countdown1');
           lastBeepSec = remainingSec;
         }
       }
@@ -2376,7 +2388,7 @@
       $('inst').textContent = '¡Ejercicio completado!';
       
       progress(1);
-      beep(1050);
+      playSound('exerciseComplete');
       vib([60, 80, 100]);
 
       if (ei < E.length - 1) {
@@ -2392,6 +2404,8 @@
         save();
         saved = true;
       }
+      // Sonido de celebración al completar la rutina
+      playSound('routineComplete');
       // Rutina completada: no mantener pantalla encendida
       releaseWakeLock();
       $('trainerPanel').classList.add('finished');
@@ -2474,8 +2488,8 @@
 
     $('sound').onclick = () => {
       sound = !sound;
+      soundEnabled = sound;
       $('soundCheck').checked = sound;
-      $('sound').querySelector('span').textContent = sound ? '🔊' : '🔇';
     };
     $('historyBtn').onclick = () => { $('historyModal').classList.add('open'); drawHistory(); };
     $('settingsBtn').onclick = () => $('settings').classList.add('open');
@@ -2526,6 +2540,7 @@
     initFontScale();
     initServiceWorker();
     initNotificationSettings();
+    initSounds();
     render();
     drawHistory();
   </script>
