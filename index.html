@@ -23,6 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Iconify for modern, multi-color icons -->
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   
   <style>
     :root {
@@ -189,6 +191,21 @@
       font-weight: 700;
       transition: all 0.2s ease;
     }
+
+     .icon-btn .iconify {
+       font-size: 1.1rem;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+     }
+
+     .icon-duotone-primary {
+       color: var(--indigo);
+     }
+
+     .icon-duotone-secondary {
+       color: var(--text-muted);
+     }
 
     .icon-btn:hover {
       background: var(--surface-subtle);
@@ -1308,16 +1325,25 @@
     <header>
       <div class="brand" id="brandBtn" title="Toca para reiniciar la rutina">
         <div class="logo">AO</div>
-        <div class="brand-text">
+      <div class="brand-text">
           <h1>Entrenador Orofacial</h1>
           <span>Terapia miofuncional</span>
         </div>
       </div>
       <div class="actions">
         <button class="icon-btn font-btn" id="quickFontBtn" title="Cambiar tamaño de letra">aA</button>
-        <button class="icon-btn" id="sound" title="Alternar Sonido"><span>🔊</span><span class="btn-text">Sonido</span></button>
-        <button class="icon-btn" id="historyBtn" title="Ver Historial"><span>📊</span><span class="btn-text">Historial</span></button>
-        <button class="icon-btn" id="settingsBtn" title="Ajustes"><span>⚙️</span><span class="btn-text">Ajustes</span></button>
+        <button class="icon-btn" id="sound" title="Alternar Sonido">
+          <span class="iconify icon-duotone-primary" data-icon="mdi:volume-high"></span>
+          <span class="btn-text">Sonido</span>
+        </button>
+        <button class="icon-btn" id="historyBtn" title="Ver Historial">
+          <span class="iconify icon-duotone-primary" data-icon="solar:chart-square-bold-duotone"></span>
+          <span class="btn-text">Historial</span>
+        </button>
+        <button class="icon-btn" id="settingsBtn" title="Ajustes">
+          <span class="iconify icon-duotone-primary" data-icon="solar:settings-bold-duotone"></span>
+          <span class="btn-text">Ajustes</span>
+        </button>
       </div>
     </header>
 
