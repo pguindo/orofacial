@@ -1333,7 +1333,7 @@
       <div class="actions">
         <button class="icon-btn font-btn" id="quickFontBtn" title="Cambiar tamaño de letra">aA</button>
         <button class="icon-btn" id="sound" title="Alternar Sonido">
-          <span class="iconify icon-duotone-primary" data-icon="mdi:volume-high"></span>
+          <span class="iconify icon-duotone-primary" id="soundIcon" data-icon="mdi:volume-high"></span>
           <span class="btn-text">Sonido</span>
         </button>
         <button class="icon-btn" id="historyBtn" title="Ver Historial">
@@ -2490,6 +2490,7 @@
       sound = !sound;
       soundEnabled = sound;
       $('soundCheck').checked = sound;
+      updateSoundIcon();
     };
     $('historyBtn').onclick = () => { $('historyModal').classList.add('open'); drawHistory(); };
     $('settingsBtn').onclick = () => $('settings').classList.add('open');
@@ -2502,7 +2503,11 @@
       a.download = 'historial_entrenamiento_orofacial.json';
       a.click();
     };
-    $('soundCheck').onchange = e => sound = e.target.checked;
+    $('soundCheck').onchange = e => {
+      sound = e.target.checked;
+      soundEnabled = sound;
+      updateSoundIcon();
+    };
     $('vibrateCheck').onchange = e => vibration = e.target.checked;
 
     /* BANNER DE INSTALACIÓN PWA */
@@ -2541,6 +2546,13 @@
     initServiceWorker();
     initNotificationSettings();
     initSounds();
+    // Sincronizar iconos con estado inicial de sonido
+    function updateSoundIcon() {
+      const iconEl = $('soundIcon');
+      if (!iconEl) return;
+      iconEl.setAttribute('data-icon', sound ? 'mdi:volume-high' : 'mdi:volume-off');
+    }
+    updateSoundIcon();
     render();
     drawHistory();
   </script>
