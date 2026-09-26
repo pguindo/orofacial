@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Entrenador Orofacial</string>
+    <string name="widget_name">Orofacial hoy</string>
+    <string name="widget_desc">Muestra cómo va tu sesión de hoy: contento, inquieto, lloroso o derrotado.</string>
+</resources>

@@ -1489,6 +1489,23 @@
     </div>
   </div>
 
+  <!-- BANNER APP NATIVA ANDROID (APK desde GitHub Releases) -->
+  <div class="install-banner" id="nativeBanner">
+    <div class="install-banner-logo">AO</div>
+    <div class="install-banner-text">
+      <strong>App Android con widget</strong>
+      <p>Descarga la APK para ver tu estado diario en la pantalla de inicio.</p>
+    </div>
+    <div class="install-banner-actions">
+      <button class="btn" id="nativeCloseBtn" style="padding: 6px 8px; font-size: 0.78rem; background: transparent; color: var(--text-muted); border: none;">
+        ✕
+      </button>
+      <button class="btn btn-primary" id="nativeDownloadBtn" style="padding: 6px 14px; font-size: 0.8rem;">
+        Descargar APK
+      </button>
+    </div>
+  </div>
+
   <div class="toast" id="toast">Tamaño de letra: Normal</div>
 
   <!-- SETTINGS MODAL -->
@@ -2565,6 +2582,66 @@
       installBanner.classList.remove('show');
       deferredPrompt = null;
     });
+
+    /* APP NATIVA ANDROID: sugerir APK de GitHub Releases + puente al widget */
+    const APK_URL = 'https://github.com/pguindo/orofacial/releases/latest/download/app-release.apk';
+    const nativeBanner = $('nativeBanner');
+
+    function isAndroidBrowser() {
+      try { return /Android/i.test(navigator.userAgent || ''); } catch(e) { return false; }
+    }
+    function isInsideNativeApp() {
+      try {
+        return (typeof window.Android !== 'undefined' && typeof window.Android.guardarDato === 'function') ||
+               (document.referrer && document.referrer.includes('android-app://'));
+      } catch(e) { return false; }
+    }
+
+    // Mostrar banner nativo solo en Android fuera de la app nativa y fuera de PWA instalada.
+    try {
+      if (isAndroidBrowser() && !isInsideNativeApp() && !isPWA() &&
+          !sessionStorage.getItem('orofacial_native_dismissed')) {
+        nativeBanner.classList.add('show');
+      }
+    } catch(e) {}
+
+    if ($('nativeCloseBtn')) $('nativeCloseBtn').onclick = () => {
+      nativeBanner.classList.remove('show');
+      try { sessionStorage.setItem('orofacial_native_dismissed', 'true'); } catch(e) {}
+    };
+    if ($('nativeDownloadBtn')) $('nativeDownloadBtn').onclick = () => {
+      window.open(APK_URL, '_blank', 'noopener');
+    };
+
+    // Puente Web -> Android: envía el estado del día para el widget (SharedPreferences).
+    function syncToAndroidWidget() {
+      try {
+        if (!isInsideNativeApp()) return;
+        const h = history();
+        const todayStr = day(Date.now());
+        const sessionsToday = h.filter(x => day(x.completedAt) === todayStr).length;
+        let lastDate = '';
+        if (h.length) {
+          const sorted = [...h].sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+          lastDate = day(sorted[sorted.length - 1].completedAt);
+        }
+        const deadline = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
+        window.Android.guardarDato(JSON.stringify({
+          sessionsToday: sessionsToday,
+          totalSessions: h.length,
+          lastDate: lastDate,
+          deadline: deadline
+        }));
+      } catch(e) {}
+    }
+
+    const _origSave = save;
+    save = function() { _origSave(); syncToAndroidWidget(); };
+    const _origDrawHistory = drawHistory;
+    drawHistory = function() { _origDrawHistory(); syncToAndroidWidget(); };
+    // Re-sincronizar por si cambia la hora límite o pasa el deadline/22:00 con la app abierta.
+    setInterval(syncToAndroidWidget, 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) syncToAndroidWidget(); });
 
     // INICIALIZACIÓN
     initFontScale();
