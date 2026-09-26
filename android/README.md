@@ -52,12 +52,12 @@ conservando datos. Para Play Store, pon tu keystore propio en `app/build.gradle.
 
 ## Publicar la APK en GitHub Releases
 
-1. `git tag v1.0.0; git push origin v1.0.0`
-2. El workflow `.github/workflows/android-apk.yml` compila y adjunta
-   `app-release.apk` a la release.
+1. `git tag v1.0.2; git push origin v1.0.2`
+2. El workflow `.github/workflows/android-apk.yml` compila, renombra a
+   `OrofacialCoach-vX.Y.Z.apk` y lo adjunta a la release.
 3. La web (`index.html`) sugiere esa APK con el banner `#nativeBanner`
-   cuando se abre en Android fuera de la app nativa:
-   `https://github.com/pguindo/orofacial/releases/latest/download/app-release.apk`
+   cuando se abre en Android fuera de la app nativa (resuelve el asset .apk
+   de la última release vía API de GitHub).
 
 ## Probar el puente JS
 

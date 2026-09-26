@@ -2358,7 +2358,21 @@
     });
 
     /* APP NATIVA ANDROID: sugerir APK de GitHub Releases + puente al widget */
-    const APK_URL = 'https://github.com/pguindo/orofacial/releases/latest/download/app-release.apk';
+    // La APK se llama OrofacialCoach-vX.Y.Z.apk (cambia en cada release),
+    // así que se resuelve el asset .apk de la última release vía API.
+    async function resolveApkUrl() {
+      try {
+        const r = await fetch('https://api.github.com/repos/pguindo/orofacial/releases/latest', {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (!r.ok) throw new Error('http');
+        const j = await r.json();
+        const assets = j.assets || [];
+        const apk = assets.find(a => /\.apk$/i.test(a.name || '')) || assets[0];
+        if (apk && (apk.browser_download_url || apk.url)) return apk.browser_download_url || apk.url;
+      } catch(e) {}
+      return 'https://github.com/pguindo/orofacial/releases/latest';
+    }
     const nativeBanner = $('nativeBanner');
 
     function isAndroidBrowser() {
@@ -2383,8 +2397,8 @@
       nativeBanner.classList.remove('show');
       try { sessionStorage.setItem('orofacial_native_dismissed', 'true'); } catch(e) {}
     };
-    if ($('nativeDownloadBtn')) $('nativeDownloadBtn').onclick = () => {
-      window.open(APK_URL, '_blank', 'noopener');
+    if ($('nativeDownloadBtn')) $('nativeDownloadBtn').onclick = async () => {
+      window.open(await resolveApkUrl(), '_blank', 'noopener');
     };
 
     // Puente Web -> Android: envía el estado del día para el widget (SharedPreferences).

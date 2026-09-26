@@ -52,11 +52,14 @@ jobs:
       - name: Build release APK
         run: gradle :app:assembleRelease --stacktrace
 
+      - name: Rename APK with version (OrofacialCoach-vX.Y.Z.apk)
+        run: mv app/build/outputs/apk/release/app-release.apk "app/build/outputs/apk/release/OrofacialCoach-${GITHUB_REF_NAME}.apk"
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: android/app/build/outputs/apk/release/app-release.apk
+          name: OrofacialCoach
+          path: android/app/build/outputs/apk/release/*.apk
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -68,11 +71,11 @@ jobs:
       - name: Download APK
         uses: actions/download-artifact@v4
         with:
-          name: app-release
+          name: OrofacialCoach
           path: ./dist
 
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          files: ./dist/app-release.apk
+          files: ./dist/*.apk
           generate_release_notes: true

@@ -1,16 +1,21 @@
 package com.pguindo.orofacial
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.JavascriptInterface
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -25,6 +30,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var webView: WebView
+
+    // Soporte de <input type=file> (p. ej. Importar JSON): sin esto el selector no se abre.
+    private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private val fileChooserLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val uris = if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { intent ->
+                    val clip = intent.clipData
+                    when {
+                        clip != null -> Array(clip.itemCount) { i -> clip.getItemAt(i).uri }
+                        intent.data != null -> arrayOf(intent.data!!)
+                        else -> null
+                    }
+                }
+            } else null
+            filePathCallback?.onReceiveValue(uris)
+            filePathCallback = null
+        }
 
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +73,27 @@ class MainActivity : AppCompatActivity() {
                     return false
                 }
             }
-            webChromeClient = WebChromeClient()
+            webChromeClient = object : WebChromeClient() {
+                override fun onShowFileChooser(
+                    view: WebView?,
+                    callback: ValueCallback<Array<Uri>>?,
+                    params: FileChooserParams?
+                ): Boolean {
+                    filePathCallback?.onReceiveValue(null)
+                    filePathCallback = callback
+                    return try {
+                        val intent = params?.createIntent() ?: Intent(Intent.ACTION_GET_CONTENT).apply {
+                            type = "*/*"
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                        }
+                        fileChooserLauncher.launch(Intent.createChooser(intent, "Elegir fichero"))
+                        true
+                    } catch (_: Exception) {
+                        filePathCallback = null
+                        false
+                    }
+                }
+            }
 
             // Puente JS -> nativo. El JS llama: Android.guardarDato(JSON.stringify({...}))
             addJavascriptInterface(JsBridge(this@MainActivity), "Android")

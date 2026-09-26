@@ -3,7 +3,12 @@
     <style name="Theme.Orofacial" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!-- Fondo de ventana blanco: evita la franja negra tras la cámara en edge-to-edge -->
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:navigationBarColor">@android:color/white</item>
+        <!-- Iconos del sistema oscuros sobre el fondo claro -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
