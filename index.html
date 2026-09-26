@@ -1535,34 +1535,10 @@
         </select>
       </label>
 
-      <label class="setting-item">
-        <span>Recordatorio diario</span>
-        <input id="notifCheck" type="checkbox">
-      </label>
-
-      <label class="setting-item" id="notifTimeRow">
-        <span>Hora límite diaria</span>
+      <label class="setting-item" id="notifTimeRow" title="El widget la usa para avisarte con su estado">
+        <span>Hora límite diaria (widget)</span>
         <input type="time" id="notifTime" value="20:00">
       </label>
-
-      <!-- ESTADO DEL SERVICE WORKER EN GITHUB PAGES -->
-      <div class="sw-status-pill" id="swStatusPill">
-        <span id="swStatusText">Comprobando Service Worker...</span>
-        <div style="display:flex; gap:4px;">
-          <button class="btn" id="downloadIconsBtn" style="padding: 4px 8px; font-size: 0.72rem; background: #fff; border: 1px solid #CBD5E1; color: #0F172A;">
-            🖼️ Descargar PNGs
-          </button>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px;">
-        <button class="btn btn-secondary" id="checkNotifNowBtn" style="padding: 7px 12px; font-size: 0.8rem;">
-          🔍 Diagnosticar
-        </button>
-        <button class="btn btn-secondary" id="testNotifBtn" style="padding: 7px 12px; font-size: 0.8rem;">
-          🔔 Probar aviso
-        </button>
-      </div>
       
       <label class="setting-item">
         <span>Sonidos guía y pitidos</span>
@@ -1609,6 +1585,8 @@
 
       <div class="modal-actions">
         <button class="btn btn-secondary" id="export" style="flex: 1;">Exportar JSON</button>
+        <button class="btn btn-secondary" id="import" style="flex: 1;">Importar JSON</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
         <button class="btn btn-quiet" id="clear" style="color: var(--red);">Borrar historial</button>
       </div>
     </div>
@@ -1692,7 +1670,6 @@
     let ei = 0, ri = 0, pi = 0;
     let transitionTimer = null;
     let state = 'idle', paused = false, sound = true, vibration = true, saved = false;
-    let swRegistration = null;
 
     let animFrame = null;
     let phaseStartTimestamp = 0;
@@ -1702,9 +1679,7 @@
     
     const KEY = 'orofacial_session_history_v1';
     const FONT_KEY = 'orofacial_font_scale_v3';
-    const NOTIF_ENABLED_KEY = 'orofacial_notif_enabled_v1';
     const NOTIF_TIME_KEY = 'orofacial_notif_time_v1';
-    const NOTIF_LAST_DATE_KEY = 'orofacial_notif_last_date_v1';
 
     /* REINICIAR AL PULSAR LOGO O TÍTULO */
     $('brandBtn').onclick = () => {
@@ -1718,107 +1693,17 @@
       }
     };
 
-    /* SERVICE WORKER */
-    async function initServiceWorker() {
-      if (!('serviceWorker' in navigator)) {
-        updateSWUI('missing', 'Navegador sin Service Worker');
-        return;
-      }
+    /* SERVICE WORKER retirados: el aviso de sesión pendiente lo da el widget.
+       Se desregistra cualquier SW antiguo (era el que enviaba notificaciones push). */
+    async function unregisterLegacyServiceWorker() {
+      if (!('serviceWorker' in navigator)) return;
       try {
-        swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
-        await navigator.serviceWorker.ready;
-        updateSWUI('ready', '🟢 Listo para app Android y avisos');
-
-        if ('periodicSync' in swRegistration) {
-          try {
-            await swRegistration.periodicSync.register('daily-orofacial-check', {
-              minInterval: 60 * 60 * 1000
-            });
-          } catch(e) {}
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) {
+          try { await reg.unregister(); } catch(e) {}
         }
-        syncConfigToServiceWorker();
-      } catch (err) {
-        console.warn('No se pudo registrar sw.js:', err);
-        updateSWUI('missing', '🟡 Falta sw.js en GitHub Pages');
-      }
+      } catch (err) {}
     }
-
-    function syncConfigToServiceWorker() {
-      if (!navigator.serviceWorker || !navigator.serviceWorker.controller) return;
-      const config = {
-        enabled: localStorage.getItem(NOTIF_ENABLED_KEY) === 'true',
-        time: localStorage.getItem(NOTIF_TIME_KEY) || '20:00',
-        lastDate: localStorage.getItem(NOTIF_LAST_DATE_KEY) || '',
-        completedToday: sessionsToday() > 0
-      };
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SYNC_CONFIG',
-        config: config
-      });
-    }
-
-    function updateSWUI(status, text) {
-      const pill = $('swStatusPill');
-      const label = $('swStatusText');
-      if (!pill || !label) return;
-      pill.className = `sw-status-pill ${status}`;
-      label.textContent = text;
-    }
-
-    /* GENERADOR DE ICONOS PNG PARA GITHUB PAGES (192x192 y 512x512) */
-    function generateAndDownloadPNG(size, filename) {
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext('2d');
-
-      // Fondo con gradiente
-      const grad = ctx.createLinearGradient(0, 0, size, size);
-      grad.addColorStop(0, '#4F46E5');
-      grad.addColorStop(1, '#0D9488');
-      ctx.fillStyle = grad;
-
-      // Esquinas redondeadas
-      const r = size * 0.22;
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.lineTo(size - r, 0);
-      ctx.quadraticCurveTo(size, 0, size, r);
-      ctx.lineTo(size, size - r);
-      ctx.quadraticCurveTo(size, size, size - r, size);
-      ctx.lineTo(r, size);
-      ctx.quadraticCurveTo(0, size, 0, size - r);
-      ctx.lineTo(0, r);
-      ctx.quadraticCurveTo(0, 0, r, 0);
-      ctx.closePath();
-      ctx.fill();
-
-      // Sonrisa orofacial
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = size * 0.07;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.arc(size * 0.5, size * 0.46, size * 0.28, 0.15 * Math.PI, 0.85 * Math.PI, false);
-      ctx.stroke();
-
-      // Círculo paladar
-      ctx.fillStyle = '#84E5CE';
-      ctx.beginPath();
-      ctx.arc(size * 0.5, size * 0.40, size * 0.08, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Descarga directa
-      const a = document.createElement('a');
-      a.download = filename;
-      a.href = canvas.toDataURL('image/png');
-      a.click();
-    }
-
-    $('downloadIconsBtn').onclick = () => {
-      generateAndDownloadPNG(192, 'icon-192.png');
-      setTimeout(() => generateAndDownloadPNG(512, 'icon-512.png'), 400);
-      showToast('Descargando icon-192.png e icon-512.png');
-    };
 
     /* TIPOGRAFÍA */
     const fontScales = ['1', '1.15', '1.3', '1.45'];
@@ -1865,163 +1750,18 @@
       showToast(`Tamaño de letra: ${fontLabels[val]}`);
     };
 
-    /* NOTIFICACIONES */
-    async function requestNotificationPermission() {
-      if (!('Notification' in window)) {
-        showToast('Navegador sin soporte de avisos.');
-        return false;
-      }
-      if (Notification.permission === 'granted') return true;
-      if (Notification.permission === 'denied') {
-        alert('Notificaciones bloqueadas en los permisos de tu Android.');
-        return false;
-      }
-      const perm = await Notification.requestPermission();
-      return perm === 'granted';
-    }
-
-    async function sendPushNotification(isTest = false) {
-      if (!('Notification' in window)) {
-        alert('Este dispositivo no soporta notificaciones.');
-        return;
-      }
-
-      const title = isTest ? '¡Aviso de prueba! 🔔' : '¡Momento de tu entrenamiento orofacial! 🦷✨';
-      const body = isTest
-        ? 'Las notificaciones funcionan correctamente en tu Android.'
-        : 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!';
-
-      try {
-        if ('serviceWorker' in navigator) {
-          let reg = swRegistration || await navigator.serviceWorker.getRegistration();
-          if (!reg) {
-            reg = await navigator.serviceWorker.register('./sw.js', { scope: './' });
-            await navigator.serviceWorker.ready;
-            swRegistration = reg;
-          }
-          if (reg && reg.showNotification) {
-            await reg.showNotification(title, {
-              body: body,
-              icon: 'icon-192.png',
-              badge: 'icon-192.png',
-              tag: 'orofacial-daily-reminder',
-              renotify: true,
-              vibrate: [200, 100, 200]
-            });
-            if (isTest) showToast('Notificación enviada');
-            return;
-          }
-        }
-        if (!/Android/i.test(navigator.userAgent)) {
-          new Notification(title, { body: body, icon: 'icon-192.png' });
-          if (isTest) showToast('Notificación emitida');
-        } else {
-          throw new Error('No se encontró el archivo sw.js activo en GitHub Pages.');
-        }
-      } catch (err) {
-        alert('Aviso de Android:\n' + err.message + '\n\nAsegúrate de tener sw.js e icon-192.png en la raíz de tu GitHub Pages.');
-      }
-    }
-
-    function checkDailyReminder(isManualDiagnostic = false) {
-      const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
-      if (!enabled) {
-        if (isManualDiagnostic) alert('Diagnóstico: El recordatorio diario está DESACTIVADO.');
-        return;
-      }
-
-      if (!('Notification' in window) || Notification.permission !== 'granted') {
-        if (isManualDiagnostic) alert('Diagnóstico: Permiso de notificaciones no concedido.');
-        return;
-      }
-
-      if (sessionsToday() > 0) {
-        if (isManualDiagnostic) alert(`Diagnóstico: Ya has completado ${sessionsToday()} sesión(es) hoy. El aviso solo salta si no has entrenado.`);
-        return;
-      }
-
-      const todayStr = day(Date.now());
-      const lastSent = localStorage.getItem(NOTIF_LAST_DATE_KEY);
-      if (lastSent === todayStr) {
-        if (isManualDiagnostic) alert('Diagnóstico: El aviso ya se envió hoy una vez.');
-        return;
-      }
-
-      const notifTime = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
-      const parts = notifTime.split(':');
-      const targetH = parseInt(parts[0], 10) || 20;
-      const targetM = parseInt(parts[1], 10) || 0;
-
-      const now = new Date();
-      const currentMin = now.getHours() * 60 + now.getMinutes();
-      const targetMin = targetH * 60 + targetM;
-
-      if (currentMin >= targetMin) {
-        localStorage.setItem(NOTIF_LAST_DATE_KEY, todayStr);
-        sendPushNotification(false);
-        syncConfigToServiceWorker();
-        if (isManualDiagnostic) showToast('¡Hora límite alcanzada! Notificación emitida.');
-      } else {
-        if (isManualDiagnostic) {
-          const diff = targetMin - currentMin;
-          alert(`Diagnóstico: Aún no se ha alcanzado la hora límite (${notifTime}). Quedan aprox. ${diff} minutos.`);
-        }
-      }
-    }
-
-    function initNotificationSettings() {
-      const enabled = localStorage.getItem(NOTIF_ENABLED_KEY) === 'true';
+    /* HORA LÍMITE (para el widget; los avisos push se eliminaron) */
+    function initDeadlineSetting() {
       const time = localStorage.getItem(NOTIF_TIME_KEY) || '20:00';
-      
-      $('notifCheck').checked = enabled;
-      $('notifTime').value = time;
-      $('notifTime').disabled = !enabled;
 
-      $('notifCheck').onchange = async (e) => {
-        if (e.target.checked) {
-          const granted = await requestNotificationPermission();
-          if (granted) {
-            localStorage.setItem(NOTIF_ENABLED_KEY, 'true');
-            localStorage.removeItem(NOTIF_LAST_DATE_KEY);
-            $('notifTime').disabled = false;
-            showToast(`Recordatorio fijado a las ${$('notifTime').value}`);
-            syncConfigToServiceWorker();
-            checkDailyReminder();
-          } else {
-            e.target.checked = false;
-            localStorage.setItem(NOTIF_ENABLED_KEY, 'false');
-            $('notifTime').disabled = true;
-          }
-        } else {
-          localStorage.setItem(NOTIF_ENABLED_KEY, 'false');
-          $('notifTime').disabled = true;
-          syncConfigToServiceWorker();
-          showToast('Recordatorio diario desactivado.');
-        }
-      };
+      $('notifTime').value = time;
+      $('notifTime').disabled = false;
 
       $('notifTime').onchange = (e) => {
         localStorage.setItem(NOTIF_TIME_KEY, e.target.value);
-        localStorage.removeItem(NOTIF_LAST_DATE_KEY);
         showToast(`Hora límite fijada a las ${e.target.value}`);
-        syncConfigToServiceWorker();
-        checkDailyReminder();
+        syncToAndroidWidget();
       };
-
-      $('testNotifBtn').onclick = async () => {
-        const granted = await requestNotificationPermission();
-        if (granted) sendPushNotification(true);
-      };
-
-      $('checkNotifNowBtn').onclick = () => {
-        checkDailyReminder(true);
-      };
-
-      setInterval(() => checkDailyReminder(false), 30000);
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) checkDailyReminder(false);
-      });
-      checkDailyReminder(false);
     }
 
     /* TEMPORIZADOR CONTINUO */
@@ -2457,7 +2197,6 @@
       $('today').textContent = `${sessionsToday()} sesión(es) completada(s) hoy`;
       $('prev').disabled = true;
       $('next').disabled = true;
-      syncConfigToServiceWorker();
     }
 
     function nav(x) {
@@ -2537,13 +2276,48 @@
     $('historyBtn').onclick = () => { $('historyModal').classList.add('open'); drawHistory(); };
     $('settingsBtn').onclick = () => $('settings').classList.add('open');
     document.querySelectorAll('.close').forEach(x => x.onclick = () => document.querySelectorAll('.modal').forEach(m => m.classList.remove('open')));
-    $('clear').onclick = () => { if (confirm('¿Borrar historial?')) { setHistory([]); drawHistory(); syncConfigToServiceWorker(); } };
+    $('clear').onclick = () => { if (confirm('¿Borrar historial?')) { setHistory([]); drawHistory(); } };
     $('export').onclick = () => {
       const b = new Blob([JSON.stringify(history(), null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(b);
       a.download = 'historial_entrenamiento_orofacial.json';
       a.click();
+    };
+    // Importar historial exportado desde otro dispositivo/navegador (p. ej. PWA -> app nativa).
+    // Fusiona sin duplicar (clave: completedAt) y reordena.
+    $('import').onclick = () => $('importFile').click();
+    $('importFile').onchange = (e) => {
+      const f = e.target.files && e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          if (!Array.isArray(data)) throw new Error('formato');
+          const valid = data
+            .filter(x => x && typeof x.completedAt === 'string' && !isNaN(new Date(x.completedAt).getTime()))
+            .map(x => ({ completedAt: new Date(x.completedAt).toISOString(), exercises: Number(x.exercises) || E.length }));
+          if (!valid.length) {
+            alert('El fichero no contiene sesiones válidas.');
+            return;
+          }
+          const seen = new Set(history().map(x => x.completedAt));
+          let added = 0;
+          const merged = history().slice();
+          for (const s of valid) {
+            if (!seen.has(s.completedAt)) { seen.add(s.completedAt); merged.push(s); added++; }
+          }
+          merged.sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+          setHistory(merged);
+          drawHistory();
+          showToast(added ? `Importadas ${added} sesión(es)` : 'Nada nuevo: todo ya estaba');
+        } catch (err) {
+          alert('No se pudo importar: el fichero no es un historial válido.');
+        }
+      };
+      reader.readAsText(f);
     };
     $('soundCheck').onchange = e => {
       sound = e.target.checked;
@@ -2645,8 +2419,8 @@
 
     // INICIALIZACIÓN
     initFontScale();
-    initServiceWorker();
-    initNotificationSettings();
+    unregisterLegacyServiceWorker();
+    initDeadlineSetting();
     initSounds();
     // Sincronizar iconos con estado inicial de sonido
     function updateSoundIcon() {

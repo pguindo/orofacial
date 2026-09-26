@@ -129,16 +129,27 @@ object WidgetData {
         Mood.DERROTADO -> "Derrotado"
     }
 
-    fun subtituloFor(context: Context, mood: Mood, snapshot: Snapshot): String {
-        return when (mood) {
-            Mood.CONTENTO -> if (snapshot.lastDate == LocalDate.now() && snapshot.sessionsToday > 0)
-                "¡Sesión de hoy hecha! (${snapshot.sessionsToday})"
-            else
-                "Aún vas a tiempo · límite ${snapshot.deadline.format(TIME_FMT)}"
-            Mood.INQUIETO -> "Hoy pendiente · pasó el límite ${snapshot.deadline.format(TIME_FMT)}"
-            Mood.LLOROSO -> "¡Quedan <2h del día y falta la sesión!"
-            Mood.DERROTADO -> "Ayer pendiente · recupérala hoy"
+    // Mensajes cortos y positivos; cada día se muestra uno distinto (rota por fecha).
+    private val MENSAJES_HECHO = listOf("¡Sesión hecha!", "¡Gran trabajo!", "¡Lo conseguiste!", "Sigue así", "¡Bravo!")
+    private val MENSAJES_MARGEN = listOf("Adelante, tú puedes", "Hoy es tu día", "A por ello", "Tú puedes", "Vamos, empieza")
+    private val MENSAJES_INQUIETO = listOf("Aún estás a tiempo", "Hazla ahora", "No lo dejes", "Última llamada", "Vamos, hazla")
+    private val MENSAJES_LLOROSO = listOf("¡Queda poco!", "¡Rápido, hazla!", "No te rindas", "Casi se acaba", "¡Ya casi!")
+    private val MENSAJES_DERROTADO = listOf("Hoy sí", "Nuevo día", "Recupérala hoy", "Empieza de nuevo", "Hoy lo logras")
+
+    fun mensajeFor(
+        mood: Mood,
+        snapshot: Snapshot,
+        date: LocalDate = LocalDate.now()
+    ): String {
+        val doneToday = snapshot.lastDate == date && snapshot.sessionsToday > 0
+        val pool = when (mood) {
+            Mood.CONTENTO -> if (doneToday) MENSAJES_HECHO else MENSAJES_MARGEN
+            Mood.INQUIETO -> MENSAJES_INQUIETO
+            Mood.LLOROSO -> MENSAJES_LLOROSO
+            Mood.DERROTADO -> MENSAJES_DERROTADO
         }
+        val idx = ((date.toEpochDay() % pool.size).toInt() + pool.size) % pool.size
+        return pool[idx]
     }
 
     private fun parseTime(raw: String?): LocalTime {

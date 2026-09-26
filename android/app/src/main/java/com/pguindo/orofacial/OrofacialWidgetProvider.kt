@@ -38,8 +38,7 @@ class OrofacialWidgetProvider : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.widget_orofacial)
             views.setImageViewResource(R.id.widget_mood, drawableFor(mood))
             views.setContentDescription(R.id.widget_mood, WidgetData.tituloFor(mood))
-            views.setTextViewText(R.id.widget_title, WidgetData.tituloFor(mood))
-            views.setTextViewText(R.id.widget_subtitle, WidgetData.subtituloFor(context, mood, snapshot))
+            views.setTextViewText(R.id.widget_message, WidgetData.mensajeFor(mood, snapshot))
 
             // Toque en el widget -> abrir la app (WebView).
             val openApp = Intent(context, MainActivity::class.java)

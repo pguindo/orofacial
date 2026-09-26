@@ -1,62 +1,10 @@
-// sw.js - Service Worker para Entrenador Orofacial en GitHub Pages
+// sw.js retirado: los avisos push se eliminaron (el widget los sustituye).
+// Este stub solo sirve para desregistrar el SW antiguo en navegadores que lo
+// tuvieran instalado. Cuando todos los clientes estén limpios, borrar el fichero
+// y quitar su referencia en index.html (solo queda unregisterLegacyServiceWorker).
 self.addEventListener('install', (e) => self.skipWaiting());
-self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-
-// Evento fetch obligatorio para que Chrome en Android cree el WebAPK nativo
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
-  );
-});
-
-let reminderConfig = { enabled: false, time: '20:00', lastDate: '', completedToday: false };
-
-self.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'SYNC_CONFIG') {
-    reminderConfig = Object.assign(reminderConfig, e.data.config);
-  }
-});
-
-async function checkBackgroundReminder() {
-  if (!reminderConfig.enabled || reminderConfig.completedToday) return;
-
-  const now = new Date();
-  const todayStr = [now.getFullYear(), String(now.getMonth()+1).padStart(2,'0'), String(now.getDate()).padStart(2,'0')].join('-');
-  if (reminderConfig.lastDate === todayStr) return;
-
-  const [tH, tM] = (reminderConfig.time || '20:00').split(':').map(Number);
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  const targetMin = tH * 60 + tM;
-
-  if (nowMin >= targetMin) {
-    reminderConfig.lastDate = todayStr;
-    await self.registration.showNotification('¡Momento de tu entrenamiento orofacial! 🦷✨', {
-      body: 'Has alcanzado tu hora límite diaria. Dedica solo 3 minutos a cuidar tu musculatura orofacial. ¡Tú puedes!',
-      icon: 'icon-192.png',
-      badge: 'icon-192.png',
-      tag: 'orofacial-daily-reminder',
-      renotify: true,
-      vibrate: [200, 100, 200]
-    });
-  }
-}
-
-self.addEventListener('periodicsync', (e) => {
-  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
-});
-
-self.addEventListener('sync', (e) => {
-  if (e.tag === 'daily-orofacial-check') e.waitUntil(checkBackgroundReminder());
-});
-
-self.addEventListener('notificationclick', (e) => {
-  e.notification.close();
+self.addEventListener('activate', (e) => {
   e.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url && 'focus' in client) return client.focus();
-      }
-      if (clients.openWindow) return clients.openWindow('./index.html');
-    })
+    self.registration.unregister().then(() => self.clients.claim())
   );
 });
