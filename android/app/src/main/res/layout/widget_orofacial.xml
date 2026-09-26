@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Widget 2x2: mensaje único arriba, personaje grande anclado abajo.
+     Solo vistas garantizadas en RemoteViews (LinearLayout, RelativeLayout,
+     TextView, ImageView): sin espaciadores View, que algunos launchers rechazan.
      La raíz es transparente: su padding es el margen que se ve al estirarse. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
@@ -8,19 +10,18 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <LinearLayout
-        android:id="@+id/widget_card"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/widget_background"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         android:padding="12dp">
 
         <TextView
             android:id="@+id/widget_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:maxLines="2"
@@ -28,18 +29,14 @@
             android:textColor="#083344"
             android:textSize="20sp" />
 
-        <!-- Espaciador: absorbe el alto sobrante si el launcher estira el widget -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <ImageView
             android:id="@+id/widget_mood"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:contentDescription="@string/widget_name"
             android:src="@drawable/ic_mood_contento" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
