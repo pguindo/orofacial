@@ -11,16 +11,29 @@ android {
         applicationId = "com.pguindo.orofacial"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.3"
+        versionCode = 4
+        versionName = "1.0.4"
+    }
+
+    // Firma estable para sideload: keystore propio versionado en keystore/ (generado una
+    // vez por CI). Sin él (p. ej. compilación local), se usa la clave debug.
+    val ksFile = rootProject.file("keystore/orofacial.jks")
+    val ksPass = System.getenv("OROFACIAL_KS_PASS").let { if (it.isNullOrEmpty()) "orofacial-sideload" else it }
+    signingConfigs {
+        create("orofacial") {
+            if (ksFile.exists()) {
+                storeFile = ksFile
+                storePassword = ksPass
+                keyAlias = "orofacial"
+                keyPassword = ksPass
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Firmado con clave debug para poder instalar la APK de GitHub Releases sin Play Store.
-            // Para publicar en Play, sustituir por tu keystore de release.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (ksFile.exists()) signingConfigs.getByName("orofacial") else signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

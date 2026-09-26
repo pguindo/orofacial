@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta superior blanca (cuadro de diálogo de los mensajes), radio 42dp. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="42dp" />
+    <solid android:color="#FFFFFF" />
+</shape>

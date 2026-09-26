@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: android
@@ -41,16 +43,34 @@ jobs:
         with:
           gradle-version: 8.7
 
-      - name: Cache debug keystore (firma estable entre releases)
-        # Sin esto cada runner generaría una clave debug distinta y Android
-        # rechazaría instalar una versión encima de otra (firma diferente).
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.HOME }}/.android/debug.keystore
-          key: android-debug-keystore-v1
+      - name: Ensure stable release keystore
+        # Keystore propio versionado en el repo: todas las releases comparten firma
+        # y Android permite instalar encima conservando datos. Se genera una sola vez
+        # y se guarda en el repo; luego se reutiliza siempre. Imprime su huella SHA-256
+        # para comprobar que no cambia entre releases.
+        run: |
+          KS_PASS="${OROFACIAL_KS_PASS:-orofacial-sideload}"
+          if [ ! -f keystore/orofacial.jks ]; then
+            mkdir -p keystore
+            keytool -genkeypair -storetype PKCS12 -keystore keystore/orofacial.jks \
+              -alias orofacial -keyalg RSA -keysize 2048 -validity 9125 \
+              -storepass "$KS_PASS" -keypass "$KS_PASS" \
+              -dname "CN=OrofacialCoach, OU=Personal, O=pguindo"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add keystore/orofacial.jks
+            git commit -m "CI: keystore estable para firmar releases" || true
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" || echo "keystore push skipped"
+          fi
+          keytool -list -v -keystore keystore/orofacial.jks -storepass "$KS_PASS" 2>/dev/null | grep -E "Alias name|SHA256" || true
+        env:
+          OROFACIAL_KS_PASS: ${{ secrets.OROFACIAL_KS_PASS }}
 
       - name: Build release APK
         run: gradle :app:assembleRelease --stacktrace
+        env:
+          OROFACIAL_KS_PASS: ${{ secrets.OROFACIAL_KS_PASS }}
 
       - name: Rename APK with version (OrofacialCoach-vX.Y.Z.apk)
         run: mv app/build/outputs/apk/release/app-release.apk "app/build/outputs/apk/release/OrofacialCoach-${GITHUB_REF_NAME}.apk"

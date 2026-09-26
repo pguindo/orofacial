@@ -41,14 +41,15 @@ gradle :app:assembleRelease
 # APK en app/build/outputs/apk/release/app-release.apk
 ```
 
-La `release` va firmada con la clave `debug` para permitir sideload desde GitHub Releases.
-El workflow cachea `~/.android/debug.keystore` para que todas las releases compartan
-la misma firma: así actualizar es descargar la APK nueva e instalarla encima,
-conservando datos. Para Play Store, pon tu keystore propio en `app/build.gradle.kts`.
+La `release` se firma con el keystore propio `keystore/orofacial.jks` (generado una vez
+por CI y versionado en el repo): todas las releases comparten firma y actualizar es
+descargar la APK nueva e instalarla encima, conservando datos. Sin ese fichero
+(p. ej. compilación local) se usa la clave `debug`. Para Play Store, sustituye el
+keystore y fija `OROFACIAL_KS_PASS` como secreto.
 
-> Nota: la v1.0.0 se firmó con una clave efímera del runner, así que para pasar a
-> v1.0.1 hay que desinstalar primero (exporta antes tu JSON desde Historial) y luego
-> instalar limpio e importar. A partir de v1.0.1 las actualizaciones son encima.
+> Nota: hasta v1.0.3 se firmaba con claves efímeras del runner, así que para pasar a
+> v1.0.4 hay que desinstalar una última vez (exporta antes tu JSON desde Historial)
+> y luego instalar limpio e importar. Desde v1.0.4 las actualizaciones son encima.
 
 ## Publicar la APK en GitHub Releases
 
