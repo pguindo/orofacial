@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Widget 2x2: tarjeta blanca de mensajes arriba (más baja), hueco transparente
-     en medio, zona inferior con tarjeta marrón y personaje grande (160dp) apoyado
-     abajo, asomando por encima del marrón. Solo vistas garantizadas en RemoteViews.
-     La raíz es transparente. -->
+<!-- Widget 2x2: fondo con tarjeta blanca de mensajes arriba, hueco transparente
+     en medio y tarjeta marrón abajo; el personaje (PNG con transparencias) va en
+     una capa superpuesta apoyado abajo, por encima de ambas tarjetas.
+     Solo vistas garantizadas en RemoteViews. La raíz es transparente. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
@@ -10,43 +10,51 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/widget_message"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="220"
-        android:background="@drawable/widget_card_top"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:maxLines="2"
-        android:padding="10dp"
-        android:text="@string/widget_desc"
-        android:textColor="#4E342E"
-        android:textSize="15sp" />
-
-    <!-- Hueco transparente entre tarjetas -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="104"
-        android:orientation="vertical" />
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="188">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/widget_card_bottom"
-            android:orientation="vertical" />
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/widget_message"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="220"
+                android:background="@drawable/widget_card_top"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="10dp"
+                android:text="@string/widget_desc"
+                android:textColor="#4E342E"
+                android:textSize="15sp" />
+
+            <!-- Hueco transparente entre tarjetas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="104"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="188"
+                android:background="@drawable/widget_card_bottom"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+        <!-- Personaje por encima de todo, apoyado abajo -->
         <ImageView
             android:id="@+id/widget_mood"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="bottom|center_horizontal"
             android:contentDescription="@string/widget_name"
             android:scaleType="fitCenter"
