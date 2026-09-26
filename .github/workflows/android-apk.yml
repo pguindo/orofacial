@@ -41,6 +41,14 @@ jobs:
         with:
           gradle-version: 8.7
 
+      - name: Cache debug keystore (firma estable entre releases)
+        # Sin esto cada runner generaría una clave debug distinta y Android
+        # rechazaría instalar una versión encima de otra (firma diferente).
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.HOME }}/.android/debug.keystore
+          key: android-debug-keystore-v1
+
       - name: Build release APK
         run: gradle :app:assembleRelease --stacktrace
 

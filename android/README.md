@@ -42,7 +42,13 @@ gradle :app:assembleRelease
 ```
 
 La `release` va firmada con la clave `debug` para permitir sideload desde GitHub Releases.
-Para Play Store, pon tu keystore propio en `app/build.gradle.kts`.
+El workflow cachea `~/.android/debug.keystore` para que todas las releases compartan
+la misma firma: así actualizar es descargar la APK nueva e instalarla encima,
+conservando datos. Para Play Store, pon tu keystore propio en `app/build.gradle.kts`.
+
+> Nota: la v1.0.0 se firmó con una clave efímera del runner, así que para pasar a
+> v1.0.1 hay que desinstalar primero (exporta antes tu JSON desde Historial) y luego
+> instalar limpio e importar. A partir de v1.0.1 las actualizaciones son encima.
 
 ## Publicar la APK en GitHub Releases
 
