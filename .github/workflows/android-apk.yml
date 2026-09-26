@@ -28,14 +28,13 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platform-tools
-            platforms;android-34
-            build-tools;34.0.0
-            build-tools;35.0.0
+      - name: Install Android SDK packages
+        # Los runners ubuntu-latest ya traen el SDK preinstalado ($ANDROID_HOME);
+        # solo instalamos lo que pide el proyecto (compileSdk 34 + build-tools de AGP 8.5).
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-34" "build-tools;34.0.0" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
