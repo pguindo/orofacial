@@ -53,8 +53,8 @@
         <!-- Personaje por encima de todo, apoyado abajo -->
         <ImageView
             android:id="@+id/widget_mood"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_gravity="bottom|center_horizontal"
             android:contentDescription="@string/widget_name"
             android:scaleType="fitCenter"

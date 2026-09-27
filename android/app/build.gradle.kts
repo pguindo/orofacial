@@ -11,8 +11,8 @@ android {
         applicationId = "com.pguindo.orofacial"
         minSdk = 26
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.0.8"
+        versionCode = 9
+        versionName = "1.0.9"
     }
 
     // Firma estable para sideload: keystore propio versionado en keystore/ (generado una
